@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        
+        <!-- Background App -->
+        <key>LSUIElement</key>
+        <true/>
+        
+        <!-- Utility App -->
+        <key>LSApplicationCategoryType</key>
+        <string>public.app-category.utilities</string>
+        
+        <!-- Turns Off Encryption Annoying Question -->
+        <key>ITSAppUsesNonExemptEncryption</key>
+        <false/>
+        
+    </dict>
+</plist>

@@ -12,11 +12,32 @@ struct ComfyMarkView: View {
     @ObservedObject var comfyMarkVM : ComfyMarkViewModel
     
     var body: some View {
-        VStack {
-            Image(decorative: comfyMarkVM.image, scale: 1.0, orientation: .up)
+        ZStack {
+            Image(decorative: comfyMarkVM.image, scale: 1, orientation: .up)
                 .resizable()
-                .frame(width: 300, height: 300)
+                .scaledToFit()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            Canvas { ctx, _ in
+                for s in comfyMarkVM.strokes {
+                    guard s.points.count > 1 else { continue }
+                    var p = Path()
+                    p.addLines(s.points)
+                    ctx.stroke(p, with: .color(s.color), lineWidth: s.width)
+                }
+            }
         }
-        .frame(width: 300, height: 300)
+        .contentShape(Rectangle()) // ensure gesture hits transparent areas
+        .gesture(
+            DragGesture(minimumDistance: 0)
+                .onChanged { v in
+                    if !comfyMarkVM.hasActiveStroke {
+                        comfyMarkVM.beginStroke(at: v.location)
+                    } else {
+                        comfyMarkVM.addPoint(v.location)
+                    }
+                }
+                .onEnded { _ in comfyMarkVM.endStroke() }
+        )
     }
 }
