@@ -58,6 +58,8 @@
 		9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
 		9B5C4CCF2E662EB8008BD465 /* ComfyMarkToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkToolbar.swift; sourceTree = "<group>"; };
 		9B5C4CD22E662EE5008BD465 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9B5C4CD72E663107008BD465 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		9B5C4CD82E663107008BD465 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -195,6 +197,8 @@
 		9B9F5B842E64FFC100F3396D = {
 			isa = PBXGroup;
 			children = (
+				9B5C4CD72E663107008BD465 /* LICENSE */,
+				9B5C4CD82E663107008BD465 /* README.md */,
 				9B48F9082E651F3700C470ED /* ComfyMark */,
 				9B9F5B8E2E64FFC100F3396D /* Products */,
 			);

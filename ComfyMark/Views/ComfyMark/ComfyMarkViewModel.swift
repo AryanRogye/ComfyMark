@@ -28,11 +28,14 @@ class ComfyMarkViewModel: ObservableObject {
     
     var onCancelTapped: (() -> Void)?
     
+    // MARK: - Closure Handling
     func onCancel() {
         guard let onCancelTapped = onCancelTapped else { return }
         onCancelTapped()
     }
     
+    
+    // MARK: - For Drawing
     func beginStroke(at point: CGPoint) {
         strokes.append(Stroke(points: [point]))
         internalIndex = strokes.count - 1
