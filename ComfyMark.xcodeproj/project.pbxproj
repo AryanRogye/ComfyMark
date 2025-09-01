@@ -6,30 +6,46 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */; };
+		9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EE2E651F3700C470ED /* AppDelegate.swift */; };
+		9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */; };
+		9B48F90C2E651F3700C470ED /* ComfyMarkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8F42E651F3700C470ED /* ComfyMarkCoordinator.swift */; };
+		9B48F90D2E651F3700C470ED /* MenuBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8F52E651F3700C470ED /* MenuBarCoordinator.swift */; };
+		9B48F90E2E651F3700C470ED /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8F62E651F3700C470ED /* SettingsCoordinator.swift */; };
+		9B48F90F2E651F3700C470ED /* WindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */; };
+		9B48F9102E651F3700C470ED /* View+destroyViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8F92E651F3700C470ED /* View+destroyViewWindow.swift */; };
+		9B48F9112E651F3700C470ED /* ScreenshotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8FB2E651F3700C470ED /* ScreenshotService.swift */; };
+		9B48F9122E651F3700C470ED /* ComfyMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8FD2E651F3700C470ED /* ComfyMarkView.swift */; };
+		9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */; };
+		9B48F9142E651F3700C470ED /* MenuBarViewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */; };
+		9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9022E651F3700C470ED /* MenuBarView.swift */; };
+		9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9032E651F3700C470ED /* MenuBarViewModel.swift */; };
+		9B48F9172E651F3700C470ED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9052E651F3700C470ED /* SettingsView.swift */; };
+		9B48F9192E651F3700C470ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B48F9072E651F3700C470ED /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		9B48F8EE2E651F3700C470ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkApp.swift; sourceTree = "<group>"; };
+		9B48F8F12E651F3700C470ED /* ComfyMark.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ComfyMark.entitlements; sourceTree = "<group>"; };
+		9B48F8F22E651F3700C470ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B48F8F42E651F3700C470ED /* ComfyMarkCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkCoordinator.swift; sourceTree = "<group>"; };
+		9B48F8F52E651F3700C470ED /* MenuBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarCoordinator.swift; sourceTree = "<group>"; };
+		9B48F8F62E651F3700C470ED /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
+		9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowCoordinator.swift; sourceTree = "<group>"; };
+		9B48F8F92E651F3700C470ED /* View+destroyViewWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+destroyViewWindow.swift"; sourceTree = "<group>"; };
+		9B48F8FB2E651F3700C470ED /* ScreenshotService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotService.swift; sourceTree = "<group>"; };
+		9B48F8FD2E651F3700C470ED /* ComfyMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkView.swift; sourceTree = "<group>"; };
+		9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkViewModel.swift; sourceTree = "<group>"; };
+		9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewButton.swift; sourceTree = "<group>"; };
+		9B48F9022E651F3700C470ED /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		9B48F9032E651F3700C470ED /* MenuBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewModel.swift; sourceTree = "<group>"; };
+		9B48F9052E651F3700C470ED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		9B48F9072E651F3700C470ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		9B48F8EB2E651E1900C470ED /* Exceptions for "ComfyMark" folder in "ComfyMark" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Config/Info.plist,
-			);
-			target = 9B9F5B8C2E64FFC100F3396D /* ComfyMark */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		9B9F5B8F2E64FFC100F3396D /* ComfyMark */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				9B48F8EB2E651E1900C470ED /* Exceptions for "ComfyMark" folder in "ComfyMark" target */,
-			);
-			path = ComfyMark;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		9B9F5B8A2E64FFC100F3396D /* Frameworks */ = {
@@ -42,10 +58,107 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B48F8F02E651F3700C470ED /* App */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */,
+				9B48F8EE2E651F3700C470ED /* AppDelegate.swift */,
+				9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9B48F8F32E651F3700C470ED /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F8F12E651F3700C470ED /* ComfyMark.entitlements */,
+				9B48F8F22E651F3700C470ED /* Info.plist */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		9B48F8F82E651F3700C470ED /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F8F42E651F3700C470ED /* ComfyMarkCoordinator.swift */,
+				9B48F8F52E651F3700C470ED /* MenuBarCoordinator.swift */,
+				9B48F8F62E651F3700C470ED /* SettingsCoordinator.swift */,
+				9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		9B48F8FA2E651F3700C470ED /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F8F92E651F3700C470ED /* View+destroyViewWindow.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9B48F8FC2E651F3700C470ED /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F8FB2E651F3700C470ED /* ScreenshotService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		9B48F8FF2E651F3700C470ED /* ComfyMark */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F8FD2E651F3700C470ED /* ComfyMarkView.swift */,
+				9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */,
+			);
+			path = ComfyMark;
+			sourceTree = "<group>";
+		};
+		9B48F9012E651F3700C470ED /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9B48F9042E651F3700C470ED /* MenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F9012E651F3700C470ED /* Components */,
+				9B48F9022E651F3700C470ED /* MenuBarView.swift */,
+				9B48F9032E651F3700C470ED /* MenuBarViewModel.swift */,
+			);
+			path = MenuBar;
+			sourceTree = "<group>";
+		};
+		9B48F9062E651F3700C470ED /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F8FF2E651F3700C470ED /* ComfyMark */,
+				9B48F9042E651F3700C470ED /* MenuBar */,
+				9B48F9052E651F3700C470ED /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9B48F9082E651F3700C470ED /* ComfyMark */ = {
+			isa = PBXGroup;
+			children = (
+				9B48F8F02E651F3700C470ED /* App */,
+				9B48F8F82E651F3700C470ED /* Coordinators */,
+				9B48F8FC2E651F3700C470ED /* Services */,
+				9B48F9062E651F3700C470ED /* Views */,
+				9B48F8F32E651F3700C470ED /* Config */,
+				9B48F8FA2E651F3700C470ED /* Extensions */,
+				9B48F9072E651F3700C470ED /* Assets.xcassets */,
+			);
+			path = ComfyMark;
+			sourceTree = "<group>";
+		};
 		9B9F5B842E64FFC100F3396D = {
 			isa = PBXGroup;
 			children = (
-				9B9F5B8F2E64FFC100F3396D /* ComfyMark */,
+				9B48F9082E651F3700C470ED /* ComfyMark */,
 				9B9F5B8E2E64FFC100F3396D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -72,9 +185,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				9B9F5B8F2E64FFC100F3396D /* ComfyMark */,
 			);
 			name = ComfyMark;
 			packageProductDependencies = (
@@ -122,6 +232,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B48F9192E651F3700C470ED /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +243,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */,
+				9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */,
+				9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */,
+				9B48F90C2E651F3700C470ED /* ComfyMarkCoordinator.swift in Sources */,
+				9B48F90D2E651F3700C470ED /* MenuBarCoordinator.swift in Sources */,
+				9B48F90E2E651F3700C470ED /* SettingsCoordinator.swift in Sources */,
+				9B48F90F2E651F3700C470ED /* WindowCoordinator.swift in Sources */,
+				9B48F9102E651F3700C470ED /* View+destroyViewWindow.swift in Sources */,
+				9B48F9112E651F3700C470ED /* ScreenshotService.swift in Sources */,
+				9B48F9122E651F3700C470ED /* ComfyMarkView.swift in Sources */,
+				9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */,
+				9B48F9142E651F3700C470ED /* MenuBarViewButton.swift in Sources */,
+				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
+				9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */,
+				9B48F9172E651F3700C470ED /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
