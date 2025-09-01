@@ -12,6 +12,7 @@ import SwiftUI
 @MainActor
 class ComfyMarkViewModel: ObservableObject {
     
+    let windowID : String
     @Published var image: CGImage
     @Published var strokes: [Stroke] = []
     
@@ -20,8 +21,16 @@ class ComfyMarkViewModel: ObservableObject {
         strokes.indices.contains(internalIndex)
     }
     
-    init(image: CGImage) {
+    init(image: CGImage, windowID: String) {
         self.image = image
+        self.windowID = windowID
+    }
+    
+    var onCancelTapped: (() -> Void)?
+    
+    func onCancel() {
+        guard let onCancelTapped = onCancelTapped else { return }
+        onCancelTapped()
     }
     
     func beginStroke(at point: CGPoint) {

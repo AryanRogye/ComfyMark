@@ -20,15 +20,25 @@ class ComfyMarkCoordinator {
     func showComfyMark(
         with image : CGImage
     ) {
-        comfyMarkVM = ComfyMarkViewModel(image: image)
+        
+        let windowID = "comfymark-\(UUID().uuidString)"
+        
+        comfyMarkVM = ComfyMarkViewModel(
+            image: image,
+            windowID: windowID
+        )
         guard let comfyMarkVM else { return }
+        
+        comfyMarkVM.onCancelTapped = { [weak self] in
+            self?.windowCoordinator.closeWindow(id: comfyMarkVM.windowID)
+        }
         
         let view = ComfyMarkView(
             comfyMarkVM: comfyMarkVM
         )
         
         windowCoordinator.showWindow(
-            id: "comfymark-\(UUID().uuidString)",
+            id: windowID,
             title: "Image",
             content: view,
             size: NSSize(width: 800, height: 500),

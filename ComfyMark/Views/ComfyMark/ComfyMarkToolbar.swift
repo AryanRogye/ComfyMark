@@ -8,10 +8,28 @@
 import SwiftUI
 
 struct ComfyMarkToolbar: View {
+    
+    @ObservedObject var comfyMarkVM: ComfyMarkViewModel
+    
     var body: some View {
         HStack {
             Spacer()
+            cancelButton
             saveButton
+        }
+    }
+    
+    private var cancelButton: some View {
+        MenuBarViewButton {
+            Text("Cancel")
+                .foregroundStyle(.white)
+                .padding(6)
+                .background {
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(Color.gray.opacity(0.7))
+                }
+        } action: {
+            comfyMarkVM.onCancel()
         }
     }
     

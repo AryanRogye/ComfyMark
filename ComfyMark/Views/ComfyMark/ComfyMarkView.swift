@@ -26,7 +26,7 @@ struct ComfyMarkView: View {
             }
         }
         toolbar: {
-            ComfyMarkToolbar()
+            ComfyMarkToolbar(comfyMarkVM: comfyMarkVM)
         }
         .contentShape(Rectangle()) // ensure gesture hits transparent areas
         .gesture(dragGesture())
