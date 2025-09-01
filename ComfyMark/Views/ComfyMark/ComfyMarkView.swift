@@ -13,11 +13,7 @@ struct ComfyMarkView: View {
     
     var body: some View {
         ZStack {
-            Image(decorative: comfyMarkVM.image, scale: 1, orientation: .up)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
+            MetalImageView(image: $comfyMarkVM.image)
             Canvas { ctx, _ in
                 for s in comfyMarkVM.strokes {
                     guard s.points.count > 1 else { continue }

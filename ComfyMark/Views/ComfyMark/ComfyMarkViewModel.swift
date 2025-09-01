@@ -9,13 +9,6 @@ import Combine
 import AppKit
 import SwiftUI
 
-
-struct Stroke {
-    var points : [CGPoint]
-    var color  : Color = .red
-    var width  : CGFloat = 10
-}
-
 @MainActor
 class ComfyMarkViewModel: ObservableObject {
     

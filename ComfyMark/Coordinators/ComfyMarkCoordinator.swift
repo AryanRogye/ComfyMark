@@ -28,8 +28,8 @@ class ComfyMarkCoordinator {
         )
         
         windowCoordinator.showWindow(
-            id: "settings",
-            title: "Settings",
+            id: "comfymark-\(UUID().uuidString)",
+            title: "Image",
             content: view,
             size: NSSize(width: 800, height: 500),
             onOpen: { [weak self] in
