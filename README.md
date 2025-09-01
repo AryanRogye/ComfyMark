@@ -6,6 +6,16 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 ## ✨ Features
 - No Real Features Yet, Still WIP
 
+## 🗺️ Roadmap
+- [x] Metal-accelerated image rendering
+- [x] Basic stroke/pen annotation
+- [ ] Screenshot capture hotkeys
+- [ ] Shape tools (rectangles, arrows, etc.)
+- [ ] Text annotations
+- [ ] Background blur/pixelation
+- [ ] Export formats (PNG, JPG, clipboard)
+- [ ] Menu bar integration
+
 ## ❓ Why ComfyMark?
 macOS already has built-in screenshots, and there are paid tools like CleanShot X —  
 so why make another one?
