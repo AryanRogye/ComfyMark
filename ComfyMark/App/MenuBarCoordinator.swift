@@ -13,7 +13,9 @@ class MenuBarCoordinator: NSObject {
     
     private var statusItem: NSStatusItem!
     private let popover = NSPopover()
-    
+    /// Create The MenuBarViewModel
+    let menuBarVM = MenuBarViewModel()
+
     var onSettingsTapped: (() -> Void)?
 
     override init() {
@@ -21,12 +23,12 @@ class MenuBarCoordinator: NSObject {
     }
     
     public func start(
-        onSettingsTapped: @escaping () -> Void
+        onSettingsTapped: @escaping () -> Void,
+        onStartTapped: @escaping () throws -> Void
     ) {
         
-        /// Create The MenuBarViewModel
-        let menuBarVM = MenuBarViewModel()
         menuBarVM.onSettingsTapped = onSettingsTapped
+        menuBarVM.onStartTapped = onStartTapped
         
         /// Start Making Menu Bar Item
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -53,5 +55,9 @@ class MenuBarCoordinator: NSObject {
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
             NSApp.activate(ignoringOtherApps: true)
         }
+    }
+    
+    public func showError(_ error: any Error) {
+        
     }
 }

@@ -12,12 +12,28 @@ class AppCoordinator {
     
     private lazy var windowCoordinator = WindowCoordinator()
     private var settingsCoordinator : SettingsCoordinator!
+    private var comfyMarkCoordinator : ComfyMarkCoordinator!
     
-    init() {
+    /// Protocols/Services
+    private var screenshots : ScreenshotProviding
+    
+    init(
+        screenshots: ScreenshotProviding
+    ) {
+        self.screenshots = screenshots
         self.settingsCoordinator = SettingsCoordinator(windows: windowCoordinator)
+        self.comfyMarkCoordinator = ComfyMarkCoordinator(windows: windowCoordinator)
         
-        menuBarCoordinator.start(onSettingsTapped: {
-            self.settingsCoordinator.showSettings()
-        })
+        menuBarCoordinator.start(
+            onSettingsTapped: {
+                [weak self] in self?.settingsCoordinator.showSettings()
+            },
+            onStartTapped: { [weak self] in
+                guard let self else { return }
+                Task {
+                    let image = try await self.screenshots.takeScreenshot()
+                    self.comfyMarkCoordinator.showComfyMark(with: image)
+                }
+            })
     }
 }

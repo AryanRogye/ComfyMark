@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @MainActor
     override init() {
-        appCoordinator = AppCoordinator()
+        appCoordinator = AppCoordinator(screenshots: ScreenshotService())
     }
     
     public func applicationDidFinishLaunching(_ notification: Notification) {
