@@ -12,28 +12,40 @@ struct ComfyMarkView: View {
     @ObservedObject var comfyMarkVM : ComfyMarkViewModel
     
     var body: some View {
-        ZStack {
-            MetalImageView(image: $comfyMarkVM.image)
-            Canvas { ctx, _ in
-                for s in comfyMarkVM.strokes {
-                    guard s.points.count > 1 else { continue }
-                    var p = Path()
-                    p.addLines(s.points)
-                    ctx.stroke(p, with: .color(s.color), lineWidth: s.width)
+        CustomToolbarView {
+            ZStack {
+                MetalImageView(image: $comfyMarkVM.image)
+                Canvas { ctx, _ in
+                    for s in comfyMarkVM.strokes {
+                        guard s.points.count > 1 else { continue }
+                        var p = Path()
+                        p.addLines(s.points)
+                        ctx.stroke(p, with: .color(s.color), lineWidth: s.width)
+                    }
                 }
             }
         }
+        toolbar: {
+            ComfyMarkToolbar()
+        }
         .contentShape(Rectangle()) // ensure gesture hits transparent areas
-        .gesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { v in
-                    if !comfyMarkVM.hasActiveStroke {
-                        comfyMarkVM.beginStroke(at: v.location)
-                    } else {
-                        comfyMarkVM.addPoint(v.location)
-                    }
+        .gesture(dragGesture())
+    }
+    
+    private func dragGesture() -> some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { v in
+                if !comfyMarkVM.hasActiveStroke {
+                    /// If No Active Stroke, Start A New Stroke
+                    comfyMarkVM.beginStroke(at: v.location)
+                } else {
+                    /// If Stroke Active, we just add a Point
+                    comfyMarkVM.addPoint(v.location)
                 }
-                .onEnded { _ in comfyMarkVM.endStroke() }
-        )
+            }
+            .onEnded { _ in
+                /// We End Stroke Here, this also triggers a new Stroke
+                comfyMarkVM.endStroke()
+            }
     }
 }

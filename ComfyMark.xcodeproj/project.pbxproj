@@ -21,13 +21,15 @@
 		9B48F9142E651F3700C470ED /* MenuBarViewButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */; };
 		9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9022E651F3700C470ED /* MenuBarView.swift */; };
 		9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9032E651F3700C470ED /* MenuBarViewModel.swift */; };
-		9B48F9172E651F3700C470ED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9052E651F3700C470ED /* SettingsView.swift */; };
 		9B48F9192E651F3700C470ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B48F9072E651F3700C470ED /* Assets.xcassets */; };
 		9B48F95B2E65FBF000C470ED /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F95A2E65FBEF00C470ED /* Stroke.swift */; };
 		9B5C4C082E65FC07008BD465 /* MetalContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4C072E65FC05008BD465 /* MetalContext.swift */; };
 		9B5C4C0B2E65FC6C008BD465 /* MetalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4C0A2E65FC62008BD465 /* MetalImageView.swift */; };
 		9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4C8A2E65FF4A008BD465 /* Vertex.swift */; };
 		9B5C4CCC2E65FFF9008BD465 /* image.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CCB2E65FFF9008BD465 /* image.metal */; };
+		9B5C4CCE2E662D23008BD465 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */; };
+		9B5C4CD02E662EB9008BD465 /* ComfyMarkToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CCF2E662EB8008BD465 /* ComfyMarkToolbar.swift */; };
+		9B5C4CD42E662EE5008BD465 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CD22E662EE5008BD465 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,13 +49,15 @@
 		9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewButton.swift; sourceTree = "<group>"; };
 		9B48F9022E651F3700C470ED /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		9B48F9032E651F3700C470ED /* MenuBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarViewModel.swift; sourceTree = "<group>"; };
-		9B48F9052E651F3700C470ED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9B48F9072E651F3700C470ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B48F95A2E65FBEF00C470ED /* Stroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
 		9B5C4C072E65FC05008BD465 /* MetalContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalContext.swift; sourceTree = "<group>"; };
 		9B5C4C0A2E65FC62008BD465 /* MetalImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalImageView.swift; sourceTree = "<group>"; };
 		9B5C4C8A2E65FF4A008BD465 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
 		9B5C4CCB2E65FFF9008BD465 /* image.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = image.metal; sourceTree = "<group>"; };
+		9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
+		9B5C4CCF2E662EB8008BD465 /* ComfyMarkToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkToolbar.swift; sourceTree = "<group>"; };
+		9B5C4CD22E662EE5008BD465 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -117,25 +121,16 @@
 		9B48F8FF2E651F3700C470ED /* ComfyMark */ = {
 			isa = PBXGroup;
 			children = (
-				9B5C4C092E65FC5B008BD465 /* Components */,
+				9B5C4CCF2E662EB8008BD465 /* ComfyMarkToolbar.swift */,
 				9B48F8FD2E651F3700C470ED /* ComfyMarkView.swift */,
 				9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */,
 			);
 			path = ComfyMark;
 			sourceTree = "<group>";
 		};
-		9B48F9012E651F3700C470ED /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		9B48F9042E651F3700C470ED /* MenuBar */ = {
 			isa = PBXGroup;
 			children = (
-				9B48F9012E651F3700C470ED /* Components */,
 				9B48F9022E651F3700C470ED /* MenuBarView.swift */,
 				9B48F9032E651F3700C470ED /* MenuBarViewModel.swift */,
 			);
@@ -145,9 +140,10 @@
 		9B48F9062E651F3700C470ED /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9B5C4CD32E662EE5008BD465 /* Settings */,
 				9B48F8FF2E651F3700C470ED /* ComfyMark */,
 				9B48F9042E651F3700C470ED /* MenuBar */,
-				9B48F9052E651F3700C470ED /* SettingsView.swift */,
+				9B5C4C092E65FC5B008BD465 /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -180,10 +176,20 @@
 		9B5C4C092E65FC5B008BD465 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */,
 				9B5C4C0A2E65FC62008BD465 /* MetalImageView.swift */,
 				9B5C4CCB2E65FFF9008BD465 /* image.metal */,
+				9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		9B5C4CD32E662EE5008BD465 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9B5C4CD22E662EE5008BD465 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		9B9F5B842E64FFC100F3396D = {
@@ -286,14 +292,16 @@
 				9B48F90E2E651F3700C470ED /* SettingsCoordinator.swift in Sources */,
 				9B48F90F2E651F3700C470ED /* WindowCoordinator.swift in Sources */,
 				9B48F9102E651F3700C470ED /* View+destroyViewWindow.swift in Sources */,
+				9B5C4CCE2E662D23008BD465 /* CustomToolbarView.swift in Sources */,
 				9B48F9112E651F3700C470ED /* ScreenshotService.swift in Sources */,
 				9B48F9122E651F3700C470ED /* ComfyMarkView.swift in Sources */,
 				9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */,
 				9B48F9142E651F3700C470ED /* MenuBarViewButton.swift in Sources */,
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
 				9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */,
-				9B48F9172E651F3700C470ED /* SettingsView.swift in Sources */,
+				9B5C4CD02E662EB9008BD465 /* ComfyMarkToolbar.swift in Sources */,
 				9B48F95B2E65FBF000C470ED /* Stroke.swift in Sources */,
+				9B5C4CD42E662EE5008BD465 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
