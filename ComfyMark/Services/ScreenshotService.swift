@@ -20,10 +20,13 @@ class ScreenshotService: ScreenshotProviding {
     public func takeScreenshot() async throws -> CGImage {
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
         
-        // Configure what to capture (main display)
+        let currentApp = NSRunningApplication.current
+        let excludedApps = content.applications.filter { $0.bundleIdentifier == currentApp.bundleIdentifier }
         let display = content.displays.first!
-        let filter = SCContentFilter(display: display, excludingApplications: [], exceptingWindows: [])
-        
+
+        // Configure what to capture (main display)
+        let filter = SCContentFilter(display: display, excludingApplications: excludedApps, exceptingWindows: [])
+
         // Configure capture settings
         let config = SCStreamConfiguration()
         config.width = Int(display.width)
