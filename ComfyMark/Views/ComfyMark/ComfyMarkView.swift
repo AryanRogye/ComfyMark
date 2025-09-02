@@ -10,11 +10,17 @@ import SwiftUI
 struct ComfyMarkView: View {
     
     @ObservedObject var comfyMarkVM : ComfyMarkViewModel
+    @State private var viewport = Viewport()
+    @State private var pinchStartScale: Float? = nil
+    @State var isPinching = false
     
     var body: some View {
         CustomToolbarView {
             ZStack {
-                MetalImageView(image: $comfyMarkVM.image)
+                MetalImageView(
+                    image: $comfyMarkVM.image,
+                    viewport: $viewport
+                )
                 Canvas { ctx, _ in
                     for s in comfyMarkVM.strokes {
                         guard s.points.count > 1 else { continue }
@@ -30,6 +36,24 @@ struct ComfyMarkView: View {
         }
         .contentShape(Rectangle()) // ensure gesture hits transparent areas
         .gesture(dragGesture())
+        .gesture(zoomGesture())
+    }
+    
+//    private func zoomGesture2() -> some Gesture {
+//        MagnificationGesture(minimumScaleDelta: 0)
+//    }
+    private func zoomGesture() -> some Gesture {
+        MagnificationGesture(minimumScaleDelta: 0)
+            .onChanged { value in
+                isPinching = true
+                if pinchStartScale == nil { pinchStartScale = viewport.scale }
+                let base = pinchStartScale ?? viewport.scale
+                viewport.scale = max(0.1, min(8.0, base * Float(value)))
+            }
+            .onEnded { _ in
+                isPinching = false
+                pinchStartScale = nil
+            }
     }
     
     private func dragGesture() -> some Gesture {

@@ -16,14 +16,23 @@ class AppCoordinator {
     
     /// Protocols/Services
     private var screenshots : ScreenshotProviding
+    private var export      : ExportProviding
     
     init(
-        screenshots: ScreenshotProviding
+        screenshots: ScreenshotProviding,
+        export     : ExportProviding
     ) {
         self.screenshots = screenshots
+        self.export      = export
+        
         self.settingsCoordinator = SettingsCoordinator(windows: windowCoordinator)
         self.comfyMarkCoordinator = ComfyMarkCoordinator(windows: windowCoordinator)
         
+        
+        /// Starting Our Menu Bar, with Closures, for what happens when we:
+        /// Tap On Settings
+        /// And
+        /// Tap On Start
         menuBarCoordinator.start(
             onSettingsTapped: {
                 [weak self] in self?.settingsCoordinator.showSettings()
@@ -32,7 +41,10 @@ class AppCoordinator {
                 guard let self else { return }
                 Task {
                     let image = try await self.screenshots.takeScreenshot()
-                    self.comfyMarkCoordinator.showComfyMark(with: image)
+                    self.comfyMarkCoordinator.showComfyMark(
+                        with: image,
+                        export: self.export
+                    )
                 }
             })
     }

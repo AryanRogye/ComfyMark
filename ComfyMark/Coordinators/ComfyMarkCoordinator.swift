@@ -18,7 +18,8 @@ class ComfyMarkCoordinator {
     }
     
     func showComfyMark(
-        with image : CGImage
+        with image : CGImage,
+        export     : ExportProviding
     ) {
         
         let windowID = "comfymark-\(UUID().uuidString)"
@@ -28,6 +29,10 @@ class ComfyMarkCoordinator {
             windowID: windowID
         )
         guard let comfyMarkVM else { return }
+        
+        comfyMarkVM.onExport = { format in
+            return export.export(image, format: format)
+        }
         
         comfyMarkVM.onCancelTapped = { [weak self] in
             self?.windowCoordinator.closeWindow(id: comfyMarkVM.windowID)

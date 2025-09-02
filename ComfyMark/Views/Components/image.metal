@@ -20,10 +20,24 @@ struct VertexOut {
     float4 color;                 // any extra varyings you want to interpolate
 };
 
+/*
+ Swift Side:
+ /// struct Viewport {
+ ///    var origin: CGPoint = .zero
+ ///    var scale: CGFloat = 1.0
+ /// }
+ 
+*/
+struct Viewport {
+    float2 origin;
+    float scale;
+};
+
 
 vertex VertexOut
 vertexImageShader (
                    const device VertexIn* vertices [[buffer(0)]],
+                   constant Viewport& vp [[buffer(1)]],
                    uint vid [[vertex_id]]
                    ) {
     /// new_coordinate = (old_coordinate + 1) / 2
@@ -33,6 +47,9 @@ vertexImageShader (
     VertexOut out;
     
     float2 vertex_pos = vertices[vid].pos;  // Original -1 to 1 coords
+    /// Scaling based on the zoom or whatever the user chooses
+    vertex_pos = (vertex_pos - vp.origin) * vp.scale;
+    
     float2 tex_coords = (vertex_pos + 1) / 2;   /// Normalized
     tex_coords.y = 1.0 - tex_coords.y;
     

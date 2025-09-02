@@ -13,7 +13,11 @@ import Combine
 
 struct MetalImageView: NSViewRepresentable {
     
+    @State var lastImage : CGImage? = nil
+    
     @Binding var image: CGImage
+    @Binding var viewport: Viewport
+    
     private let ctx = MetalContext.shared
     
     func makeCoordinator() -> Coordinator {
@@ -30,7 +34,18 @@ struct MetalImageView: NSViewRepresentable {
     }
     
     func updateNSView(_ nsView: MTKView, context: Context) {
-        context.coordinator.setTexture(from: image)
+        // push viewport every time (uniform update)
+        context.coordinator.viewport = viewport
+        
+        // update texture only if the CGImage instance changed
+        if lastImage == nil || lastImage !== image {
+            DispatchQueue.main.async {
+                lastImage = image
+            }
+            context.coordinator.setTexture(from: image)
+        }
+        
+        // request a redraw (needed for both new texture and viewport changes)
         nsView.setNeedsDisplay(nsView.bounds)
     }
     
@@ -40,7 +55,10 @@ struct MetalImageView: NSViewRepresentable {
         private var pso: MTLRenderPipelineState!
         
         private var vertexBuffer : MTLBuffer!
+        private var viewportBuffer : MTLBuffer!
         private var texture      : MTLTexture!
+        
+        public var viewport: Viewport?
 
         /// Parent
         var parent: MetalImageView
@@ -88,6 +106,11 @@ struct MetalImageView: NSViewRepresentable {
                 length: MemoryLayout<Vertex>.stride * verts.count
             )
             
+            viewportBuffer = device.makeBuffer(
+                length: MemoryLayout<Viewport>.stride,
+                options: []
+            )
+            
             setTexture(from: parent.image)
         }
         
@@ -95,6 +118,14 @@ struct MetalImageView: NSViewRepresentable {
         func draw(in view: MTKView) {
             guard let rpd = view.currentRenderPassDescriptor,
                   let drw = view.currentDrawable else { return }
+            
+            if let viewport = viewport {
+                let viewportBufferInfo = viewportBuffer.contents().bindMemory(to: Viewport.self, capacity: 1)
+                viewportBufferInfo.pointee = Viewport(
+                    origin: viewport.origin,
+                    scale: viewport.scale
+                )
+            }
             
             let cmd = queue.makeCommandBuffer()!
             let enc = cmd.makeRenderCommandEncoder(descriptor: rpd)!
@@ -104,6 +135,11 @@ struct MetalImageView: NSViewRepresentable {
                 vertexBuffer,
                 offset: 0,
                 index: 0
+            )
+            enc.setVertexBuffer(
+                viewportBuffer,
+                offset: 0,
+                index: 1
             )
             
             enc.setFragmentTexture(texture, index: 0)  // This binds your texture

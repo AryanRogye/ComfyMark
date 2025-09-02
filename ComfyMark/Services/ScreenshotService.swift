@@ -7,10 +7,6 @@
 
 import ScreenCaptureKit
 
-enum ScreenshotServiceError {
-    
-}
-
 protocol ScreenshotProviding {
     /// Function to take a screenshot
     func takeScreenshot() async throws -> CGImage
