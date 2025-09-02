@@ -33,6 +33,8 @@
 		9B5C4CDA2E671D6A008BD465 /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CD92E671D67008BD465 /* ExportService.swift */; };
 		9B5C4CDC2E675390008BD465 /* Viewport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CDB2E67538E008BD465 /* Viewport.swift */; };
 		9B5C4D1D2E6779DE008BD465 /* MenuBarHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D1C2E6779DB008BD465 /* MenuBarHistory.swift */; };
+		9B5C4D1F2E6783EC008BD465 /* ExportFormatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D1E2E6783EB008BD465 /* ExportFormatRow.swift */; };
+		9B5C4D212E6784AD008BD465 /* CGImage+placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D202E6784AA008BD465 /* CGImage+placeholder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,8 @@
 		9B5C4CD92E671D67008BD465 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		9B5C4CDB2E67538E008BD465 /* Viewport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Viewport.swift; sourceTree = "<group>"; };
 		9B5C4D1C2E6779DB008BD465 /* MenuBarHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarHistory.swift; sourceTree = "<group>"; };
+		9B5C4D1E2E6783EB008BD465 /* ExportFormatRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportFormatRow.swift; sourceTree = "<group>"; };
+		9B5C4D202E6784AA008BD465 /* CGImage+placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage+placeholder.swift"; sourceTree = "<group>"; };
 		9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -113,6 +117,7 @@
 		9B48F8FA2E651F3700C470ED /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9B5C4D202E6784AA008BD465 /* CGImage+placeholder.swift */,
 				9B48F8F92E651F3700C470ED /* View+destroyViewWindow.swift */,
 			);
 			path = Extensions;
@@ -187,6 +192,7 @@
 		9B5C4C092E65FC5B008BD465 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9B5C4D1E2E6783EB008BD465 /* ExportFormatRow.swift */,
 				9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */,
 				9B5C4C0A2E65FC62008BD465 /* MetalImageView.swift */,
 				9B5C4CCB2E65FFF9008BD465 /* image.metal */,
@@ -296,7 +302,9 @@
 				9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */,
 				9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */,
 				9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */,
+				9B5C4D1F2E6783EC008BD465 /* ExportFormatRow.swift in Sources */,
 				9B5C4CCC2E65FFF9008BD465 /* image.metal in Sources */,
+				9B5C4D212E6784AD008BD465 /* CGImage+placeholder.swift in Sources */,
 				9B5C4C082E65FC07008BD465 /* MetalContext.swift in Sources */,
 				9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */,
 				9B5C4C0B2E65FC6C008BD465 /* MetalImageView.swift in Sources */,

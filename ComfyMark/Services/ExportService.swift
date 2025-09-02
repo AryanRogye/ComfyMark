@@ -70,6 +70,23 @@ enum ExportFormat : String, CaseIterable {
     func defaultFilename(base: String = "Screenshot") -> String {
         "\(base).\(fileExtension)"
     }
+    
+    // MARK: - Export Icons/Colors
+    var iconName: String {
+        switch self {
+        case .png:  return "photo"
+        case .jpeg: return "photo.on.rectangle"
+        case .pdf:  return "doc.richtext"
+        }
+    }
+    
+    var iconColor: Color {
+        switch self {
+        case .png:  return .green
+        case .jpeg: return .orange
+        case .pdf:  return .red
+        }
+    }
 }
 
 /// Represents the Final Exported Data we send
