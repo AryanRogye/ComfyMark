@@ -7,12 +7,31 @@
 
 import ScreenCaptureKit
 
+// MARK: - Protocol
+/// Abstraction for capturing a screenshot as a `CGImage`.
+///
+/// Conformers handle any platform-specific permissions (e.g.,
+/// Screen Recording on macOS) and return a bitmap of the current
+/// display contents.
 protocol ScreenshotProviding {
-    /// Function to take a screenshot
+    /// Captures a screenshot and returns it as a `CGImage`.
+    /// - Returns: A `CGImage` of the captured content.
+    /// - Throws: An error if the capture fails or permission is denied.
     func takeScreenshot() async throws -> CGImage
 }
 
+// MARK: - Implementation
+/// Default implementation backed by ScreenCaptureKit.
+///     Fetches shareable content and exclude the current app
+///     Selects the primary display
+///     Configures stream dimensions to match the display
+///     Captures a single `CGImage` via `SCScreenshotManager`
 class ScreenshotService: ScreenshotProviding {
+    /// Takes a screenshot of the main display using ScreenCaptureKit.
+    ///
+    /// Notes:
+    /// - Requires Screen Recording permission on macOS.
+    /// - Currently selects the first available display.
     public func takeScreenshot() async throws -> CGImage {
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
         

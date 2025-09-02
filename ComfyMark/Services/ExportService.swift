@@ -10,95 +10,38 @@ import SwiftUI
 import UniformTypeIdentifiers
 import AppKit
 
-struct ExportDocument: FileDocument {
-    // Support reading/writing the same types we export
-    static var readableContentTypes: [UTType] = ExportFormat.allCases.map { $0.utType }
-    static var writableContentTypes: [UTType] = ExportFormat.allCases.map { $0.utType }
-
-    let data: Data
-    // Chosen at export time; propagated into .fileExporter
-    let contentType: UTType
-
-    // Export-only initializer
-    init(data: Data, contentType: UTType) {
-        self.data = data
-        self.contentType = contentType
-    }
-
-    // Required by FileDocument conformance; keeps things valid if reading is ever used
-    init(configuration: ReadConfiguration) throws {
-        self.data = configuration.file.regularFileContents ?? Data()
-        self.contentType = configuration.contentType
-    }
-
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        FileWrapper(regularFileWithContents: data)
-    }
-}
-
-/// Enum Represents Formats the User might choose
-enum ExportFormat : String, CaseIterable {
-    case png = "PNG"
-    case jpeg = "JPEG"
-    case pdf = "PDF"
-//    case svg = "SVG"
-    
-    /// Easy Way for Fast Description
-    var export_description: String {
-        "Export as \(self.rawValue)"
-    }
-    
-    var fileExtension: String {
-        switch self {
-        case .png:  return "png"
-        case .jpeg: return "jpg"
-        case .pdf:  return "pdf"
-        }
-    }
-    
-    var utType: UTType {
-        switch self {
-        case .png:
-            return .png
-        case .jpeg:
-            return .jpeg
-        case .pdf:
-            return .pdf
-        }
-    }
-    
-    func defaultFilename(base: String = "Screenshot") -> String {
-        "\(base).\(fileExtension)"
-    }
-    
-    // MARK: - Export Icons/Colors
-    var iconName: String {
-        switch self {
-        case .png:  return "photo"
-        case .jpeg: return "photo.on.rectangle"
-        case .pdf:  return "doc.richtext"
-        }
-    }
-    
-    var iconColor: Color {
-        switch self {
-        case .png:  return .green
-        case .jpeg: return .orange
-        case .pdf:  return .red
-        }
-    }
-}
-
-/// Represents the Final Exported Data we send
+// MARK: - Models
+/// Container for data produced by an export operation.
+///
+/// Keeping this as an enum allows future expansion (e.g., file URL,
+/// stream handle) without changing the protocol surface.
 enum ExportedData {
     case data(Data)
 }
 
+// MARK: - Protocol
+/// Abstraction for converting a `CGImage` into serialized file data.
+///
+/// Implementations may choose supported formats and how they map
+/// to concrete encoders (e.g., `NSBitmapImageRep`, PDF contexts).
 protocol ExportProviding {
+    /// Serializes a `CGImage` into the specified `ExportFormat`.
+    /// - Parameters:
+    ///   - cgimage: The source image to encode.
+    ///   - format: The desired output format.
+    /// - Returns: `ExportedData` on success; `nil` if encoding fails.
     func export(_ cgimage: CGImage, format: ExportFormat) -> ExportedData?
 }
 
+// MARK: - Service
+/// Default exporter for PNG, JPEG, and PDF formats.
 class ExportService: ExportProviding {
+    /// Encodes the provided `CGImage` to the requested format.
+    ///
+    /// - PNG: Uses `NSBitmapImageRep` with `.png` representation.
+    /// - JPEG: Uses `NSBitmapImageRep` with compression factor (0.0–1.0).
+    /// - PDF: Creates a single-page PDF sized to the image dimensions
+    ///   and draws the image into that page.
     public func export(
         _ cgimage: CGImage,
         format: ExportFormat
