@@ -32,6 +32,7 @@
 		9B5C4CD42E662EE5008BD465 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CD22E662EE5008BD465 /* SettingsView.swift */; };
 		9B5C4CDA2E671D6A008BD465 /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CD92E671D67008BD465 /* ExportService.swift */; };
 		9B5C4CDC2E675390008BD465 /* Viewport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CDB2E67538E008BD465 /* Viewport.swift */; };
+		9B5C4D1D2E6779DE008BD465 /* MenuBarHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D1C2E6779DB008BD465 /* MenuBarHistory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		9B5C4CD82E663107008BD465 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9B5C4CD92E671D67008BD465 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		9B5C4CDB2E67538E008BD465 /* Viewport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Viewport.swift; sourceTree = "<group>"; };
+		9B5C4D1C2E6779DB008BD465 /* MenuBarHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarHistory.swift; sourceTree = "<group>"; };
 		9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 		9B48F9042E651F3700C470ED /* MenuBar */ = {
 			isa = PBXGroup;
 			children = (
+				9B5C4D1C2E6779DB008BD465 /* MenuBarHistory.swift */,
 				9B48F9022E651F3700C470ED /* MenuBarView.swift */,
 				9B48F9032E651F3700C470ED /* MenuBarViewModel.swift */,
 			);
@@ -307,6 +310,7 @@
 				9B48F9112E651F3700C470ED /* ScreenshotService.swift in Sources */,
 				9B48F9122E651F3700C470ED /* ComfyMarkView.swift in Sources */,
 				9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */,
+				9B5C4D1D2E6779DE008BD465 /* MenuBarHistory.swift in Sources */,
 				9B48F9142E651F3700C470ED /* MenuBarViewButton.swift in Sources */,
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
 				9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */,

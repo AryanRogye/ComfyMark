@@ -25,6 +25,7 @@ class ComfyMarkViewModel: ObservableObject {
         strokes.indices.contains(internalIndex)
     }
     
+    private var cancellables: Set<AnyCancellable> = []
     
     init(image: CGImage, windowID: String) {
         self.image = image
@@ -69,7 +70,10 @@ class ComfyMarkViewModel: ObservableObject {
     
     func addPoint(_ point: CGPoint) {
         guard strokes.indices.contains(internalIndex) else { return }
-        strokes[internalIndex].points.append(point)
+        var s = strokes[internalIndex]
+        s.points.append(point)
+        strokes[internalIndex] = s
+        objectWillChange.send()
     }
     
     func endStroke() {

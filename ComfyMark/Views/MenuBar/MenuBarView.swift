@@ -11,10 +11,15 @@ struct MenuBarView: View {
     
     @ObservedObject var menuBarVM : MenuBarViewModel
     
+    /// For Settings
+    @Namespace var ns
+    @State private var isHoveringOverSettings = false
+
     var body: some View {
         VStack {
             VStack {
                 startButton
+                historyButton
                 settingsSection()
             }
             .padding()
@@ -30,6 +35,18 @@ struct MenuBarView: View {
         }
     }
     
+    // MARK: - History Button
+    private var historyButton: some View {
+        DisclosureGroup {
+            MenuBarHistory(
+                menuBarVM: menuBarVM
+            )
+        } label: {
+            Text("View History")
+        }
+    }
+    
+    // MARK: - Start Button
     private var startButton: some View {
         MenuBarViewButton {
             Label("Start", systemImage: "play.fill")
@@ -48,9 +65,8 @@ struct MenuBarView: View {
         }
     }
     
-    @Namespace var ns
-    @State private var isHoveringOverSettings = false
     
+    // MARK: - Setting Section
     @ViewBuilder
     private func settingsSection() -> some View {
         HStack {
@@ -64,6 +80,7 @@ struct MenuBarView: View {
         .onHover { isHoveringOverSettings = $0 }
     }
     
+    // MARK: - Exit Button
     private var exitButton: some View {
         MenuBarViewButton {
             RoundedRectangle(cornerRadius: 12)
@@ -92,6 +109,7 @@ struct MenuBarView: View {
         .frame(height: 40)
     }
     
+    // MARK: - Settings Logo
     private var settingsLogo: some View {
         MenuBarViewButton {
             Circle()

@@ -33,7 +33,6 @@ struct Viewport {
     float scale;
 };
 
-
 vertex VertexOut
 vertexImageShader (
                    const device VertexIn* vertices [[buffer(0)]],
@@ -50,7 +49,11 @@ vertexImageShader (
     /// Scaling based on the zoom or whatever the user chooses
     vertex_pos = (vertex_pos - vp.origin) * vp.scale;
     
-    float2 tex_coords = (vertex_pos + 1) / 2;   /// Normalized
+    // Texture sampling position: apply the INVERSE transform so that
+    // scale > 1 samples a smaller region (magnifies), and origin pans.
+    float2 sample_pos = (vertex_pos / vp.scale) + vp.origin;
+    // Convert to 0..1 texture coords and flip Y
+    float2 tex_coords = (sample_pos + 1) / 2;
     tex_coords.y = 1.0 - tex_coords.y;
     
     out.texture_pos = tex_coords;

@@ -7,6 +7,34 @@
 
 import SwiftUI
 
+
+struct ComfyMarkDrawingView: View {
+    
+    @ObservedObject var comfyMarkVM : ComfyMarkViewModel
+    @Binding var viewport: Viewport
+    
+    var body: some View {
+        Canvas { ctx, _ in
+            
+//            ctx.translateBy(x: -CGFloat(viewport.origin.x), y: -CGFloat(viewport.origin.y))
+//            ctx.scaleBy(x: CGFloat(viewport.scale), y: CGFloat(viewport.scale))
+            
+            for s in comfyMarkVM.strokes {
+                guard s.points.count > 1 else { continue }
+                var p = Path()
+                p.addLines(s.points)
+                ctx.stroke(p, with: .color(s.color), lineWidth: s.width)
+            }
+            
+            // debug: last point dot
+            if let p = comfyMarkVM.strokes.last?.points.last {
+                let r = CGRect(x: p.x - 2, y: p.y - 2, width: 4, height: 4)
+                ctx.fill(Path(ellipseIn: r), with: .color(.blue))
+            }
+        }
+        .allowsHitTesting(false)
+    }
+}
 struct ComfyMarkView: View {
     
     @ObservedObject var comfyMarkVM : ComfyMarkViewModel
@@ -21,27 +49,22 @@ struct ComfyMarkView: View {
                     image: $comfyMarkVM.image,
                     viewport: $viewport
                 )
-                Canvas { ctx, _ in
-                    for s in comfyMarkVM.strokes {
-                        guard s.points.count > 1 else { continue }
-                        var p = Path()
-                        p.addLines(s.points)
-                        ctx.stroke(p, with: .color(s.color), lineWidth: s.width)
-                    }
+                .overlay {
+                    ComfyMarkDrawingView(
+                        comfyMarkVM: comfyMarkVM,
+                        viewport: $viewport
+                    )
                 }
             }
+            .contentShape(Rectangle())
+            .highPriorityGesture(dragGesture(), including: .all)
+            .simultaneousGesture(zoomGesture())
         }
         toolbar: {
             ComfyMarkToolbar(comfyMarkVM: comfyMarkVM)
         }
-        .contentShape(Rectangle()) // ensure gesture hits transparent areas
-        .gesture(dragGesture())
-        .gesture(zoomGesture())
     }
     
-//    private func zoomGesture2() -> some Gesture {
-//        MagnificationGesture(minimumScaleDelta: 0)
-//    }
     private func zoomGesture() -> some Gesture {
         MagnificationGesture(minimumScaleDelta: 0)
             .onChanged { value in
@@ -59,6 +82,9 @@ struct ComfyMarkView: View {
     private func dragGesture() -> some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { v in
+                guard !isPinching else {
+                    return
+                }
                 if !comfyMarkVM.hasActiveStroke {
                     /// If No Active Stroke, Start A New Stroke
                     comfyMarkVM.beginStroke(at: v.location)
