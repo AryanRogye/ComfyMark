@@ -11,14 +11,28 @@ import SwiftUI
 class SettingsCoordinator: ObservableObject {
     
     let windowCoordinator: WindowCoordinator
+    let appSettings      : AppSettings
     
-    init(windows: WindowCoordinator) {
+    var settingsVM: SettingsViewModel?
+    var generalVM : GeneralViewModel?
+    
+    init(windows: WindowCoordinator, appSettings: AppSettings) {
         self.windowCoordinator = windows
+        self.appSettings = appSettings
     }
     
     func showSettings() {
         
-        let view = SettingsView()
+        settingsVM = SettingsViewModel(appSettings: appSettings)
+        generalVM  = GeneralViewModel(appSettings: appSettings)
+        
+        guard let settingsVM = settingsVM else { return }
+        guard let generalVM  = generalVM  else { return }
+        
+        let view = SettingsView(
+            settingsVM: settingsVM,
+            generalVM: generalVM
+        )
         
         windowCoordinator.showWindow(
             id: "settings",

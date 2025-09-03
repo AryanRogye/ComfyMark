@@ -71,9 +71,9 @@ struct MenuBarView: View {
     private func settingsSection() -> some View {
         HStack {
             if isHoveringOverSettings {
-                settingsLogo
+                powerLogo
             }
-            exitButton
+            settingsButton
             
         }
         .animation(.spring(response: 0.28, dampingFraction: 0.9), value: isHoveringOverSettings)
@@ -81,47 +81,38 @@ struct MenuBarView: View {
     }
     
     // MARK: - Exit Button
-    private var exitButton: some View {
+    private var settingsButton: some View {
         MenuBarViewButton {
             RoundedRectangle(cornerRadius: 12)
-                .fill(
-                    isHoveringOverSettings
-                    ? Color.red
-                    : Color.gray.opacity(0.7)
-                )
+                .fill(Color.gray.opacity(0.7))
+                .matchedGeometryEffect(id: "settingsBackground", in: ns)
+                .overlay {
+                    Label("Settings", systemImage:"gear")
+                        .foregroundStyle(.white)
+                }
+        } action: {
+            menuBarVM.openSettings()
+        }
+        .frame(height: 40)
+    }
+    
+    // MARK: - Settings Logo
+    private var powerLogo: some View {
+        MenuBarViewButton {
+            Circle()
+                .fill(Color.red)
+                .frame(width: 40, height: 40)
                 .matchedGeometryEffect(id: "exitButton", in: ns)
                 .overlay {
-                    Label(
-                        isHoveringOverSettings
-                        ? "Quit"
-                        : "Settings",
-                        systemImage: isHoveringOverSettings
-                        ? "power"
-                        : "gear"
-                    )
-                    .foregroundStyle(.white)
+                    Image(systemName: "power")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.white)
                 }
         } action: {
             if isHoveringOverSettings {
                 NSApp.terminate(nil)
             }
         }
-        .frame(height: 40)
-    }
-    
-    // MARK: - Settings Logo
-    private var settingsLogo: some View {
-        MenuBarViewButton {
-            Circle()
-                .fill(Color.gray.opacity(0.7))
-                .matchedGeometryEffect(id: "settingsBackground", in: ns)
-                .frame(width: 40, height: 40)
-                .overlay {
-                    Image(systemName: "gearshape.fill")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(.white)
-                }
-        } action: { menuBarVM.openSettings() }
     }
 }
 

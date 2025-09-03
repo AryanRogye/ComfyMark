@@ -18,6 +18,9 @@ class AppCoordinator {
     private var screenshots : ScreenshotProviding
     private var export      : ExportProviding
     
+    /// App Settings
+    private let appSettings = AppSettings()
+    
     init(
         screenshots: ScreenshotProviding,
         export     : ExportProviding
@@ -25,8 +28,14 @@ class AppCoordinator {
         self.screenshots = screenshots
         self.export      = export
         
-        self.settingsCoordinator = SettingsCoordinator(windows: windowCoordinator)
-        self.comfyMarkCoordinator = ComfyMarkCoordinator(windows: windowCoordinator)
+        self.settingsCoordinator = SettingsCoordinator(
+            windows: windowCoordinator,
+            appSettings: appSettings
+        )
+        
+        self.comfyMarkCoordinator = ComfyMarkCoordinator(
+            windows: windowCoordinator
+        )
         
         
         /// Starting Our Menu Bar, with Closures, for what happens when we:
