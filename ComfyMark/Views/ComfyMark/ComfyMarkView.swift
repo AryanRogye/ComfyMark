@@ -7,64 +7,102 @@
 
 import SwiftUI
 
-
-struct ComfyMarkDrawingView: View {
-    
-    @ObservedObject var comfyMarkVM : ComfyMarkViewModel
-    @Binding var viewport: Viewport
-    
-    var body: some View {
-        Canvas { ctx, _ in
-            
-//            ctx.translateBy(x: -CGFloat(viewport.origin.x), y: -CGFloat(viewport.origin.y))
-//            ctx.scaleBy(x: CGFloat(viewport.scale), y: CGFloat(viewport.scale))
-            
-            for s in comfyMarkVM.strokes {
-                guard s.points.count > 1 else { continue }
-                var p = Path()
-                p.addLines(s.points)
-                ctx.stroke(p, with: .color(s.color), lineWidth: s.width)
-            }
-            
-            // debug: last point dot
-            if let p = comfyMarkVM.strokes.last?.points.last {
-                let r = CGRect(x: p.x - 2, y: p.y - 2, width: 4, height: 4)
-                ctx.fill(Path(ellipseIn: r), with: .color(.blue))
-            }
-        }
-        .allowsHitTesting(false)
-    }
-}
 struct ComfyMarkView: View {
     
     @ObservedObject var comfyMarkVM : ComfyMarkViewModel
+    
     @State private var viewport = Viewport()
     @State private var pinchStartScale: Float? = nil
     @State var isPinching = false
     
     var body: some View {
+        
         CustomToolbarView {
-            ZStack {
-                MetalImageView(
-                    image: $comfyMarkVM.image,
-                    viewport: $viewport
-                )
-                .overlay {
-                    ComfyMarkDrawingView(
-                        comfyMarkVM: comfyMarkVM,
+            GeometryReader { geo in
+                ZStack {
+                    MetalImageView(
+                        image: $comfyMarkVM.image,
                         viewport: $viewport
                     )
+                    .overlay {
+                        ComfyMarkDrawingView(
+                            comfyMarkVM: comfyMarkVM,
+                            viewport: $viewport
+                        )
+                    }
                 }
+                .contentShape(Rectangle())
+                .highPriorityGesture(
+                    comfyGestures(viewSize: geo.size),
+                    including: .all
+                )
+                .simultaneousGesture(zoomGesture())
             }
-            .contentShape(Rectangle())
-            .highPriorityGesture(dragGesture(), including: .all)
-            .simultaneousGesture(zoomGesture())
         }
         toolbar: {
-            ComfyMarkToolbar(comfyMarkVM: comfyMarkVM)
+            ComfyMarkToolbar(
+                comfyMarkVM: comfyMarkVM,
+            )
         }
     }
     
+    @State private var lastDrag: CGPoint?
+
+    private func comfyGestures(viewSize: CGSize) -> some Gesture {
+        DragGesture(minimumDistance: 0)
+            .onChanged { value in
+                switch comfyMarkVM.currentState {
+                case .draw: handleDrawChanged(value)
+                case .move: handleMoveChanged(value, viewSize)
+                default: break
+                }
+            }
+            .onEnded { _ in
+                switch comfyMarkVM.currentState {
+                case .draw: handleDrawEnded()
+                case .move: handleMoveEnded()
+                default: break
+                }
+            }
+    }
+
+    // MARK: - Move
+    private func handleMoveChanged(_ value: DragGesture.Value, _ viewSize: CGSize) {
+        /// If Dragging is the same
+        if let last = lastDrag {
+            let dx = value.location.x - last.x
+            let dy = value.location.y - last.y
+            /// Just Move a bit
+            comfyMarkVM.panBy(dx: dx, dy: dy, viewSize: viewSize, viewport: &viewport)
+        }
+        /// Set It
+        lastDrag = value.location
+    }
+    private func handleMoveEnded() {
+        comfyMarkVM.endPan()
+        lastDrag = nil
+    }
+    
+    // MARK: - Draw
+    private func handleDrawChanged(_ value: DragGesture.Value) {
+        guard !isPinching else {
+            return
+        }
+        if !comfyMarkVM.hasActiveStroke {
+            /// If No Active Stroke, Start A New Stroke
+            comfyMarkVM.beginStroke(at: value.location)
+        } else {
+            /// If Stroke Active, we just add a Point
+            comfyMarkVM.addPoint(value.location)
+        }
+    }
+    
+    private func handleDrawEnded() {
+        /// We End Stroke Here, this also triggers a new Stroke
+        comfyMarkVM.endStroke()
+    }
+    
+    // MARK: - Zoom
     private func zoomGesture() -> some Gesture {
         MagnificationGesture(minimumScaleDelta: 0)
             .onChanged { value in
@@ -76,26 +114,6 @@ struct ComfyMarkView: View {
             .onEnded { _ in
                 isPinching = false
                 pinchStartScale = nil
-            }
-    }
-    
-    private func dragGesture() -> some Gesture {
-        DragGesture(minimumDistance: 0)
-            .onChanged { v in
-                guard !isPinching else {
-                    return
-                }
-                if !comfyMarkVM.hasActiveStroke {
-                    /// If No Active Stroke, Start A New Stroke
-                    comfyMarkVM.beginStroke(at: v.location)
-                } else {
-                    /// If Stroke Active, we just add a Point
-                    comfyMarkVM.addPoint(v.location)
-                }
-            }
-            .onEnded { _ in
-                /// We End Stroke Here, this also triggers a new Stroke
-                comfyMarkVM.endStroke()
             }
     }
 }

@@ -14,6 +14,9 @@ struct ComfyMarkToolbar: View {
     
     var body: some View {
         HStack {
+            ToolbarEditorStateView(
+                comfyMarkVM: comfyMarkVM
+            )
             Spacer()
             cancelButton
             saveButton
@@ -125,8 +128,10 @@ struct ComfyMarkToolbar: View {
 }
 
 #Preview {
-    ComfyMarkToolbar(comfyMarkVM: ComfyMarkViewModel(
-        image: CGImage.placeholder(),
-        windowID: ""
-    ))
+    ComfyMarkToolbar(
+        comfyMarkVM: ComfyMarkViewModel(
+            image: CGImage.placeholder(),
+            windowID: ""
+        )
+    )
 }

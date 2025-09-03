@@ -20,6 +20,8 @@ class ComfyMarkViewModel: ObservableObject {
     @Published var exportDocument: ExportDocument?
     @Published var exportSuggestedName: (String) -> String = { $0 }
     
+    @Published var currentState : EditorState = .move
+
     var internalIndex: Int = 0
     var hasActiveStroke: Bool {
         strokes.indices.contains(internalIndex)
@@ -78,5 +80,19 @@ class ComfyMarkViewModel: ObservableObject {
     
     func endStroke() {
         internalIndex = strokes.count // next stroke index will be out-of-range until beginStroke is called again
+    }
+    
+    // MARK: - For Moving/Panning
+    
+    func panBy(dx: CGFloat, dy: CGFloat, viewSize: CGSize, viewport: inout Viewport) {
+        let dx_c =  2 * Float(dx) / Float(viewSize.width)
+        let dy_c = -2 * Float(dy) / Float(viewSize.height)
+        
+        viewport.origin.x -= dx_c / viewport.scale
+        viewport.origin.y -= dy_c / viewport.scale
+    }
+    
+    func endPan() {
+        // reset anything if needed (like store new base)
     }
 }

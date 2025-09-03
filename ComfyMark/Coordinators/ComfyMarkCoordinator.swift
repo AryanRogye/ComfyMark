@@ -11,6 +11,7 @@ import AppKit
 class ComfyMarkCoordinator {
     
     let windowCoordinator: WindowCoordinator
+    
     var comfyMarkVM : ComfyMarkViewModel?
     
     init(windows: WindowCoordinator) {
@@ -28,6 +29,7 @@ class ComfyMarkCoordinator {
             image: image,
             windowID: windowID
         )
+        
         guard let comfyMarkVM else { return }
         
         comfyMarkVM.onExport = { format in
@@ -39,7 +41,7 @@ class ComfyMarkCoordinator {
         }
         
         let view = ComfyMarkView(
-            comfyMarkVM: comfyMarkVM
+            comfyMarkVM: comfyMarkVM,
         )
         
         windowCoordinator.showWindow(
