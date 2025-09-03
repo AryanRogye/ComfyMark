@@ -1,6 +1,6 @@
 # ComfyMark
 
-<img src="Assets/ComfyMarkR.png" alt="ComfyMark Logo" width="200"/>
+<img src="Assets/ComfyMark.png" alt="ComfyMark Logo" width="200"/>
 
 ComfyMark is a lightweight, open-source screenshot + markup tool for macOS.  
 Take a screenshot with a single hotkey, edit it instantly, and save it — all from your menu bar.
