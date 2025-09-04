@@ -33,7 +33,15 @@ class MenuBarCoordinator: NSObject {
         /// Start Making Menu Bar Item
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         if let btn = statusItem.button {
-            btn.image = NSImage(systemSymbolName: "pencil", accessibilityDescription: "Annotate")
+            
+            if let img = NSImage(named: "ComfyMarkMenuBar") {
+                img.isTemplate = true
+                img.size = NSSize(width: 22, height: 22) // force menu bar size
+                statusItem.button?.image = img
+            } else {
+                btn.image = NSImage(systemSymbolName: "pencil", accessibilityDescription: "Annotate")
+            }
+            
             btn.action = #selector(togglePopover(_:))
             btn.target = self
         }

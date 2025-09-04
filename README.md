@@ -6,12 +6,16 @@ ComfyMark is a lightweight, open-source screenshot + markup tool for macOS.
 Take a screenshot with a single hotkey, edit it instantly, and save it — all from your menu bar.
 
 ## ✨ Features
-- No Real Features Yet, Still WIP
+- Can take a screenshot of the entire screen
+- Export as PNG, JPG, or PDF
 
 ## 🗺️ Roadmap
 - [x] Metal-accelerated image rendering
 - [x] Basic stroke/pen annotation
 - [x] Menu bar integration
+- [ ] Metal-accelerated drawing on screen
+  - [ ] Include more options for brush types, and have them be GPU accelerated
+- [ ] Saving menu bar state
 - [ ] Screenshot capture hotkeys
 - [ ] Shape tools (rectangles, arrows, etc.)
 - [ ] Text annotations

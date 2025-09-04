@@ -229,6 +229,8 @@
 				9B5C4C0A2E65FC62008BD465 /* MetalImageView.swift */,
 				9B5C4CCB2E65FFF9008BD465 /* image.metal */,
 				9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */,
+				9B5C4D442E68AE22008BD465 /* SettingsContainerView.swift */,
+				9B5C4D452E68AE22008BD465 /* SettingsSection.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -236,7 +238,6 @@
 		9B5C4CD32E662EE5008BD465 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				9B5C4D462E68AE22008BD465 /* Components */,
 				9B5C4D412E68AB83008BD465 /* Tabs */,
 				9B5C4CD22E662EE5008BD465 /* SettingsView.swift */,
 				9B5C4D3B2E68A484008BD465 /* SettingsViewModel.swift */,
@@ -277,15 +278,6 @@
 				9B5C4D352E68A429008BD465 /* General */,
 			);
 			path = Tabs;
-			sourceTree = "<group>";
-		};
-		9B5C4D462E68AE22008BD465 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				9B5C4D442E68AE22008BD465 /* SettingsContainerView.swift */,
-				9B5C4D452E68AE22008BD465 /* SettingsSection.swift */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		9B9F5B842E64FFC100F3396D = {
