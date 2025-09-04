@@ -34,6 +34,9 @@ so why make another one?
 ## 📷 Screenshots
 
 <img width="200" height="200" src="https://github.com/user-attachments/assets/d1f1bdce-978e-4bfe-b758-741139530e4b" />
+<img width="500" height="612" alt="Screenshot 2025-09-03 at 7 33 22 PM" src="https://github.com/user-attachments/assets/a570b87d-2a05-4be3-9ad5-a18e5b281606" />
+
+
 
 ## 🛠 Installation
 Clone the repo and build in **Xcode 16+** (macOS 15/Sequoia or later).  
