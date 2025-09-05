@@ -70,15 +70,34 @@ class ComfyMarkViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     
     
-    var onExport : ((ExportFormat) -> ExportedData?)?
+    /// This will be used/called to get the image from metal
+    /// this will be used directly inside the metalView - `MetalImageView.swift`
+    var getMetalImage: (() -> CGImage?)?
+    
+    var onExport : ((ExportFormat, CGImage) -> ExportedData?)?
     @Published var shouldExport = false
     
     var onCancelTapped: (() -> Void)?
 
     // MARK: - Closure Handling
     func onExport(_ format: ExportFormat) {
+        
+        /// Verify We Have a onExport
         guard let onExport = onExport else { return }
-        exported = onExport(format)
+        
+        /// Verify we can call the metal to get the image
+        guard let getMetalImage = getMetalImage else {
+            print("Returned On Export Cuz No Metal Image Function Was Set")
+            return
+        }
+        
+        let cgimage = getMetalImage()
+        guard let cgimage = cgimage else {
+            return
+        }
+        
+        exported = onExport(format, cgimage)
+        
         // get raw bytes (handles both .data and .nsImage if you kept that case)
         let bytes: Data
         switch exported {
@@ -175,3 +194,4 @@ class ComfyMarkViewModel: ObservableObject {
         return ctx.device.makeTexture(descriptor: desc)!
     }
 }
+

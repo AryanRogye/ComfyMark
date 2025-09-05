@@ -32,8 +32,8 @@ class ComfyMarkCoordinator {
         
         guard let comfyMarkVM else { return }
         
-        comfyMarkVM.onExport = { format in
-            return export.export(image, format: format)
+        comfyMarkVM.onExport = { format, cgImage in
+            return export.export(cgImage, format: format)
         }
         
         comfyMarkVM.onCancelTapped = { [weak self] in

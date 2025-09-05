@@ -54,7 +54,7 @@ struct ComfyMarkView: View {
             }
             .onEnded { _ in
                 switch comfyMarkVM.currentState {
-                case .draw: handleDrawEnded()
+                case .draw: break
                 case .move: handleMoveEnded()
                 default: break
                 }
@@ -90,11 +90,6 @@ struct ComfyMarkView: View {
             /// If Stroke Active, we just add a Point
             comfyMarkVM.addPoint(value.location, viewSize: viewSize, viewport: viewport)
         }
-    }
-    
-    private func handleDrawEnded() {
-        /// We End Stroke Here, this also triggers a new Stroke
-//        comfyMarkVM.endStroke()
     }
     
     // MARK: - Zoom

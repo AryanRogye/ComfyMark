@@ -13,7 +13,7 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [x] Metal-accelerated image rendering
 - [x] Basic stroke/pen annotation
 - [x] Menu bar integration
-- [ ] Metal-accelerated drawing on screen
+- [x] Metal-accelerated drawing on screen
   - [ ] Include more options for brush types, and have them be GPU accelerated
 - [ ] Saving menu bar state
 - [ ] Screenshot capture hotkeys
@@ -21,6 +21,7 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [ ] Text annotations
 - [ ] Background blur/pixelation
 - [x] Export formats (PNG, JPG, clipboard)
+  - [ ] Export the edited image
 
 ## ❓ Why ComfyMark?
 macOS already has built-in screenshots, and there are paid tools like CleanShot X —  

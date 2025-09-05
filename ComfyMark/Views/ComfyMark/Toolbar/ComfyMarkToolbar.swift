@@ -72,6 +72,7 @@ struct ComfyMarkToolbar: View {
                             iconName: format.iconName,
                             iconColor: format.iconColor
                         ) {
+                            /// What we do on the export
                             comfyMarkVM.onExport(format)
                             showExportMenu = false
                         }

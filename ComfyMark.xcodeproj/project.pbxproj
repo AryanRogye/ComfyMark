@@ -35,7 +35,6 @@
 		9B5C4D212E6784AD008BD465 /* CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D202E6784AA008BD465 /* CGImage.swift */; };
 		9B5C4D232E678509008BD465 /* Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D222E678508008BD465 /* Export.swift */; };
 		9B5C4D2A2E688527008BD465 /* EditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D282E688527008BD465 /* EditorState.swift */; };
-		9B5C4D2E2E6885D8008BD465 /* ComfyMarkDrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D2D2E6885D4008BD465 /* ComfyMarkDrawingView.swift */; };
 		9B5C4D322E688A3B008BD465 /* ToolbarEditorStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D312E688A39008BD465 /* ToolbarEditorStateView.swift */; };
 		9B5C4D342E68A3DD008BD465 /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D332E68A3DB008BD465 /* SettingsTab.swift */; };
 		9B5C4D382E68A434008BD465 /* GeneralSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D372E68A432008BD465 /* GeneralSettings.swift */; };
@@ -87,7 +86,6 @@
 		9B5C4D202E6784AA008BD465 /* CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImage.swift; sourceTree = "<group>"; };
 		9B5C4D222E678508008BD465 /* Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export.swift; sourceTree = "<group>"; };
 		9B5C4D282E688527008BD465 /* EditorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorState.swift; sourceTree = "<group>"; };
-		9B5C4D2D2E6885D4008BD465 /* ComfyMarkDrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkDrawingView.swift; sourceTree = "<group>"; };
 		9B5C4D312E688A39008BD465 /* ToolbarEditorStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarEditorStateView.swift; sourceTree = "<group>"; };
 		9B5C4D332E68A3DB008BD465 /* SettingsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTab.swift; sourceTree = "<group>"; };
 		9B5C4D372E68A432008BD465 /* GeneralSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettings.swift; sourceTree = "<group>"; };
@@ -171,7 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				9B5C4D302E688A31008BD465 /* Toolbar */,
-				9B5C4D2D2E6885D4008BD465 /* ComfyMarkDrawingView.swift */,
 				9B48F8FD2E651F3700C470ED /* ComfyMarkView.swift */,
 				9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */,
 			);
@@ -445,7 +442,6 @@
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
 				9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */,
 				9B5C4D322E688A3B008BD465 /* ToolbarEditorStateView.swift in Sources */,
-				9B5C4D2E2E6885D8008BD465 /* ComfyMarkDrawingView.swift in Sources */,
 				9B5C4CDA2E671D6A008BD465 /* ExportService.swift in Sources */,
 				9B5C4CD02E662EB9008BD465 /* ComfyMarkToolbar.swift in Sources */,
 				9B48F95B2E65FBF000C470ED /* Stroke.swift in Sources */,

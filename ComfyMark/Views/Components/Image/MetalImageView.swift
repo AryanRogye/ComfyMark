@@ -15,15 +15,13 @@ struct MetalImageView: NSViewRepresentable {
     
     var imageTexture: MTLTexture?
     var inkTexture: MTLTexture?
-
     
     @Binding var viewport: Viewport
     var comfyMarkVM : ComfyMarkViewModel
     
-    
     init(
         viewport: Binding<Viewport>,
-        comfyMarkVM : ComfyMarkViewModel
+        comfyMarkVM : ComfyMarkViewModel,
     ) {
         self.imageTexture = comfyMarkVM.imageTexture
         self.inkTexture   = comfyMarkVM.inkTexture
@@ -48,6 +46,7 @@ struct MetalImageView: NSViewRepresentable {
         mtkView.enableSetNeedsDisplay = true
         
         context.coordinator.setupUpdateSubscription()
+        context.coordinator.setupExportImage()
         
         return mtkView
     }
@@ -103,6 +102,7 @@ struct MetalImageView: NSViewRepresentable {
             .init(pos: [1, 1]),
         ]
         
+        private weak var currentView: MTKView?
         private var cancellables: Set<AnyCancellable> = []
 
         init(_ parent: MetalImageView) {
@@ -112,6 +112,39 @@ struct MetalImageView: NSViewRepresentable {
             setupMetal()
         }
         
+        /// Function to setup the buffers at the start, this is nice for the vertex and the viewport
+        private func setupMetal() {
+            device = parent.ctx.device
+            queue = parent.ctx.queue
+            let lib = parent.ctx.library
+            
+            let desc = MTLRenderPipelineDescriptor()
+            desc.vertexFunction   = lib.makeFunction(name: "vertexImageShader")
+            desc.fragmentFunction = lib.makeFunction(name: "fragmentImageShader")
+            desc.colorAttachments[0].pixelFormat = .bgra8Unorm
+            
+            pso = try! device.makeRenderPipelineState(descriptor: desc)
+            
+            vertexBuffer = device.makeBuffer(
+                bytes: verts,
+                length: MemoryLayout<Vertex>.stride * verts.count
+            )
+            
+            viewportBuffer = device.makeBuffer(
+                length: MemoryLayout<Viewport>.stride,
+                options: []
+            )
+        }
+        
+        @MainActor
+        func setupExportImage() {
+            parent.comfyMarkVM.getMetalImage = {
+                self.exportToCGImage()
+            }
+        }
+
+        /// This has to be called on the main actor, because comfyMarkVM is on the
+        /// the MainActor
         @MainActor
         func setupUpdateSubscription() {
             parent.comfyMarkVM.$shouldUpdate
@@ -132,35 +165,7 @@ struct MetalImageView: NSViewRepresentable {
                 .store(in: &cancellables)
         }
         
-        
-        // Add this to store the current view
-        private weak var currentView: MTKView?
-        
-        private func setupMetal() {
-            device = parent.ctx.device
-            queue = parent.ctx.queue
-            let lib = parent.ctx.library
-            
-            let desc = MTLRenderPipelineDescriptor()
-            desc.vertexFunction   = lib.makeFunction(name: "vertexImageShader")
-            desc.fragmentFunction = lib.makeFunction(name: "fragmentImageShader")
-            desc.colorAttachments[0].pixelFormat = .bgra8Unorm
-            
-            pso = try! device.makeRenderPipelineState(descriptor: desc)
-
-            vertexBuffer = device.makeBuffer(
-                bytes: verts,
-                length: MemoryLayout<Vertex>.stride * verts.count
-            )
-            
-            viewportBuffer = device.makeBuffer(
-                length: MemoryLayout<Viewport>.stride,
-                options: []
-            )
-        }
-        
-        func triggerDraw(_ view: MTKView) { view.setNeedsDisplay(view.bounds) }
-        
+        // MARK: - Main Draw
         func draw(in view: MTKView) {
             guard let rpd = view.currentRenderPassDescriptor,
                   let drw = view.currentDrawable else { return }
@@ -201,6 +206,8 @@ struct MetalImageView: NSViewRepresentable {
         
         func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
         
+        // MARK: - Setters For Textures
+        
         public func setImageTexture(_ texture: MTLTexture) {
             self.imageTexture = texture
         }
@@ -209,20 +216,91 @@ struct MetalImageView: NSViewRepresentable {
             self.inkTexture = texture
         }
         
-        private func getImageTexture(from cgImage: CGImage) throws -> MTLTexture? {
-            let loader = MTKTextureLoader(device: MetalContext.shared.device)
+        // MARK: - Export
+        /// Renders the current Metal view to a CIImage
+        /// - Parameters:
+        ///   - size: The desired output size (defaults to current textures' size)
+        ///   - viewport: The viewport to use for rendering (defaults to current viewport)
+        /// - Returns: A CIImage of the rendered output, or nil if rendering fails
+        func exportToCGImage(size: CGSize = CGSize(width: 3840, height: 2160), viewport: Viewport? = nil) -> CGImage? {
+            guard let imageTexture = imageTexture,
+                  let inkTexture = inkTexture else {
+                print("Missing required textures for export")
+                return nil
+            }
             
-            let tex = try loader.newTexture(
-                cgImage: cgImage,
-                options: [
-                    .SRGB: false as NSNumber,
-                    .generateMipmaps: true as NSNumber,
-                    .textureUsage: NSNumber(value: MTLTextureUsage.shaderRead.rawValue),
-                    .textureStorageMode: NSNumber(value: MTLStorageMode.shared.rawValue)
-                ]
+            // Determine output size
+            let outputSize = size ?? CGSize(
+                width: imageTexture.width,
+                height: imageTexture.height
             )
             
-            return tex
+            // Use provided viewport or current one
+            let exportViewport = viewport ?? self.viewport ?? Viewport(origin: SIMD2(0, 0), scale: 1.0)
+            
+            // Create offscreen render target
+            let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(
+                pixelFormat: .bgra8Unorm,
+                width: Int(outputSize.width),
+                height: Int(outputSize.height),
+                mipmapped: false
+            )
+            textureDescriptor.usage = [.renderTarget, .shaderRead]
+            
+            guard let offscreenTexture = device.makeTexture(descriptor: textureDescriptor) else {
+                print("Failed to create offscreen texture")
+                return nil
+            }
+            
+            // Render pass descriptor
+            let renderPassDescriptor = MTLRenderPassDescriptor()
+            renderPassDescriptor.colorAttachments[0].texture = offscreenTexture
+            renderPassDescriptor.colorAttachments[0].loadAction = .clear
+            renderPassDescriptor.colorAttachments[0].storeAction = .store
+            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(
+                red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0
+            )
+            
+            // Update viewport buffer
+            let viewportBufferInfo = viewportBuffer.contents().bindMemory(to: Viewport.self, capacity: 1)
+            viewportBufferInfo.pointee = Viewport(
+                origin: exportViewport.origin,
+                scale: exportViewport.scale
+            )
+            
+            // Render
+            guard let commandBuffer = queue.makeCommandBuffer(),
+                  let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
+                print("Failed to create command buffer or render encoder")
+                return nil
+            }
+            
+            renderEncoder.setRenderPipelineState(pso)
+            renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+            renderEncoder.setVertexBuffer(viewportBuffer, offset: 0, index: 1)
+            renderEncoder.setFragmentTexture(imageTexture, index: 0)
+            renderEncoder.setFragmentTexture(inkTexture, index: 1)
+            renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6)
+            renderEncoder.endEncoding()
+            
+            commandBuffer.commit()
+            commandBuffer.waitUntilCompleted()
+            
+            // Convert to CGImage
+            guard let ci = CIImage(mtlTexture: offscreenTexture, options: [
+                .colorSpace: CGColorSpaceCreateDeviceRGB()
+            ]) else {
+                print("Failed to create CIImage from texture")
+                return nil
+            }
+            
+            let h = ci.extent.height
+            let flipped = ci
+                .transformed(by: CGAffineTransform(scaleX: 1, y: -1)
+                    .translatedBy(x: 0, y: -h))
+            
+            let ciContext = CIContext(mtlDevice: device)
+            return ciContext.createCGImage(flipped, from: flipped.extent)
         }
     }
 }

@@ -1,55 +1,55 @@
 {
   "images" : [
     {
-      "filename" : "ComfyMark 4-1.png",
+      "filename" : "16.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "16x16"
     },
     {
-      "filename" : "ComfyMark 3-1 1.png",
+      "filename" : "32 1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "16x16"
     },
     {
-      "filename" : "ComfyMark 3-1.png",
+      "filename" : "32.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "32x32"
     },
     {
-      "filename" : "ComfyMark 6.png",
+      "filename" : "64.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "32x32"
     },
     {
-      "filename" : "ComfyMark 5.png",
+      "filename" : "ComfyMark-3.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "128x128"
     },
     {
-      "filename" : "ComfyMark 4.png",
+      "filename" : "ComfyMark-2 1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "128x128"
     },
     {
-      "filename" : "ComfyMark 3.png",
+      "filename" : "ComfyMark-2.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "256x256"
     },
     {
-      "filename" : "ComfyMark 2.png",
+      "filename" : "ComfyMark-1 1.png",
       "idiom" : "mac",
       "scale" : "2x",
       "size" : "256x256"
     },
     {
-      "filename" : "ComfyMark 1.png",
+      "filename" : "ComfyMark-1.png",
       "idiom" : "mac",
       "scale" : "1x",
       "size" : "512x512"
