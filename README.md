@@ -36,6 +36,11 @@ so why make another one?
 <img width="200" height="200" src="https://github.com/user-attachments/assets/d1f1bdce-978e-4bfe-b758-741139530e4b" />
 <img width="500" height="612" alt="Screenshot 2025-09-03 at 7 33 22 PM" src="https://github.com/user-attachments/assets/a570b87d-2a05-4be3-9ad5-a18e5b281606" />
 
+## Demo
+
+<video width="500" height="500" alt="Demo" src="https://github.com/user-attachments/assets/f13313df-43ae-4c62-8092-4152ca6254ca" />
+
+
 
 
 ## 🛠 Installation
