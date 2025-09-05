@@ -21,7 +21,7 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [ ] Text annotations
 - [ ] Background blur/pixelation
 - [x] Export formats (PNG, JPG, clipboard)
-  - [ ] Export the edited image
+  - [x] Export the edited image
 
 ## ❓ Why ComfyMark?
 macOS already has built-in screenshots, and there are paid tools like CleanShot X —  
