@@ -65,11 +65,17 @@ vertexImageShader (
 fragment float4
 fragmentImageShader(
                     VertexOut in [[stage_in]],
-                    texture2d<float> textureIn [[texture(0)]]
+                    texture2d<float> baseTex  [[texture(0)]],
+                    texture2d<float> inkTex   [[texture(1)]]
                     ) {
-    constexpr sampler textureSampler(mag_filter::linear, min_filter::linear);
+    // Use nearest for magnification (crisper when zooming in),
+    // keep linear for minification (smoother when zooming out).
     
-    float4 color = textureIn.sample(textureSampler, in.texture_pos);
+    constexpr sampler s(mag_filter::nearest, min_filter::linear);
+
+    float4 base = baseTex.sample(s, in.texture_pos);
+    float4 ink  = inkTex.sample(s,  in.texture_pos);
     
-    return color;  // Return the actual texture color instead of green
+    float3 rgb = mix(base.rgb, ink.rgb, ink.a);
+    return float4(rgb, 1.0);
 }

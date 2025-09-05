@@ -21,15 +21,10 @@ struct ComfyMarkView: View {
             GeometryReader { geo in
                 ZStack {
                     MetalImageView(
-                        image: $comfyMarkVM.image,
-                        viewport: $viewport
+                        viewport: $viewport,
+                        comfyMarkVM: comfyMarkVM
                     )
-                    .overlay {
-                        ComfyMarkDrawingView(
-                            comfyMarkVM: comfyMarkVM,
-                            viewport: $viewport
-                        )
-                    }
+                    .id(comfyMarkVM.windowID)
                 }
                 .contentShape(Rectangle())
                 .highPriorityGesture(
@@ -52,7 +47,7 @@ struct ComfyMarkView: View {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 switch comfyMarkVM.currentState {
-                case .draw: handleDrawChanged(value)
+                case .draw: handleDrawChanged(value, viewSize)
                 case .move: handleMoveChanged(value, viewSize)
                 default: break
                 }
@@ -84,22 +79,22 @@ struct ComfyMarkView: View {
     }
     
     // MARK: - Draw
-    private func handleDrawChanged(_ value: DragGesture.Value) {
+    private func handleDrawChanged(_ value: DragGesture.Value, _ viewSize: CGSize) {
         guard !isPinching else {
             return
         }
         if !comfyMarkVM.hasActiveStroke {
             /// If No Active Stroke, Start A New Stroke
-            comfyMarkVM.beginStroke(at: value.location)
+            comfyMarkVM.beginStroke(at: value.location, viewSize: viewSize, viewport: viewport)
         } else {
             /// If Stroke Active, we just add a Point
-            comfyMarkVM.addPoint(value.location)
+            comfyMarkVM.addPoint(value.location, viewSize: viewSize, viewport: viewport)
         }
     }
     
     private func handleDrawEnded() {
         /// We End Stroke Here, this also triggers a new Stroke
-        comfyMarkVM.endStroke()
+//        comfyMarkVM.endStroke()
     }
     
     // MARK: - Zoom

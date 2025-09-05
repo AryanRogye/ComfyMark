@@ -4,7 +4,7 @@
 //
 //  Created by Aryan Rogye on 8/31/25.
 //
-
+import AppKit
 import ScreenCaptureKit
 
 // MARK: - Protocol
@@ -26,7 +26,7 @@ protocol ScreenshotProviding {
 ///     Selects the primary display
 ///     Configures stream dimensions to match the display
 ///     Captures a single `CGImage` via `SCScreenshotManager`
-class ScreenshotService: ScreenshotProviding {
+final class ScreenshotService: ScreenshotProviding {
     /// Takes a screenshot of the main display using ScreenCaptureKit.
     ///
     /// Notes:
@@ -34,18 +34,41 @@ class ScreenshotService: ScreenshotProviding {
     /// - Currently selects the first available display.
     public func takeScreenshot() async throws -> CGImage {
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
-        
+
         let currentApp = NSRunningApplication.current
         let excludedApps = content.applications.filter { $0.bundleIdentifier == currentApp.bundleIdentifier }
-        let display = content.displays.first!
+
+        // Pick the main display if possible; otherwise fall back sensibly.
+        let targetDisplay: SCDisplay = {
+            if let main = NSScreen.main,
+               let id = main.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID,
+               let match = content.displays.first(where: { $0.displayID == id }) {
+                return match
+            }
+            // Fallback: choose the display with the largest native pixel area
+            if let largest = content.displays.max(by: { a, b in
+                let aw = Int(CGDisplayPixelsWide(a.displayID))
+                let ah = Int(CGDisplayPixelsHigh(a.displayID))
+                let bw = Int(CGDisplayPixelsWide(b.displayID))
+                let bh = Int(CGDisplayPixelsHigh(b.displayID))
+                return aw * ah < bw * bh
+            }) {
+                return largest
+            }
+            return content.displays.first!
+        }()
 
         // Configure what to capture (main display)
-        let filter = SCContentFilter(display: display, excludingApplications: excludedApps, exceptingWindows: [])
+        let filter = SCContentFilter(
+            display: targetDisplay,
+            excludingApplications: excludedApps,
+            exceptingWindows: []
+        )
 
-        // Configure capture settings
+        // Configure capture settings to the display's native pixel resolution (not logical points)
         let config = SCStreamConfiguration()
-        config.width = Int(display.width)
-        config.height = Int(display.height)
+        config.width = Int(CGDisplayPixelsWide(targetDisplay.displayID))
+        config.height = Int(CGDisplayPixelsHigh(targetDisplay.displayID))
         
         // Take screenshot
         let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config)

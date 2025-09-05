@@ -24,9 +24,7 @@
 		9B48F9192E651F3700C470ED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B48F9072E651F3700C470ED /* Assets.xcassets */; };
 		9B48F95B2E65FBF000C470ED /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F95A2E65FBEF00C470ED /* Stroke.swift */; };
 		9B5C4C082E65FC07008BD465 /* MetalContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4C072E65FC05008BD465 /* MetalContext.swift */; };
-		9B5C4C0B2E65FC6C008BD465 /* MetalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4C0A2E65FC62008BD465 /* MetalImageView.swift */; };
 		9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4C8A2E65FF4A008BD465 /* Vertex.swift */; };
-		9B5C4CCC2E65FFF9008BD465 /* image.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CCB2E65FFF9008BD465 /* image.metal */; };
 		9B5C4CCE2E662D23008BD465 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */; };
 		9B5C4CD02E662EB9008BD465 /* ComfyMarkToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CCF2E662EB8008BD465 /* ComfyMarkToolbar.swift */; };
 		9B5C4CD42E662EE5008BD465 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CD22E662EE5008BD465 /* SettingsView.swift */; };
@@ -48,6 +46,12 @@
 		9B5C4D432E68AB8E008BD465 /* GeneralViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D422E68AB8B008BD465 /* GeneralViewModel.swift */; };
 		9B5C4D472E68AE22008BD465 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D452E68AE22008BD465 /* SettingsSection.swift */; };
 		9B5C4D482E68AE22008BD465 /* SettingsContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D442E68AE22008BD465 /* SettingsContainerView.swift */; };
+		9B5C4F942E6A87FC008BD465 /* image.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4F912E6A87FC008BD465 /* image.metal */; };
+		9B5C4F952E6A87FC008BD465 /* MetalImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4F922E6A87FC008BD465 /* MetalImageView.swift */; };
+		9B5C4F982E6A880B008BD465 /* MetalBrush.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4F972E6A8808008BD465 /* MetalBrush.swift */; };
+		9B5C4FDA2E6A8889008BD465 /* ComputeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4FD92E6A8888008BD465 /* ComputeCache.swift */; };
+		9B5C4FDC2E6A88BD008BD465 /* brush.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4FDB2E6A88B8008BD465 /* brush.metal */; };
+		9B5C4FDE2E6B38C1008BD465 /* BrushUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4FDD2E6B38B9008BD465 /* BrushUniform.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,9 +74,7 @@
 		9B48F9072E651F3700C470ED /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B48F95A2E65FBEF00C470ED /* Stroke.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
 		9B5C4C072E65FC05008BD465 /* MetalContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalContext.swift; sourceTree = "<group>"; };
-		9B5C4C0A2E65FC62008BD465 /* MetalImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalImageView.swift; sourceTree = "<group>"; };
 		9B5C4C8A2E65FF4A008BD465 /* Vertex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vertex.swift; sourceTree = "<group>"; };
-		9B5C4CCB2E65FFF9008BD465 /* image.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = image.metal; sourceTree = "<group>"; };
 		9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
 		9B5C4CCF2E662EB8008BD465 /* ComfyMarkToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkToolbar.swift; sourceTree = "<group>"; };
 		9B5C4CD22E662EE5008BD465 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
@@ -96,6 +98,12 @@
 		9B5C4D422E68AB8B008BD465 /* GeneralViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewModel.swift; sourceTree = "<group>"; };
 		9B5C4D442E68AE22008BD465 /* SettingsContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContainerView.swift; sourceTree = "<group>"; };
 		9B5C4D452E68AE22008BD465 /* SettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSection.swift; sourceTree = "<group>"; };
+		9B5C4F912E6A87FC008BD465 /* image.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = image.metal; sourceTree = "<group>"; };
+		9B5C4F922E6A87FC008BD465 /* MetalImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalImageView.swift; sourceTree = "<group>"; };
+		9B5C4F972E6A8808008BD465 /* MetalBrush.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalBrush.swift; sourceTree = "<group>"; };
+		9B5C4FD92E6A8888008BD465 /* ComputeCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputeCache.swift; sourceTree = "<group>"; };
+		9B5C4FDB2E6A88B8008BD465 /* brush.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = brush.metal; sourceTree = "<group>"; };
+		9B5C4FDD2E6B38B9008BD465 /* BrushUniform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrushUniform.swift; sourceTree = "<group>"; };
 		9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -209,12 +217,10 @@
 		9B48F9592E65FBDE00C470ED /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9B5C4FD82E6A886F008BD465 /* Metal */,
 				9B5C4D3F2E68A8EB008BD465 /* AppSettings.swift */,
 				9B5C4D332E68A3DB008BD465 /* SettingsTab.swift */,
 				9B5C4D222E678508008BD465 /* Export.swift */,
-				9B5C4CDB2E67538E008BD465 /* Viewport.swift */,
-				9B5C4C8A2E65FF4A008BD465 /* Vertex.swift */,
-				9B5C4C072E65FC05008BD465 /* MetalContext.swift */,
 				9B48F95A2E65FBEF00C470ED /* Stroke.swift */,
 				9B5C4D282E688527008BD465 /* EditorState.swift */,
 			);
@@ -224,10 +230,10 @@
 		9B5C4C092E65FC5B008BD465 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9B5C4F962E6A8801008BD465 /* Brush */,
+				9B5C4F932E6A87FC008BD465 /* Image */,
 				9B5C4D1E2E6783EB008BD465 /* ExportFormatRow.swift */,
 				9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */,
-				9B5C4C0A2E65FC62008BD465 /* MetalImageView.swift */,
-				9B5C4CCB2E65FFF9008BD465 /* image.metal */,
 				9B48F9002E651F3700C470ED /* MenuBarViewButton.swift */,
 				9B5C4D442E68AE22008BD465 /* SettingsContainerView.swift */,
 				9B5C4D452E68AE22008BD465 /* SettingsSection.swift */,
@@ -278,6 +284,36 @@
 				9B5C4D352E68A429008BD465 /* General */,
 			);
 			path = Tabs;
+			sourceTree = "<group>";
+		};
+		9B5C4F932E6A87FC008BD465 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				9B5C4F912E6A87FC008BD465 /* image.metal */,
+				9B5C4F922E6A87FC008BD465 /* MetalImageView.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		9B5C4F962E6A8801008BD465 /* Brush */ = {
+			isa = PBXGroup;
+			children = (
+				9B5C4FDB2E6A88B8008BD465 /* brush.metal */,
+				9B5C4F972E6A8808008BD465 /* MetalBrush.swift */,
+			);
+			path = Brush;
+			sourceTree = "<group>";
+		};
+		9B5C4FD82E6A886F008BD465 /* Metal */ = {
+			isa = PBXGroup;
+			children = (
+				9B5C4FDD2E6B38B9008BD465 /* BrushUniform.swift */,
+				9B5C4FD92E6A8888008BD465 /* ComputeCache.swift */,
+				9B5C4C8A2E65FF4A008BD465 /* Vertex.swift */,
+				9B5C4CDB2E67538E008BD465 /* Viewport.swift */,
+				9B5C4C072E65FC05008BD465 /* MetalContext.swift */,
+			);
+			path = Metal;
 			sourceTree = "<group>";
 		};
 		9B9F5B842E64FFC100F3396D = {
@@ -370,6 +406,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B5C4FDA2E6A8889008BD465 /* ComputeCache.swift in Sources */,
 				9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */,
 				9B5C4D3E2E68A5EF008BD465 /* Image.swift in Sources */,
 				9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */,
@@ -378,13 +415,11 @@
 				9B5C4D1F2E6783EC008BD465 /* ExportFormatRow.swift in Sources */,
 				9B5C4D472E68AE22008BD465 /* SettingsSection.swift in Sources */,
 				9B5C4D482E68AE22008BD465 /* SettingsContainerView.swift in Sources */,
-				9B5C4CCC2E65FFF9008BD465 /* image.metal in Sources */,
 				9B5C4D212E6784AD008BD465 /* CGImage.swift in Sources */,
 				9B5C4D382E68A434008BD465 /* GeneralSettings.swift in Sources */,
 				9B5C4D2A2E688527008BD465 /* EditorState.swift in Sources */,
 				9B5C4C082E65FC07008BD465 /* MetalContext.swift in Sources */,
 				9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */,
-				9B5C4C0B2E65FC6C008BD465 /* MetalImageView.swift in Sources */,
 				9B5C4D432E68AB8E008BD465 /* GeneralViewModel.swift in Sources */,
 				9B48F90C2E651F3700C470ED /* ComfyMarkCoordinator.swift in Sources */,
 				9B5C4D402E68A8ED008BD465 /* AppSettings.swift in Sources */,
@@ -394,12 +429,17 @@
 				9B48F90F2E651F3700C470ED /* WindowCoordinator.swift in Sources */,
 				9B48F9102E651F3700C470ED /* View.swift in Sources */,
 				9B5C4CCE2E662D23008BD465 /* CustomToolbarView.swift in Sources */,
+				9B5C4FDC2E6A88BD008BD465 /* brush.metal in Sources */,
 				9B5C4D232E678509008BD465 /* Export.swift in Sources */,
+				9B5C4FDE2E6B38C1008BD465 /* BrushUniform.swift in Sources */,
 				9B5C4D3C2E68A487008BD465 /* SettingsViewModel.swift in Sources */,
 				9B48F9112E651F3700C470ED /* ScreenshotService.swift in Sources */,
 				9B48F9122E651F3700C470ED /* ComfyMarkView.swift in Sources */,
 				9B5C4D342E68A3DD008BD465 /* SettingsTab.swift in Sources */,
 				9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */,
+				9B5C4F942E6A87FC008BD465 /* image.metal in Sources */,
+				9B5C4F952E6A87FC008BD465 /* MetalImageView.swift in Sources */,
+				9B5C4F982E6A880B008BD465 /* MetalBrush.swift in Sources */,
 				9B5C4D1D2E6779DE008BD465 /* MenuBarHistory.swift in Sources */,
 				9B48F9142E651F3700C470ED /* MenuBarViewButton.swift in Sources */,
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,

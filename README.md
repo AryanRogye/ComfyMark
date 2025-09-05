@@ -26,7 +26,7 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 macOS already has built-in screenshots, and there are paid tools like CleanShot X —  
 so why make another one?
 
-- Fuck Paywalls (I respect it) but still, if I need something fast theres nothing fast out there
+- I dont like Paywalls (I respect it) but still, if I need something fast theres nothing fast out there
 - 🖥️ **Built for developers** — made in Swift, easy to extend or hack on.
 - 🎨 **Future-focused** — planned GPU/Metal acceleration for real-time editing.
 - 🤦 **The breaking point** — I downloaded a free app from the App Store, and it hit me with a paywall just to edit a screenshot. That was it. Time to build my own.

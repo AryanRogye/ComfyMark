@@ -13,10 +13,24 @@ import Combine
 
 struct MetalImageView: NSViewRepresentable {
     
-    @State var lastImage : CGImage? = nil
+    var imageTexture: MTLTexture?
+    var inkTexture: MTLTexture?
+
     
-    @Binding var image: CGImage
     @Binding var viewport: Viewport
+    var comfyMarkVM : ComfyMarkViewModel
+    
+    
+    init(
+        viewport: Binding<Viewport>,
+        comfyMarkVM : ComfyMarkViewModel
+    ) {
+        self.imageTexture = comfyMarkVM.imageTexture
+        self.inkTexture   = comfyMarkVM.inkTexture
+        self._viewport = viewport
+        self.comfyMarkVM = comfyMarkVM
+    }
+
     
     private let ctx = MetalContext.shared
     
@@ -29,7 +43,12 @@ struct MetalImageView: NSViewRepresentable {
         mtkView.device = ctx.device
         mtkView.delegate = context.coordinator
         mtkView.clearColor = MTLClearColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        mtkView.autoResizeDrawable = true
+        mtkView.framebufferOnly = true
         mtkView.enableSetNeedsDisplay = true
+        
+        context.coordinator.setupUpdateSubscription()
+        
         return mtkView
     }
     
@@ -37,16 +56,17 @@ struct MetalImageView: NSViewRepresentable {
         // push viewport every time (uniform update)
         context.coordinator.viewport = viewport
         
-        // update texture only if the CGImage instance changed
-        if lastImage == nil || lastImage !== image {
-            DispatchQueue.main.async {
-                lastImage = image
-            }
-            context.coordinator.setTexture(from: image)
+        
+        if let imageTexture = imageTexture {
+            context.coordinator.setImageTexture(imageTexture)
+        }
+        if let inkTexture = inkTexture {
+            context.coordinator.setInkTexture(inkTexture)
         }
         
         // request a redraw (needed for both new texture and viewport changes)
         nsView.setNeedsDisplay(nsView.bounds)
+        nsView.draw()
     }
     
     class Coordinator : NSObject, MTKViewDelegate {
@@ -54,9 +74,12 @@ struct MetalImageView: NSViewRepresentable {
         private var queue: MTLCommandQueue!
         private var pso: MTLRenderPipelineState!
         
-        private var vertexBuffer : MTLBuffer!
+        private var vertexBuffer   : MTLBuffer!
         private var viewportBuffer : MTLBuffer!
-        private var texture      : MTLTexture!
+        
+        /// Textures
+        private var imageTexture   : MTLTexture!
+        private var inkTexture     : MTLTexture!
         
         public var viewport: Viewport?
 
@@ -80,14 +103,38 @@ struct MetalImageView: NSViewRepresentable {
             .init(pos: [1, 1]),
         ]
         
-        private var cancelables: Set<AnyCancellable> = []
-        
+        private var cancellables: Set<AnyCancellable> = []
+
         init(_ parent: MetalImageView) {
             self.parent = parent
             super.init()
             
             setupMetal()
         }
+        
+        @MainActor
+        func setupUpdateSubscription() {
+            parent.comfyMarkVM.$shouldUpdate
+                .filter { $0 } // Only react to true values
+                .sink { [weak self] _ in
+                    guard let self = self else { return }
+                    
+                    print("Combine received update trigger")
+                    
+                    if let view = self.currentView {
+                        view.setNeedsDisplay(view.bounds)
+                        print("Marked view as needing display")
+                    }
+                    
+                    // Reset the flag
+                    self.parent.comfyMarkVM.shouldUpdate = false
+                }
+                .store(in: &cancellables)
+        }
+        
+        
+        // Add this to store the current view
+        private weak var currentView: MTKView?
         
         private func setupMetal() {
             device = parent.ctx.device
@@ -110,14 +157,14 @@ struct MetalImageView: NSViewRepresentable {
                 length: MemoryLayout<Viewport>.stride,
                 options: []
             )
-            
-            setTexture(from: parent.image)
         }
         
+        func triggerDraw(_ view: MTKView) { view.setNeedsDisplay(view.bounds) }
         
         func draw(in view: MTKView) {
             guard let rpd = view.currentRenderPassDescriptor,
                   let drw = view.currentDrawable else { return }
+            currentView = view
             
             if let viewport = viewport {
                 let viewportBufferInfo = viewportBuffer.contents().bindMemory(to: Viewport.self, capacity: 1)
@@ -142,7 +189,8 @@ struct MetalImageView: NSViewRepresentable {
                 index: 1
             )
             
-            enc.setFragmentTexture(texture, index: 0)  // This binds your texture
+            enc.setFragmentTexture(imageTexture, index: 0)
+            enc.setFragmentTexture(inkTexture, index: 1)
             
             enc.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6)
             
@@ -153,13 +201,14 @@ struct MetalImageView: NSViewRepresentable {
         
         func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {}
         
-        public func setTexture(from image: CGImage) {
-            do {
-                texture = try getImageTexture(from: parent.image)!
-            } catch {
-                print("Couldnt load image \(error)")
-            }
+        public func setImageTexture(_ texture: MTLTexture) {
+            self.imageTexture = texture
         }
+        
+        public func setInkTexture(_ texture: MTLTexture) {
+            self.inkTexture = texture
+        }
+        
         private func getImageTexture(from cgImage: CGImage) throws -> MTLTexture? {
             let loader = MTKTextureLoader(device: MetalContext.shared.device)
             
@@ -167,6 +216,7 @@ struct MetalImageView: NSViewRepresentable {
                 cgImage: cgImage,
                 options: [
                     .SRGB: false as NSNumber,
+                    .generateMipmaps: true as NSNumber,
                     .textureUsage: NSNumber(value: MTLTextureUsage.shaderRead.rawValue),
                     .textureStorageMode: NSNumber(value: MTLStorageMode.shared.rawValue)
                 ]
