@@ -6,7 +6,9 @@
 //
 
 import Combine
+import AppKit
 import Foundation
+import ServiceManagement
 
 class AppSettings: ObservableObject {
     enum Keys {
@@ -18,6 +20,7 @@ class AppSettings: ObservableObject {
     /// and its nicer to test with
     private var defaults: UserDefaults
 
+    @Published var isSettingsWindowOpen = false
     
     @Published var showDockIcon : Bool {
         didSet {
@@ -25,12 +28,113 @@ class AppSettings: ObservableObject {
         }
     }
     
+    /// We Dont Save this cuz we read this value from the system
+    @Published var launchAtLogin: Bool
+    
+    /// Flag to know if the App Icon is showing or not
+    private var isShowingAppIcon: Bool = false
+    
+    private var cancellables: Set<AnyCancellable> = []
+    
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         // Register a default so the first read doesn't cause a write
         AppSettings.registerDefaults(in: defaults)
         
+        self.launchAtLogin = (SMAppService.mainApp.status == .enabled)
         self.showDockIcon = defaults.bool(forKey: Keys.showDockIcon)
+        
+        
+        // MARK: - Binding Dock Icon
+        $showDockIcon
+            .sink { [weak self] show in
+                guard let self = self else { return }
+                if show {
+                    /// at anytime if showDockIcon is called, we can just show the App Icon
+                    self.showAppIcon()
+
+                } else {
+                    /// if the settings page is open when we toggle this off, which most likely we will
+                    /// exit early because the settingsWindowOpen bind handles that
+                    if self.isSettingsWindowOpen { return }
+                    /// I dont think we would ever get here but if we do, just hide the app icon
+                    self.hideAppIcon()
+                }
+            }
+            .store(in: &cancellables)
+        
+        // MARK: - Bind Settings Window Open
+        $isSettingsWindowOpen
+            .sink { [weak self] isOpen in
+                guard let self = self else { return }
+                if isOpen {
+                    /// By default if the settings page is open we always show the App Icon,/
+                    self.showAppIcon()
+                } else {
+                    /// If the user decides that they want to show the dock icon we just return early if self.showDockIcon { return }
+                    /// if they have showDockIcon toggled off then we show the hide the dock icon when closing
+                    self.hideAppIcon()
+                }
+            }
+            .store(in: &cancellables)
+        
+        // MARK: - Binding Launch At Login
+        $launchAtLogin
+            .sink { [weak self] launchAtLogin in
+                guard let self = self else { return }
+                /// If We Set Launch At Login
+                if launchAtLogin {
+                    if SMAppService.mainApp.status == .enabled { return }
+                    do {
+                        try SMAppService.mainApp.register()
+                    } catch {
+                        print("Couldnt Register ComfyTab to Launch At Login \(error.localizedDescription)")
+                        /// Toggle it Off
+                        self.launchAtLogin = false
+                    }
+                }
+                /// If Launch At Logic is Turned off
+                else {
+                    /// ONLY go through if the status is enabled
+                    if SMAppService.mainApp.status != .enabled { return }
+                    do {
+                        try SMAppService.mainApp.unregister()
+                    } catch {
+                        print("Couldnt Turn Off Launch At Logic for ComfyTab \(error.localizedDescription)")
+                        self.launchAtLogin = true
+                    }
+                }
+            }
+            .store(in: &cancellables)
+
+    }
+}
+
+extension AppSettings {
+    private func showAppIcon() {
+        if !isShowingAppIcon {
+            NSApp.setActivationPolicy(.regular)
+            NSApp.activate(ignoringOtherApps: true)
+            isShowingAppIcon  = true
+        }
+    }
+    
+    private func hideAppIcon() {
+        if isShowingAppIcon {
+            /// makes sure we don’t hide the icon if the user flipped something back during that second.
+            /// I use a Second cuz its a bit safer
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                guard let self = self,
+                      !self.isSettingsWindowOpen,
+                      !self.showDockIcon
+                else {
+                    return
+                }
+                
+                NSApp.setActivationPolicy(.accessory)
+                isShowingAppIcon = false
+            }
+        }
     }
 }
 

@@ -40,9 +40,11 @@ class SettingsCoordinator: ObservableObject {
             content: view,
             size: NSSize(width: 800, height: 500),
             onOpen: { [weak self] in
+                self?.appSettings.isSettingsWindowOpen = true
                 self?.windowCoordinator.activateWithRetry()
             },
-            onClose: {
+            onClose: { [weak self] in
+                self?.appSettings.isSettingsWindowOpen = false
                 NSApp.activate(ignoringOtherApps: false)
             })
     }    

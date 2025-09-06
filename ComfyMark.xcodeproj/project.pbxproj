@@ -32,7 +32,7 @@
 		9B5C4CDC2E675390008BD465 /* Viewport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4CDB2E67538E008BD465 /* Viewport.swift */; };
 		9B5C4D1D2E6779DE008BD465 /* MenuBarHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D1C2E6779DB008BD465 /* MenuBarHistory.swift */; };
 		9B5C4D1F2E6783EC008BD465 /* ExportFormatRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D1E2E6783EB008BD465 /* ExportFormatRow.swift */; };
-		9B5C4D212E6784AD008BD465 /* CGImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D202E6784AA008BD465 /* CGImage.swift */; };
+		9B5C4D212E6784AD008BD465 /* CGImage+placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D202E6784AA008BD465 /* CGImage+placeholder.swift */; };
 		9B5C4D232E678509008BD465 /* Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D222E678508008BD465 /* Export.swift */; };
 		9B5C4D2A2E688527008BD465 /* EditorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D282E688527008BD465 /* EditorState.swift */; };
 		9B5C4D322E688A3B008BD465 /* ToolbarEditorStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D312E688A39008BD465 /* ToolbarEditorStateView.swift */; };
@@ -40,7 +40,7 @@
 		9B5C4D382E68A434008BD465 /* GeneralSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D372E68A432008BD465 /* GeneralSettings.swift */; };
 		9B5C4D3A2E68A452008BD465 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D392E68A451008BD465 /* AboutView.swift */; };
 		9B5C4D3C2E68A487008BD465 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D3B2E68A484008BD465 /* SettingsViewModel.swift */; };
-		9B5C4D3E2E68A5EF008BD465 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D3D2E68A5EE008BD465 /* Image.swift */; };
+		9B5C4D3E2E68A5EF008BD465 /* Image+iconWithRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D3D2E68A5EE008BD465 /* Image+iconWithRectangle.swift */; };
 		9B5C4D402E68A8ED008BD465 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D3F2E68A8EB008BD465 /* AppSettings.swift */; };
 		9B5C4D432E68AB8E008BD465 /* GeneralViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D422E68AB8B008BD465 /* GeneralViewModel.swift */; };
 		9B5C4D472E68AE22008BD465 /* SettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4D452E68AE22008BD465 /* SettingsSection.swift */; };
@@ -51,9 +51,11 @@
 		9B5C4FDA2E6A8889008BD465 /* ComputeCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4FD92E6A8888008BD465 /* ComputeCache.swift */; };
 		9B5C4FDC2E6A88BD008BD465 /* brush.metal in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4FDB2E6A88B8008BD465 /* brush.metal */; };
 		9B5C4FDE2E6B38C1008BD465 /* SegmentUniform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C4FDD2E6B38B9008BD465 /* SegmentUniform.swift */; };
-		9B5C50282E6BA423008BD465 /* View+PanGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C50272E6BA41F008BD465 /* View+PanGesture.swift */; };
+		9B5C50282E6BA423008BD465 /* View+omnidirectionalPanGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C50272E6BA41F008BD465 /* View+omnidirectionalPanGesture.swift */; };
 		9B5C502B2E6BAA28008BD465 /* StrokeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C502A2E6BAA23008BD465 /* StrokeManager.swift */; };
-		9B5C502D2E6BB8F7008BD465 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C502C2E6BB8F6008BD465 /* Color.swift */; };
+		9B5C502D2E6BB8F7008BD465 /* NSColor+toSIMD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C502C2E6BB8F6008BD465 /* NSColor+toSIMD.swift */; };
+		9B5C502F2E6BE4FD008BD465 /* Divider+groupBoxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C502E2E6BE4FB008BD465 /* Divider+groupBoxStyle.swift */; };
+		9B5C50312E6BEA3E008BD465 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C50302E6BEA3B008BD465 /* Bundle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,7 +88,7 @@
 		9B5C4CDB2E67538E008BD465 /* Viewport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Viewport.swift; sourceTree = "<group>"; };
 		9B5C4D1C2E6779DB008BD465 /* MenuBarHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarHistory.swift; sourceTree = "<group>"; };
 		9B5C4D1E2E6783EB008BD465 /* ExportFormatRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportFormatRow.swift; sourceTree = "<group>"; };
-		9B5C4D202E6784AA008BD465 /* CGImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGImage.swift; sourceTree = "<group>"; };
+		9B5C4D202E6784AA008BD465 /* CGImage+placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage+placeholder.swift"; sourceTree = "<group>"; };
 		9B5C4D222E678508008BD465 /* Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export.swift; sourceTree = "<group>"; };
 		9B5C4D282E688527008BD465 /* EditorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorState.swift; sourceTree = "<group>"; };
 		9B5C4D312E688A39008BD465 /* ToolbarEditorStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarEditorStateView.swift; sourceTree = "<group>"; };
@@ -94,7 +96,7 @@
 		9B5C4D372E68A432008BD465 /* GeneralSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettings.swift; sourceTree = "<group>"; };
 		9B5C4D392E68A451008BD465 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		9B5C4D3B2E68A484008BD465 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		9B5C4D3D2E68A5EE008BD465 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		9B5C4D3D2E68A5EE008BD465 /* Image+iconWithRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+iconWithRectangle.swift"; sourceTree = "<group>"; };
 		9B5C4D3F2E68A8EB008BD465 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9B5C4D422E68AB8B008BD465 /* GeneralViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralViewModel.swift; sourceTree = "<group>"; };
 		9B5C4D442E68AE22008BD465 /* SettingsContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContainerView.swift; sourceTree = "<group>"; };
@@ -105,9 +107,11 @@
 		9B5C4FD92E6A8888008BD465 /* ComputeCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputeCache.swift; sourceTree = "<group>"; };
 		9B5C4FDB2E6A88B8008BD465 /* brush.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = brush.metal; sourceTree = "<group>"; };
 		9B5C4FDD2E6B38B9008BD465 /* SegmentUniform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentUniform.swift; sourceTree = "<group>"; };
-		9B5C50272E6BA41F008BD465 /* View+PanGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+PanGesture.swift"; sourceTree = "<group>"; };
+		9B5C50272E6BA41F008BD465 /* View+omnidirectionalPanGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+omnidirectionalPanGesture.swift"; sourceTree = "<group>"; };
 		9B5C502A2E6BAA23008BD465 /* StrokeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeManager.swift; sourceTree = "<group>"; };
-		9B5C502C2E6BB8F6008BD465 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		9B5C502C2E6BB8F6008BD465 /* NSColor+toSIMD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSColor+toSIMD.swift"; sourceTree = "<group>"; };
+		9B5C502E2E6BE4FB008BD465 /* Divider+groupBoxStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Divider+groupBoxStyle.swift"; sourceTree = "<group>"; };
+		9B5C50302E6BEA3B008BD465 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyMark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -155,11 +159,13 @@
 		9B48F8FA2E651F3700C470ED /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				9B5C502C2E6BB8F6008BD465 /* Color.swift */,
-				9B5C50272E6BA41F008BD465 /* View+PanGesture.swift */,
-				9B5C4D3D2E68A5EE008BD465 /* Image.swift */,
-				9B5C4D202E6784AA008BD465 /* CGImage.swift */,
+				9B5C50302E6BEA3B008BD465 /* Bundle.swift */,
+				9B5C502C2E6BB8F6008BD465 /* NSColor+toSIMD.swift */,
+				9B5C502E2E6BE4FB008BD465 /* Divider+groupBoxStyle.swift */,
+				9B5C50272E6BA41F008BD465 /* View+omnidirectionalPanGesture.swift */,
 				9B48F8F92E651F3700C470ED /* View+destroyViewWindow.swift */,
+				9B5C4D202E6784AA008BD465 /* CGImage+placeholder.swift */,
+				9B5C4D3D2E68A5EE008BD465 /* Image+iconWithRectangle.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -421,18 +427,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B5C4FDA2E6A8889008BD465 /* ComputeCache.swift in Sources */,
+				9B5C50312E6BEA3E008BD465 /* Bundle.swift in Sources */,
 				9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */,
-				9B5C4D3E2E68A5EF008BD465 /* Image.swift in Sources */,
+				9B5C4D3E2E68A5EF008BD465 /* Image+iconWithRectangle.swift in Sources */,
 				9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */,
 				9B5C4D3A2E68A452008BD465 /* AboutView.swift in Sources */,
 				9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */,
 				9B5C4D1F2E6783EC008BD465 /* ExportFormatRow.swift in Sources */,
 				9B5C4D472E68AE22008BD465 /* SettingsSection.swift in Sources */,
 				9B5C4D482E68AE22008BD465 /* SettingsContainerView.swift in Sources */,
-				9B5C4D212E6784AD008BD465 /* CGImage.swift in Sources */,
+				9B5C4D212E6784AD008BD465 /* CGImage+placeholder.swift in Sources */,
 				9B5C4D382E68A434008BD465 /* GeneralSettings.swift in Sources */,
 				9B5C4D2A2E688527008BD465 /* EditorState.swift in Sources */,
-				9B5C50282E6BA423008BD465 /* View+PanGesture.swift in Sources */,
+				9B5C50282E6BA423008BD465 /* View+omnidirectionalPanGesture.swift in Sources */,
 				9B5C4C082E65FC07008BD465 /* MetalContext.swift in Sources */,
 				9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */,
 				9B5C4D432E68AB8E008BD465 /* GeneralViewModel.swift in Sources */,
@@ -445,7 +452,7 @@
 				9B5C502B2E6BAA28008BD465 /* StrokeManager.swift in Sources */,
 				9B48F9102E651F3700C470ED /* View+destroyViewWindow.swift in Sources */,
 				9B5C4CCE2E662D23008BD465 /* CustomToolbarView.swift in Sources */,
-				9B5C502D2E6BB8F7008BD465 /* Color.swift in Sources */,
+				9B5C502D2E6BB8F7008BD465 /* NSColor+toSIMD.swift in Sources */,
 				9B5C4FDC2E6A88BD008BD465 /* brush.metal in Sources */,
 				9B5C4D232E678509008BD465 /* Export.swift in Sources */,
 				9B5C4FDE2E6B38C1008BD465 /* SegmentUniform.swift in Sources */,
@@ -455,6 +462,7 @@
 				9B5C4D342E68A3DD008BD465 /* SettingsTab.swift in Sources */,
 				9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */,
 				9B5C4F942E6A87FC008BD465 /* image.metal in Sources */,
+				9B5C502F2E6BE4FD008BD465 /* Divider+groupBoxStyle.swift in Sources */,
 				9B5C4F952E6A87FC008BD465 /* MetalImageView.swift in Sources */,
 				9B5C4F982E6A880B008BD465 /* MetalBrush.swift in Sources */,
 				9B5C4D1D2E6779DE008BD465 /* MenuBarHistory.swift in Sources */,

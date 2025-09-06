@@ -64,7 +64,7 @@ struct Sidebar: View {
                 }
             } header: {
                 Text("ComfyMark")
-                    .font(.system(size: 36, weight: .medium))
+                    .font(.system(size: 28, weight: .medium, design: .default))
                     .foregroundStyle(.primary)
                     .padding(.vertical, 5)
             }
