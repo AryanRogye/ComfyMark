@@ -17,6 +17,7 @@ class ComfyMarkViewModel: ObservableObject {
     /// Objects
     let ctx = MetalContext.shared
     var metalBrush : MetalBrush?
+    var strokeManager : StrokeManager
     
     /// Passed in
     let windowID : String
@@ -29,19 +30,12 @@ class ComfyMarkViewModel: ObservableObject {
     init(image: CGImage, windowID: String) {
         self.image = image
         self.windowID = windowID
+        strokeManager = StrokeManager()
+
         
-        
-        do {
-            imageTexture = try self.getImageTexture(from: image)
-        } catch {
-            print("Couldnt Get Image Texture")
-        }
-        do {
-            if let imageTexture = imageTexture {
-                inkTexture = try getInkTexture(baseTexture: imageTexture)
-            }
-        } catch {
-            print("Couldnt Get Ink Texture")
+        imageTexture = try? self.getImageTexture(from: image)
+        if let imageTexture = imageTexture {
+            inkTexture = try? getInkTexture(baseTexture: imageTexture)
         }
         
         if let inkTexture = inkTexture {
@@ -52,34 +46,52 @@ class ComfyMarkViewModel: ObservableObject {
         }
     }
     
+    /// Brush Related
+    @Published var brushRadius: Float = 10
+    @Published var shouldShowBrushRadiusPopover: Bool = false
 
-    /// View Related
-    @Published var strokes: [Stroke] = []
+    /// Export Related
     @Published var exported : ExportedData?
     @Published var exportDocument: ExportDocument?
     @Published var exportSuggestedName: (String) -> String = { $0 }
     
+    var onExport : ((ExportFormat, CGImage) -> ExportedData?)?
+    @Published var shouldExport = false
+
+    /// Current State For Toolbar
     @Published var currentState : EditorState = .move
+    
+    /// Update State for ink
     @Published var shouldUpdate : Bool = false
 
-    var internalIndex: Int = 0
-    var hasActiveStroke: Bool {
-        strokes.indices.contains(internalIndex)
-    }
-    
-    private var cancellables: Set<AnyCancellable> = []
-    
-    
     /// This will be used/called to get the image from metal
     /// this will be used directly inside the metalView - `MetalImageView.swift`
     var getMetalImage: (() -> CGImage?)?
     
-    var onExport : ((ExportFormat, CGImage) -> ExportedData?)?
-    @Published var shouldExport = false
-    
+    /// Cacel The View - Set by Coordinator
     var onCancelTapped: (() -> Void)?
+    
+    // MARK: - Undo/Redo, TODO
+    func undo() {
+    }
+    func redo() {
+    }
+}
 
-    // MARK: - Closure Handling
+// MARK: - ViewModel + Radius {
+extension ComfyMarkViewModel {
+    public func shouldShowRadius() {
+        shouldShowBrushRadiusPopover = true
+    }
+}
+
+// MARK: - ViewModel + Closures
+extension ComfyMarkViewModel {
+    
+    /// Function handles what we do on Exporting
+    /// - onExport is set by the coordinator that passes this into the view
+    /// - getMetalImage is setup by our metalView - `MetalImageView.swift`
+    ///
     func onExport(_ format: ExportFormat) {
         
         /// Verify We Have a onExport
@@ -111,27 +123,65 @@ class ComfyMarkViewModel: ObservableObject {
         exportSuggestedName = format.defaultFilename
         shouldExport = true // triggers .fileExporter
     }
-        
+    
     
     func onCancel() {
         guard let onCancelTapped = onCancelTapped else { return }
         onCancelTapped()
     }
-    
-    
-    // MARK: - For Drawing
+}
+
+// MARK: - ViewModel + Drawing
+extension ComfyMarkViewModel {
     func beginStroke(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
         let newP = viewToImagePx(point, viewSize: viewSize, viewport: viewport)
-        metalBrush?.should_draw(at: newP)
+        let clampedPt = clampToImageBounds(newP)
+        strokeManager.beginStroke(at: clampedPt)
+        
     }
     
     func addPoint(_ viewPoint: CGPoint, viewSize: CGSize, viewport: Viewport) {
-        guard let brush = metalBrush else { return }
-        let imgPt = viewToImagePx(viewPoint, viewSize: viewSize, viewport: viewport)
-        brush.should_draw(at: imgPt)      // compute writes into inkTexture
+        let imgPt = clampToImageBounds(viewToImagePx(viewPoint, viewSize: viewSize, viewport: viewport))
+        
+        // 1) stash previous point (if any)
+        let prev = strokeManager.activeStroke?.points.last
+        
+        // 2) update model
+        strokeManager.addPoint(imgPt)
+        
+        // 3) render only the delta (prev -> imgPt)
+        if let p0 = prev {
+            renderSegment(from: p0, to: imgPt)
+        }
     }
     
-    func viewToImagePx(_ p: CGPoint, viewSize: CGSize, viewport: Viewport) -> CGPoint {
+    func endStroke() {
+        strokeManager.endStroke()
+    }
+}
+
+// MARK: - ViewModel + Draw Helpers
+extension ComfyMarkViewModel {
+    
+    /// This Runs a Kernel Compute which modifies the InkTexture
+    private func renderSegment(from a: CGPoint, to b: CGPoint) {
+        guard let brush = metalBrush else { return }
+        brush.drawSegment(from: a, to: b, radius: brushRadius)
+    }
+    
+    private func clampToImageBounds(_ point: CGPoint) -> CGPoint {
+        guard let imageTexture = imageTexture else { return point }
+        
+        let maxX = Float(imageTexture.width - 1)
+        let maxY = Float(imageTexture.height - 1)
+        
+        return CGPoint(
+            x: CGFloat(max(0, min(maxX, Float(point.x)))),
+            y: CGFloat(max(0, min(maxY, Float(point.y))))
+        )
+    }
+    
+    private func viewToImagePx(_ p: CGPoint, viewSize: CGSize, viewport: Viewport) -> CGPoint {
         // First, convert SwiftUI view coordinates to normalized coordinates (-1 to +1)
         let normalizedX = (2.0 * p.x / viewSize.width) - 1.0
         let normalizedY = 1.0 - (2.0 * p.y / viewSize.height) // Flip Y for Metal coordinates
@@ -149,10 +199,10 @@ class ComfyMarkViewModel: ObservableObject {
         
         return CGPoint(x: textureX, y: textureY)
     }
+}
 
-    
-    // MARK: - For Moving/Panning
-    
+// MARK: - ViewModel + Moving/Panning
+extension ComfyMarkViewModel {
     func panBy(dx: CGFloat, dy: CGFloat, viewSize: CGSize, viewport: inout Viewport) {
         let dx_c =  2 * Float(dx) / Float(viewSize.width)
         let dy_c = -2 * Float(dy) / Float(viewSize.height)
@@ -164,7 +214,11 @@ class ComfyMarkViewModel: ObservableObject {
     func endPan() {
         // reset anything if needed (like store new base)
     }
-    
+}
+
+
+// MARK: - ViewModel + Textures
+extension ComfyMarkViewModel {
     private func getImageTexture(from cgImage: CGImage) throws -> MTLTexture? {
         let loader = MTKTextureLoader(device: MetalContext.shared.device)
         
@@ -194,4 +248,3 @@ class ComfyMarkViewModel: ObservableObject {
         return ctx.device.makeTexture(descriptor: desc)!
     }
 }
-

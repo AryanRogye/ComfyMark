@@ -138,8 +138,8 @@ struct MetalImageView: NSViewRepresentable {
         
         @MainActor
         func setupExportImage() {
-            parent.comfyMarkVM.getMetalImage = {
-                self.exportToCGImage()
+            parent.comfyMarkVM.getMetalImage = { [weak self] in
+                self?.exportToCGImage()
             }
         }
 
@@ -152,11 +152,8 @@ struct MetalImageView: NSViewRepresentable {
                 .sink { [weak self] _ in
                     guard let self = self else { return }
                     
-                    print("Combine received update trigger")
-                    
                     if let view = self.currentView {
                         view.setNeedsDisplay(view.bounds)
-                        print("Marked view as needing display")
                     }
                     
                     // Reset the flag

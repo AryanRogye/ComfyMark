@@ -14,12 +14,15 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [x] Basic stroke/pen annotation
 - [x] Menu bar integration
 - [x] Metal-accelerated drawing on screen
-  - [ ] Include more options for brush types, and have them be GPU accelerated
+  - [ ] Include more options for brush types,
+  - [ ] Brush size/radius change
+  - [ ] Nice color picker, something native or also look at colorPicker
 - [ ] Saving menu bar state
 - [ ] Screenshot capture hotkeys
 - [ ] Shape tools (rectangles, arrows, etc.)
 - [ ] Text annotations
 - [ ] Background blur/pixelation
+  - [ ] think i can look at different blurs and where they are, what they are behind etc
 - [x] Export formats (PNG, JPG, clipboard)
   - [x] Export the edited image
 

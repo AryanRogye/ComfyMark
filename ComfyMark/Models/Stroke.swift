@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct Stroke {
-    var points : [CGPoint]
-    var color  : Color = .red
-    var width  : CGFloat = 10
+    var points: [CGPoint]
+    var brushSize: Float
+    var color: NSColor
+    var timestamp: Date
+    // cache of smoothed points (computed on end)
+    var smoothed: [CGPoint]? = nil
 }

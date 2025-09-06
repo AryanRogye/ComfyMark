@@ -32,6 +32,9 @@ struct ComfyMarkView: View {
                     including: .all
                 )
                 .simultaneousGesture(zoomGesture())
+                .omnidirectionalPanGesture { dx, dy, phase in
+                    handleTrackpadPan(dx: dx, dy: dy, phase: phase, viewSize: geo.size)
+                }
             }
         }
         toolbar: {
@@ -41,6 +44,30 @@ struct ComfyMarkView: View {
         }
     }
     
+    // MARK: - Trackpad Pan (two-finger gesture)
+    @State private var lastTrackpadDelta: (x: CGFloat, y: CGFloat) = (0, 0)
+
+    /// Trackpad is setup so that you can use it while drawing
+    private func handleTrackpadPan(dx: CGFloat, dy: CGFloat, phase: NSEvent.Phase, viewSize: CGSize) {
+        switch phase {
+        case .began:
+            // Pan started - could do initialization here if needed
+            break
+            
+        case .changed:
+            // Use the deltas directly - they're already incremental
+            comfyMarkVM.panBy(dx: dx, dy: dy, viewSize: viewSize, viewport: &viewport)
+            
+        case .ended, .cancelled:
+            // Pan ended
+            comfyMarkVM.endPan()
+            
+        default:
+            break
+        }
+    }
+    
+    // MARK: - Comfy Gestures
     @State private var lastDrag: CGPoint?
 
     private func comfyGestures(viewSize: CGSize) -> some Gesture {
@@ -54,7 +81,7 @@ struct ComfyMarkView: View {
             }
             .onEnded { _ in
                 switch comfyMarkVM.currentState {
-                case .draw: break
+                case .draw: handleDrawEnded()
                 case .move: handleMoveEnded()
                 default: break
                 }
@@ -83,13 +110,17 @@ struct ComfyMarkView: View {
         guard !isPinching else {
             return
         }
-        if !comfyMarkVM.hasActiveStroke {
+        if !comfyMarkVM.strokeManager.hasActiveStroke {
             /// If No Active Stroke, Start A New Stroke
             comfyMarkVM.beginStroke(at: value.location, viewSize: viewSize, viewport: viewport)
         } else {
             /// If Stroke Active, we just add a Point
             comfyMarkVM.addPoint(value.location, viewSize: viewSize, viewport: viewport)
         }
+    }
+    
+    private func handleDrawEnded() {
+        comfyMarkVM.endStroke()
     }
     
     // MARK: - Zoom
