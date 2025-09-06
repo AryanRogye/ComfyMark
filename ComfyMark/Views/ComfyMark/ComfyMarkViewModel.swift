@@ -137,7 +137,6 @@ extension ComfyMarkViewModel {
         let newP = viewToImagePx(point, viewSize: viewSize, viewport: viewport)
         let clampedPt = clampToImageBounds(newP)
         strokeManager.beginStroke(at: clampedPt)
-        
     }
     
     func addPoint(_ viewPoint: CGPoint, viewSize: CGSize, viewport: Viewport) {
@@ -157,6 +156,35 @@ extension ComfyMarkViewModel {
     
     func endStroke() {
         strokeManager.endStroke()
+    }
+}
+
+// MARK: - ViewModel + Erase
+extension ComfyMarkViewModel {
+    
+    func beginErase(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
+        let newP = viewToImagePx(point, viewSize: viewSize, viewport: viewport)
+        let clampedPt = clampToImageBounds(newP)
+        strokeManager.beginStroke(at: clampedPt)
+    }
+    func addErasePoint(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
+        let imgPt = clampToImageBounds(viewToImagePx(point, viewSize: viewSize, viewport: viewport))
+        
+        // 1) stash previous point (if any)
+        let prev = strokeManager.activeStroke?.points.last
+        
+        // 2) update model
+        strokeManager.addPoint(imgPt)
+        
+        // 3) render only the delta (prev -> imgPt)
+        if let p0 = prev {
+            renderErase(from: p0, to: imgPt)
+        }
+    }
+    
+    private func renderErase(from a: CGPoint, to b: CGPoint) {
+        guard let brush = metalBrush else { return }
+        brush.drawErase(from: a, to: b, radius: brushRadius)
     }
 }
 

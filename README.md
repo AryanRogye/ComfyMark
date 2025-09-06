@@ -15,8 +15,11 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [x] Menu bar integration
 - [x] Metal-accelerated drawing on screen
   - [ ] Include more options for brush types,
-  - [ ] Brush size/radius change
+  - [x] Brush size/radius change
   - [ ] Nice color picker, something native or also look at colorPicker
+- [x] Erase
+- [ ] Allow Default Screenshot Resolution Picker in Settings
+- [ ] Undo and Redo
 - [ ] Saving menu bar state
 - [ ] Screenshot capture hotkeys
 - [ ] Shape tools (rectangles, arrows, etc.)

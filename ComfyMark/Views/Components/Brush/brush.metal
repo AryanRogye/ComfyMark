@@ -56,6 +56,36 @@ static inline float4 blend_src_over(float4 dst, float4 src) {
     return float4(c, a);
 }
 
+/* --- Kernel: draws the original texture underneath where
+ the user clicks
+ */
+kernel void erase_segment(
+    texture2d<float, access::read_write> ink [[texture(0)]],
+    /// Erase Will Be Same SegmentUniform
+    constant SegmentUniform& u [[buffer(0)]],
+    uint2 gid [[thread_position_in_grid]]
+) {
+    uint2 pix = uint2(u.minPx) + gid;
+    if (pix.x >= uint(u.tex_size.x) || pix.y >= uint(u.tex_size.y)) return;
+    
+    float2 p = float2(pix) + 0.5;
+    float  d = distance_to_segment(p, u.p0, u.p1);
+    
+    // Soft coverage in [0,1]
+    float m = 1.0 - smoothstep(u.radius - u.feather, u.radius, d);
+    if (m <= 0.0) return;
+    
+    float strength = 1.0; // or 1.0
+    m *= strength;
+    
+    float4 dst = ink.read(pix);
+    
+    // STRAIGHT RGBA: keep RGB, lower alpha
+    float keep = 1.0 - m;
+    float4 out = float4(dst.rgb, dst.a * keep);
+    
+    ink.write(out, pix);
+}
 
 /* --- Kernel: draw a soft, blended stroke segment onto 'ink' ---
  We dispatch only over the segment’s AABB (expanded by radius/feather).

@@ -68,13 +68,15 @@ struct ComfyMarkView: View {
     }
     
     // MARK: - Comfy Gestures
-    @State private var lastDrag: CGPoint?
+    @State private var lastDrag  : CGPoint?
+    @State private var lastErase : CGPoint?
 
     private func comfyGestures(viewSize: CGSize) -> some Gesture {
         DragGesture(minimumDistance: 0)
             .onChanged { value in
                 switch comfyMarkVM.currentState {
                 case .draw: handleDrawChanged(value, viewSize)
+                case .erase: handleEraseChanged(value, viewSize)
                 case .move: handleMoveChanged(value, viewSize)
                 default: break
                 }
@@ -82,6 +84,7 @@ struct ComfyMarkView: View {
             .onEnded { _ in
                 switch comfyMarkVM.currentState {
                 case .draw: handleDrawEnded()
+                case .erase: handleEraseEnded()
                 case .move: handleMoveEnded()
                 default: break
                 }
@@ -123,6 +126,25 @@ struct ComfyMarkView: View {
         comfyMarkVM.endStroke()
     }
     
+    // MARK: - Erase
+    private func handleEraseChanged(_ value: DragGesture.Value, _ viewSize: CGSize) {
+        guard !isPinching else {
+            return
+        }
+        
+        if !comfyMarkVM.strokeManager.hasActiveStroke {
+            /// If No Active Stroke, Start A New Stroke
+            comfyMarkVM.beginErase(at: value.location, viewSize: viewSize, viewport: viewport)
+        } else {
+            /// If Stroke Active, we just add a Point
+            comfyMarkVM.addErasePoint(at: value.location, viewSize: viewSize, viewport: viewport)
+        }
+    }
+    
+    private func handleEraseEnded() {
+        
+    }
+
     // MARK: - Zoom
     private func zoomGesture() -> some Gesture {
         MagnificationGesture(minimumScaleDelta: 0)

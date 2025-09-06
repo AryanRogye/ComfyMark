@@ -7,6 +7,13 @@
 import AppKit
 import ScreenCaptureKit
 
+enum ScreenshotScaleMode {
+    case nativePixels              // default
+    case logicalPoints             // points * backingScaleFactor
+    case percent(Double)           // 0.1 ... 1.0
+    case cappedLongestEdge(Int)    // e.g., 3840
+}
+
 // MARK: - Protocol
 /// Abstraction for capturing a screenshot as a `CGImage`.
 ///
@@ -67,13 +74,54 @@ final class ScreenshotService: ScreenshotProviding {
 
         // Configure capture settings to the display's native pixel resolution (not logical points)
         let config = SCStreamConfiguration()
-        config.width = Int(CGDisplayPixelsWide(targetDisplay.displayID))
-        config.height = Int(CGDisplayPixelsHigh(targetDisplay.displayID))
+        
+        let nss = ScreenshotService.screenUnderMouse() ?? NSScreen.main!
+        let size = targetPixelSize(for: targetDisplay, screen: nss, mode: .nativePixels) // default
+        config.width  = size.width
+        config.height = size.height
         
         // Take screenshot
         let image = try await SCScreenshotManager.captureImage(contentFilter: filter, configuration: config)
         
         // Save or process the image
         return image
+    }
+    
+    public static func screenUnderMouse() -> NSScreen? {
+        let loc = NSEvent.mouseLocation
+        return NSScreen.screens.first { NSMouseInRect(loc, $0.frame, false) }
+    }
+    
+    private func targetPixelSize(for display: SCDisplay,
+                         screen: NSScreen,
+                         mode: ScreenshotScaleMode) -> (width: Int, height: Int) {
+        let nativeW = Int(CGDisplayPixelsWide(display.displayID))
+        let nativeH = Int(CGDisplayPixelsHigh(display.displayID))
+        
+        switch mode {
+        case .nativePixels:
+            return (nativeW, nativeH)
+            
+        case .logicalPoints:
+            // Points * backing scale = native pixels. If you want strictly “points”
+            // output (1x), divide by backingScaleFactor instead.
+            let scale = screen.backingScaleFactor
+            // “Points” output (1x) would be native / scale
+            let w = Int((Double(nativeW) / scale).rounded())
+            let h = Int((Double(nativeH) / scale).rounded())
+            return (w, h)
+            
+        case .percent(let p):
+            let clamped = max(0.1, min(p, 1.0))
+            return (Int(Double(nativeW) * clamped), Int(Double(nativeH) * clamped))
+            
+        case .cappedLongestEdge(let maxEdge):
+            let maxEdgeD = Double(maxEdge)
+            let (w, h) = (Double(nativeW), Double(nativeH))
+            let longest = max(w, h)
+            guard longest > maxEdgeD else { return (nativeW, nativeH) }
+            let r = maxEdgeD / longest
+            return (Int((w * r).rounded()), Int((h * r).rounded()))
+        }
     }
 }

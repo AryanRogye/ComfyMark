@@ -44,11 +44,15 @@ class ComfyMarkCoordinator {
             comfyMarkVM: comfyMarkVM,
         )
         
+        let padding = CGFloat(32)
+        let screen = ScreenshotService.screenUnderMouse() ?? NSScreen.main!
+        let size = NSSize(width: screen.frame.width - padding, height: screen.frame.height - padding)
+        
         windowCoordinator.showWindow(
             id: windowID,
             title: "Image",
             content: view,
-            size: NSSize(width: 800, height: 500),
+            size: size,
             onOpen: { [weak self] in
                 self?.windowCoordinator.activateWithRetry()
             },
