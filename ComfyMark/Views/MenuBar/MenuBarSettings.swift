@@ -21,6 +21,5 @@ struct MenuBarSettings: View {
         } action: {
             menuBarVM.openSettings()
         }
-
     }
 }

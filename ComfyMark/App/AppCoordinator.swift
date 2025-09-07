@@ -52,6 +52,7 @@ class AppCoordinator {
         /// Tap On Start
         menuBarCoordinator.start(
             screenshotManager: screenshotManager,
+            appSettings: appSettings,
             onSettingsTapped: {
                 [weak self] in self?.settingsCoordinator.showSettings()
             },

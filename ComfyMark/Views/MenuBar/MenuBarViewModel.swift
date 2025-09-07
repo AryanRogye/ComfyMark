@@ -24,9 +24,16 @@ class MenuBarViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     
     var screenshotManager: ScreenshotManager
+    var appSettings      : AppSettings
 
-    init(screenshotManager: ScreenshotManager) {
+    init(
+        appSettings      : AppSettings,
+        screenshotManager: ScreenshotManager
+    ) {
+        
         self.screenshotManager = screenshotManager
+        self.appSettings       = appSettings
+        
         $isShowingHistory
             .sink { [weak self] isShowing in
                 guard let self = self else { return }

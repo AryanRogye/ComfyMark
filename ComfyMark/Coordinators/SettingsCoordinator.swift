@@ -15,6 +15,7 @@ class SettingsCoordinator: ObservableObject {
     
     var settingsVM: SettingsViewModel?
     var generalVM : GeneralViewModel?
+    var behaviorVM: BehaviorViewModel?
     
     init(windows: WindowCoordinator, appSettings: AppSettings) {
         self.windowCoordinator = windows
@@ -25,13 +26,16 @@ class SettingsCoordinator: ObservableObject {
         
         settingsVM = SettingsViewModel(appSettings: appSettings)
         generalVM  = GeneralViewModel(appSettings: appSettings)
+        behaviorVM = BehaviorViewModel(appSettings: appSettings)
         
         guard let settingsVM = settingsVM else { return }
         guard let generalVM  = generalVM  else { return }
+        guard let behaviorVM = behaviorVM else { return }
         
         let view = SettingsView(
             settingsVM: settingsVM,
-            generalVM: generalVM
+            generalVM: generalVM,
+            behaviorVM: behaviorVM
         )
         
         windowCoordinator.showWindow(

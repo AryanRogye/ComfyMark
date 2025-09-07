@@ -27,10 +27,14 @@ class MenuBarCoordinator: NSObject {
     
     public func start(
         screenshotManager : ScreenshotManager,
+        appSettings       : AppSettings,
         onSettingsTapped: @escaping () -> Void,
         onStartTapped: @escaping () throws -> Void
     ) {
-        menuBarVM = MenuBarViewModel(screenshotManager: screenshotManager)
+        menuBarVM = MenuBarViewModel(
+            appSettings: appSettings,
+            screenshotManager: screenshotManager
+        )
         guard let menuBarVM = menuBarVM else {
             print("Couldnt Initialize MenuBarViewModel Cuz of MenuBarVM Not Initialized")
             return

@@ -75,29 +75,22 @@ struct MenuBarView: View {
     @ViewBuilder
     private func settingsSection() -> some View {
         HStack {
-            if isHoveringOverSettings {
-                powerLogo
+            if menuBarVM.appSettings.menuBarPowerButtonSide == .left {
+                if isHoveringOverSettings {
+                    powerLogo
+                }
             }
+            
             MenuBarSettings(menuBarVM: menuBarVM)
+            
+            if menuBarVM.appSettings.menuBarPowerButtonSide == .right {
+                if isHoveringOverSettings {
+                    powerLogo
+                }
+            }
         }
         .animation(.spring(response: 0.28, dampingFraction: 0.9), value: isHoveringOverSettings)
         .onHover { isHoveringOverSettings = $0 }
-    }
-    
-    // MARK: - Exit Button
-    private var settingsButton: some View {
-        ComfyMarkButton {
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color.gray.opacity(0.7))
-                .matchedGeometryEffect(id: "settingsBackground", in: ns)
-                .overlay {
-                    Label("Settings", systemImage:"gear")
-                        .foregroundStyle(.white)
-                }
-        } action: {
-            menuBarVM.openSettings()
-        }
-        .frame(height: 40)
     }
     
     // MARK: - Settings Logo
@@ -123,7 +116,8 @@ struct MenuBarView: View {
 
 #Preview {
     let screenshotManager = ScreenshotManager(saving: SavingService())
-    var menuBarVM: MenuBarViewModel = MenuBarViewModel(screenshotManager: screenshotManager)
+    let appSettings       = AppSettings()
+    var menuBarVM: MenuBarViewModel = MenuBarViewModel(appSettings: appSettings, screenshotManager: screenshotManager)
     
     
     ZStack {

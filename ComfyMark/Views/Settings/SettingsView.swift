@@ -11,6 +11,7 @@ struct SettingsView: View {
     
     @ObservedObject var settingsVM: SettingsViewModel
     @ObservedObject var generalVM: GeneralViewModel
+    @ObservedObject var behaviorVM: BehaviorViewModel
     
     var body: some View {
         NavigationSplitView {
@@ -21,6 +22,7 @@ struct SettingsView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .environmentObject(settingsVM)
         .environmentObject(generalVM)
+        .environmentObject(behaviorVM)
         .onAppear {
             onAppear()
         }

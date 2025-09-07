@@ -63,6 +63,9 @@
 		9BCF71762E6D07A700B3921B /* MenuBarMaterialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71752E6D07A600B3921B /* MenuBarMaterialButton.swift */; };
 		9BCF71782E6D07DE00B3921B /* MenuBarStatsContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71772E6D07DD00B3921B /* MenuBarStatsContainer.swift */; };
 		9BCF717D2E6D08A600B3921B /* MenuBarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF717C2E6D08A300B3921B /* MenuBarSettings.swift */; };
+		9BCF71802E6D1DD900B3921B /* BehaviorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF717F2E6D1DD500B3921B /* BehaviorSettings.swift */; };
+		9BCF71822E6D1E2300B3921B /* BehaviorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71812E6D1E1F00B3921B /* BehaviorViewModel.swift */; };
+		9BCF71842E6D1F2100B3921B /* MenuBarBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71832E6D1F2000B3921B /* MenuBarBehavior.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -127,6 +130,9 @@
 		9BCF71752E6D07A600B3921B /* MenuBarMaterialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarMaterialButton.swift; sourceTree = "<group>"; };
 		9BCF71772E6D07DD00B3921B /* MenuBarStatsContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarStatsContainer.swift; sourceTree = "<group>"; };
 		9BCF717C2E6D08A300B3921B /* MenuBarSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarSettings.swift; sourceTree = "<group>"; };
+		9BCF717F2E6D1DD500B3921B /* BehaviorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehaviorSettings.swift; sourceTree = "<group>"; };
+		9BCF71812E6D1E1F00B3921B /* BehaviorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehaviorViewModel.swift; sourceTree = "<group>"; };
+		9BCF71832E6D1F2000B3921B /* MenuBarBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarBehavior.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -307,6 +313,7 @@
 		9B5C4D412E68AB83008BD465 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
+				9BCF717E2E6D1DD000B3921B /* Behavior */,
 				9B5C4D362E68A42E008BD465 /* About */,
 				9B5C4D352E68A429008BD465 /* General */,
 			);
@@ -397,6 +404,16 @@
 				9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */,
 			);
 			path = ComfyMark;
+			sourceTree = "<group>";
+		};
+		9BCF717E2E6D1DD000B3921B /* Behavior */ = {
+			isa = PBXGroup;
+			children = (
+				9BCF71832E6D1F2000B3921B /* MenuBarBehavior.swift */,
+				9BCF71812E6D1E1F00B3921B /* BehaviorViewModel.swift */,
+				9BCF717F2E6D1DD500B3921B /* BehaviorSettings.swift */,
+			);
+			path = Behavior;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -491,9 +508,11 @@
 				9B5C4C082E65FC07008BD465 /* MetalContext.swift in Sources */,
 				9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */,
 				9B5C4D432E68AB8E008BD465 /* GeneralViewModel.swift in Sources */,
+				9BCF71842E6D1F2100B3921B /* MenuBarBehavior.swift in Sources */,
 				9B48F90C2E651F3700C470ED /* ComfyMarkCoordinator.swift in Sources */,
 				9B5C4D402E68A8ED008BD465 /* AppSettings.swift in Sources */,
 				9B48F90D2E651F3700C470ED /* MenuBarCoordinator.swift in Sources */,
+				9BCF71822E6D1E2300B3921B /* BehaviorViewModel.swift in Sources */,
 				9B5C4CDC2E675390008BD465 /* Viewport.swift in Sources */,
 				9B48F90E2E651F3700C470ED /* SettingsCoordinator.swift in Sources */,
 				9B48F90F2E651F3700C470ED /* WindowCoordinator.swift in Sources */,
@@ -521,6 +540,7 @@
 				9B48F9142E651F3700C470ED /* ComfyMarkButton.swift in Sources */,
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
 				9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */,
+				9BCF71802E6D1DD900B3921B /* BehaviorSettings.swift in Sources */,
 				9B5C4D322E688A3B008BD465 /* ToolbarEditorStateView.swift in Sources */,
 				9B5C4CDA2E671D6A008BD465 /* ExportService.swift in Sources */,
 				9B5C4CD02E662EB9008BD465 /* ComfyMarkToolbar.swift in Sources */,

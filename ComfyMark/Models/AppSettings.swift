@@ -13,6 +13,7 @@ import ServiceManagement
 class AppSettings: ObservableObject {
     enum Keys {
         static let showDockIcon             = "showDockIcon"
+        static let menuBarPowerButtonSide   = "menuBarPowerButtonSide"
     }
     
     /// Defaults
@@ -27,6 +28,12 @@ class AppSettings: ObservableObject {
             defaults.set(showDockIcon, forKey: Keys.showDockIcon)
         }
     }
+    @Published var menuBarPowerButtonSide: MenuBarPowerButtonSide {
+        didSet {
+            defaults.set(menuBarPowerButtonSide.rawValue, forKey: Keys.menuBarPowerButtonSide)
+        }
+    }
+    
     
     /// We Dont Save this cuz we read this value from the system
     @Published var launchAtLogin: Bool
@@ -42,7 +49,12 @@ class AppSettings: ObservableObject {
         AppSettings.registerDefaults(in: defaults)
         
         self.launchAtLogin = (SMAppService.mainApp.status == .enabled)
+        
         self.showDockIcon = defaults.bool(forKey: Keys.showDockIcon)
+        
+        /// Init menuBarPowerButtonSide
+        let side : String = defaults.string(forKey: Keys.menuBarPowerButtonSide) ?? "right"
+        self.menuBarPowerButtonSide = MenuBarPowerButtonSide(rawValue: side) ?? .right
         
         
         // MARK: - Binding Dock Icon
@@ -138,10 +150,18 @@ extension AppSettings {
     }
 }
 
+// MARK: - Default Registering
 extension AppSettings {
+    
     public static func registerDefaults(in defaults: UserDefaults = .standard) {
+        registerMenuBarPowerButtonSide(defaults)
         registerShowDockIcon(defaults)
     }
+    
+    private static func registerMenuBarPowerButtonSide(_ defaults: UserDefaults) {
+        defaults.register(defaults: [Keys.menuBarPowerButtonSide: MenuBarPowerButtonSide.right.rawValue])
+    }
+    
     private static func registerShowDockIcon(_ defaults: UserDefaults) {
         defaults.register(defaults: [Keys.showDockIcon: false])
     }
