@@ -19,7 +19,7 @@ class MenuBarViewModel: ObservableObject {
     @Published var isShowingHistory: Bool = false
     
     @Published var menuBarWidth: CGFloat = 280
-    @Published var menuBarHeight: CGFloat = 230
+    @Published var menuBarHeight: CGFloat = 225
     
     private var cancellables: Set<AnyCancellable> = []
     
@@ -39,7 +39,7 @@ class MenuBarViewModel: ObservableObject {
                 guard let self = self else { return }
                 self.menuBarHeight = isShowing
                 ? 340
-                : 230
+                : 226
                 self.menuBarWidth = isShowing
                 ? 280
                 : 280

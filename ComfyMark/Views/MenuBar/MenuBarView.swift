@@ -18,8 +18,9 @@ struct MenuBarView: View {
     var body: some View {
         VStack {
             VStack {
-                
-                startButton
+                MenuBarStart(
+                    menuBarVM: menuBarVM
+                )
                 
                 MenuBarAppStats(
                     menuBarVM: menuBarVM
@@ -48,25 +49,6 @@ struct MenuBarView: View {
             Button("OK") { menuBarVM.errorMessage = nil }
         } message: { msg in
             Text(msg)
-        }
-    }
-    
-    // MARK: - Start Button
-    private var startButton: some View {
-        ComfyMarkButton {
-            Label("Start", systemImage: "play.fill")
-                .foregroundStyle(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(
-                            menuBarVM.startButtonTapped
-                            ? Color.red : Color.blue
-                        )
-                }
-        } action: {
-            menuBarVM.startTapped()
         }
     }
     

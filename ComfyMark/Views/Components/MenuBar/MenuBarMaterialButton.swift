@@ -33,7 +33,7 @@ struct MenuBarMaterialButton<Content: View>: View {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(
                             isHovering
-                            ? AnyShapeStyle(.regularMaterial)
+                            ? AnyShapeStyle(.ultraThinMaterial.opacity(0.5))
                             : AnyShapeStyle(.ultraThinMaterial)
                         )
                 }

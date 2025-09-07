@@ -13,15 +13,26 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [x] Metal-accelerated image rendering
 - [x] Basic stroke/pen annotation
 - [x] Menu bar integration
+- [x] Launch At Login
 - [x] Metal-accelerated drawing on screen
   - [ ] Include more options for brush types,
   - [x] Brush size/radius change
   - [ ] Nice color picker, something native or also look at colorPicker
 - [x] Erase
-- [ ] Allow Default Screenshot Resolution Picker in Settings
+- [ ] Force Title on Save
+- Saved Stuff
+  - [ ] Allow Select Saved
+  - [ ] Allow Stuff to be entered again (things are 40x40 in the small view)
+  - [ ] Allow Delete Saved
+- Settings
+  - Hot Key
+    - [x] Screenshot capture hotkeys
+    - [ ] Allow Toolbar Items to be selectable with hotkeys, configured in settings
+  - General Settings
+  - [ ] Allow Default Screenshot Resolution Picker in Settings
 - [ ] Undo and Redo
+- [ ] Compare Old vs New
 - [x] Saving menu bar state
-- [x] Screenshot capture hotkeys
 - [ ] Shape tools (rectangles, arrows, etc.)
 - [ ] I rlly want a spotlight, for me
 - [ ] Text annotations

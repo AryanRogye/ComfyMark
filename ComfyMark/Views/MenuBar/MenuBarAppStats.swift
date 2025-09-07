@@ -48,6 +48,7 @@ struct MenuBarScreenshotNumber: View {
                 .font(.system(size: textFont, weight: .regular, design: .default))
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
+            
             Text("\(screenshotManager.screenshotHistory.count)")
                 .font(.system(size: numberFont, weight: .regular, design: .monospaced))
                 .lineLimit(1)
@@ -68,10 +69,9 @@ struct MenuBarRenderTime: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
             HStack(spacing: 0) {
-                Text("\(menuBarVM.renderTimeMs, specifier: "%.2f")")
-                    .font(.system(size: numberFont, weight: .regular, design: .monospaced))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.5)
+                AnimatedCounterText(value: menuBarVM.renderTimeMs,
+                                     numberFont: numberFont)
+                    .animation(.easeOut(duration: 0.35), value: menuBarVM.renderTimeMs)
                 Text("Ms")
                     .font(.system(size: numberFont+1, weight: .regular, design: .monospaced))
                     .padding(.leading, 1)
@@ -79,5 +79,26 @@ struct MenuBarRenderTime: View {
                     .minimumScaleFactor(0.5)
             }
         }
+    }
+}
+
+// MARK: - Animated Counter Text
+
+/// A lightweight animating number for smooth up/down counting when the value changes.
+private struct AnimatedCounterText: View, Animatable {
+    var value: Double
+    let numberFont: CGFloat
+
+    // Bridge the value into SwiftUI's interpolation system.
+    var animatableData: Double {
+        get { value }
+        set { value = newValue }
+    }
+
+    var body: some View {
+        Text("\(value, specifier: "%.2f")")
+            .font(.system(size: numberFont, weight: .regular, design: .monospaced))
+            .lineLimit(1)
+            .minimumScaleFactor(0.5)
     }
 }

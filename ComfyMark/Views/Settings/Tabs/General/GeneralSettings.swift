@@ -20,8 +20,8 @@ struct GeneralSettings: View {
     }
     
     private var hotkeySettings: some View {
-        SettingsSection {
-            KeyboardShortcuts.Recorder("Take Screen Shot:", name: .ComfyMarkScreenshot)
+        SettingsSection("Hotkeys") {
+            ScreenshotHotkeySettings()
         }
     }
     
