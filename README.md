@@ -20,7 +20,7 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [x] Erase
 - [ ] Allow Default Screenshot Resolution Picker in Settings
 - [ ] Undo and Redo
-- [ ] Saving menu bar state
+- [x] Saving menu bar state
 - [ ] Screenshot capture hotkeys
 - [ ] Shape tools (rectangles, arrows, etc.)
 - [ ] Text annotations
