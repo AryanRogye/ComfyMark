@@ -62,6 +62,7 @@ final class ScreenshotManager: ObservableObject {
                             /// Get Thumbnail
                             let thumbnail = await createThumbnail(
                                 from: fullImage,
+                                /// Set Size as 40x40, THIS SAVES US MEMORY
                                 size: NSSize(width: 40, height: 40)
                             )
                             
@@ -79,6 +80,7 @@ final class ScreenshotManager: ObservableObject {
         }
     }
     
+    /// function to determine if is iamge or not
     private func isImageFile(_ url: URL) -> Bool {
         let imageExts = ["png", "jpg", "jpeg", "gif", "heic"]
         return imageExts.contains(url.pathExtension.lowercased())
@@ -92,11 +94,10 @@ final class ScreenshotManager: ObservableObject {
                 return []
             }
             
-            // Use FileManager to get the contents of the directory
             let directoryContents = try FileManager.default.contentsOfDirectory(
                 at: url,
-                includingPropertiesForKeys: nil, // Include desired properties, or nil for none
-                options: .skipsHiddenFiles // Adjust options as needed (e.g., .skipsPackageDescendants)
+                includingPropertiesForKeys: nil,
+                options: .skipsHiddenFiles
             )
             return directoryContents
         } catch {

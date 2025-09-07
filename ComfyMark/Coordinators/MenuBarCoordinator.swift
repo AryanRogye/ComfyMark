@@ -100,6 +100,10 @@ class MenuBarCoordinator: NSObject {
         
         popover.contentViewController = controller
         configurePopoverSizeListener()
+        
+        /// Make sure we hide in the start
+        popover.performClose(nil)
+        print("PopOver Has been Hidden")
     }
     
     
@@ -125,21 +129,21 @@ class MenuBarCoordinator: NSObject {
             guard let self = self else { return }
             let newSize = NSSize(width: width, height: height)
             
-            NSAnimationContext.runAnimationGroup { context in
-                context.duration = 0.3
-                context.timingFunction = CAMediaTimingFunction(
-                    controlPoints: 0.25,
-                    0.1,
-                    0.25,
-                    1
-                ) // Custom bezier
-//                context.allowsImplicitAnimation = true
+            if self.popover.isShown {
+                NSAnimationContext.runAnimationGroup { context in
+                    context.duration = 0.3
+                    context.timingFunction = CAMediaTimingFunction(
+                        controlPoints: 0.25,
+                        0.1,
+                        0.25,
+                        1
+                    ) // Custom bezier
+                    self.popover.contentSize = newSize
+                }
+            } else {
+                /// No Need to show animation for setting size if the
+                /// popover is not even showing
                 self.popover.contentSize = newSize
-            } completionHandler: {
-                /// Most Likely at this point, the statusItem isnt built
-                /// but we can call this function after everything is done
-                /// and itll work cuz its going to make the checks all over again
-                self.showPopover()
             }
         }
         .store(in: &cancellables)

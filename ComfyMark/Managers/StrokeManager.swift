@@ -10,6 +10,7 @@ import CoreGraphics
 import Combine
 import SwiftUI
 
+/// Class made in ComfyMark ViewModel
 @MainActor
 final class StrokeManager: ObservableObject {
     

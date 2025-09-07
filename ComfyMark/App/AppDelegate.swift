@@ -23,7 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         
         appCoordinator = AppCoordinator(
-            screenshots: ScreenshotService(),
+            screenshots: screenshots,
             export: export,
             saving: saving,
             screenshotManager: screenshotManager
