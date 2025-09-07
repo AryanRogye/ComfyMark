@@ -17,6 +17,7 @@ struct ComfyMarkToolbar: View {
             ToolbarEditorStateView(
                 comfyMarkVM: comfyMarkVM
             )
+            projectName
             Spacer()
             cancelButton
             saveButton
@@ -25,8 +26,14 @@ struct ComfyMarkToolbar: View {
         .padding(.horizontal, 8)
     }
     
+    
+    private var projectName: some View {
+        TextField("Project Name", text: $comfyMarkVM.projectName)
+    }
+
     @State private var showExportMenu: Bool = false
     @State private var isHoveringExport: Bool = false
+    
    
     
     // MARK: - Export Button

@@ -122,6 +122,54 @@ class WindowCoordinator {
 }
 
 extension WindowCoordinator {
+    
+    /// Renames an existing window's identifier and (optionally) its title.
+    /// - Parameters:
+    ///   - oldId: Current id used in the coordinator maps.
+    ///   - newId: New id you want to use.
+    ///   - newTitle: Optional new title to display in the titlebar.
+    /// - Returns: true if the rename happened, false otherwise.
+    @discardableResult
+    public func changeWindowName(from oldId: String, to newId: String, newTitle: String? = nil) -> Bool {
+        precondition(Thread.isMainThread, "Must be called on main thread")
+        
+        // window must exist
+        guard let window = windows[oldId] else { return false }
+        // don't clobber an existing entry
+        guard windows[newId] == nil else { return false }
+        
+        // move window map
+        windows.removeValue(forKey: oldId)
+        windows[newId] = window
+        
+        // move actions if present
+        if let open = onOpenAction.removeValue(forKey: oldId) {
+            onOpenAction[newId] = open
+        }
+        if let close = onCloseAction.removeValue(forKey: oldId) {
+            onCloseAction[newId] = close
+        }
+        
+        // refresh delegate with the new id (simplest is to swap in a new one)
+        let newDelegate = WindowDelegate(id: newId, coordinator: self)
+        window.delegate = newDelegate
+        delegates[oldId] = nil
+        delegates[newId] = newDelegate
+        
+        // update title if requested
+        if let t = newTitle {
+            window.title = t
+        }
+        
+        return true
+    }
+    
+    /// Just change the visible title without touching ids.
+    public func setTitle(for id: String, to title: String) {
+        precondition(Thread.isMainThread, "Must be called on main thread")
+        windows[id]?.title = title
+    }
+    
     public func activateWithRetry(_ tries: Int = 6) {
         guard tries > 0 else { return }
         

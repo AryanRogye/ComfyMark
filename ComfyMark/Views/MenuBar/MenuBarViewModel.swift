@@ -63,7 +63,7 @@ class MenuBarViewModel: ObservableObject {
     }
 
     var onSettingsTapped: (() -> Void)?
-    var onStartTappedImage: ((CGImage) -> Void)?
+    var onStartTappedImage: ((CGImage, String) -> Void)?
     var onStartTapped: (() throws -> Void)?
     
     
@@ -75,7 +75,8 @@ class MenuBarViewModel: ObservableObject {
         if ScreenshotManager.isImageFile(url) {
             guard let src = CGImageSourceCreateWithURL(url as CFURL, nil) else { return }
             if let cgImage: CGImage = CGImageSourceCreateImageAtIndex(src, 0, nil) {
-                onStartTappedImage(cgImage)
+                let fileName = url.deletingPathExtension().lastPathComponent
+                onStartTappedImage(cgImage, fileName)
             }
         }
     }

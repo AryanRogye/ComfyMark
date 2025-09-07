@@ -27,6 +27,12 @@ class ComfyMarkViewModel: ObservableObject {
     @Published var imageTexture: MTLTexture?
     @Published var inkTexture : MTLTexture?
     
+    @Published var projectName: String = ""
+    @Published var shouldShowAlert: Bool = false
+    
+    @Published var alertTitle: String? = nil
+    @Published var alertMessage: String? = nil
+
     init(image: CGImage, windowID: String) {
         self.image = image
         self.windowID = windowID
@@ -72,7 +78,7 @@ class ComfyMarkViewModel: ObservableObject {
     var onCancelTapped: (() -> Void)?
     
     /// Save whatever we did - Set by Coordinator
-    var onSaveTapped: ((CGImage) -> Void)?
+    var onSaveTapped: ((CGImage, String) -> Void)?
     
     var onLastRenderTimeUpdated: ((TimeInterval) -> Void)?
     
@@ -83,8 +89,14 @@ class ComfyMarkViewModel: ObservableObject {
     }
 }
 
-// MARK: - ViewModel + Metal MenuBar Related
+// MARK: - Alerts
 extension ComfyMarkViewModel {
+    
+    func showAlert(title: String, message: String) {
+        alertTitle = title.isEmpty ? "Error" : title
+        alertMessage = message
+        shouldShowAlert = true
+    }
 }
 
 // MARK: - ViewModel + Radius {
@@ -150,6 +162,12 @@ extension ComfyMarkViewModel {
     func onSave() {
         guard let onSaveTapped = onSaveTapped else { return }
         
+        /// Make sure project name is not empty
+        guard !projectName.isEmpty else {
+            showAlert(title: "Project Name Required", message: "Please enter a project name")
+            return
+        }
+        
         /// Verify we can call the metal to get the image
         guard let getMetalImage = getMetalImage else {
             print("Returned On Export Cuz No Metal Image Function Was Set")
@@ -160,7 +178,9 @@ extension ComfyMarkViewModel {
         guard let cgimage = cgimage else {
             return
         }
-        onSaveTapped(cgimage)
+        
+        
+        onSaveTapped(cgimage, projectName)
     }
 }
 

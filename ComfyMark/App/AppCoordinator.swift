@@ -77,9 +77,9 @@ class AppCoordinator {
                 guard let self else { return }
                 takeScreenshot()
             },
-            onStartTappedImage: {[weak self] image in
+            onStartTappedImage: {[weak self] image, projectName in
                 guard let self else { return }
-                showImage(image)
+                showImage(image, windowID: projectName)
             }
         )
     }

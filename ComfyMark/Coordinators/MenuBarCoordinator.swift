@@ -30,7 +30,7 @@ class MenuBarCoordinator: NSObject {
         appSettings       : AppSettings,
         onSettingsTapped: @escaping () -> Void,
         onStartTapped: @escaping () throws -> Void,
-        onStartTappedImage: @escaping (CGImage) -> Void
+        onStartTappedImage: @escaping (CGImage, String) -> Void
     ) {
         menuBarVM = MenuBarViewModel(
             appSettings: appSettings,
@@ -43,8 +43,8 @@ class MenuBarCoordinator: NSObject {
         
         menuBarVM.onSettingsTapped = onSettingsTapped
         menuBarVM.onStartTapped = onStartTapped
-        menuBarVM.onStartTappedImage = { image in
-            onStartTappedImage(image)
+        menuBarVM.onStartTappedImage = { image, projectName in
+            onStartTappedImage(image, projectName)
         }
         
         let controller = NSHostingController(rootView: MenuBarView(

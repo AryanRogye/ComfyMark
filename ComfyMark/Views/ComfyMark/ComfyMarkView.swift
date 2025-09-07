@@ -42,6 +42,15 @@ struct ComfyMarkView: View {
                 comfyMarkVM: comfyMarkVM,
             )
         }
+        .alert(
+            (comfyMarkVM.alertTitle?.isEmpty == false ? comfyMarkVM.alertTitle! : "Error"),
+            isPresented: $comfyMarkVM.shouldShowAlert,
+            presenting: comfyMarkVM.alertMessage ?? "Something went wrong."
+        ) { _ in
+            Button("OK", role: .cancel) { comfyMarkVM.shouldShowAlert = false }
+        } message: { msg in
+            Text(msg)
+        }
     }
     
     // MARK: - Trackpad Pan (two-finger gesture)
