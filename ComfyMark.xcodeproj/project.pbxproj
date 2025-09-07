@@ -66,6 +66,9 @@
 		9BCF71802E6D1DD900B3921B /* BehaviorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF717F2E6D1DD500B3921B /* BehaviorSettings.swift */; };
 		9BCF71822E6D1E2300B3921B /* BehaviorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71812E6D1E1F00B3921B /* BehaviorViewModel.swift */; };
 		9BCF71842E6D1F2100B3921B /* MenuBarBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71832E6D1F2000B3921B /* MenuBarBehavior.swift */; };
+		9BCF71862E6D2B4100B3921B /* MenuBarPowerButtonSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71852E6D2B3C00B3921B /* MenuBarPowerButtonSide.swift */; };
+		9BCF71892E6D2B7900B3921B /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 9BCF71882E6D2B7900B3921B /* KeyboardShortcuts */; };
+		9BCF718B2E6D2C1700B3921B /* HotKeyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF718A2E6D2C1200B3921B /* HotKeyCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,6 +136,8 @@
 		9BCF717F2E6D1DD500B3921B /* BehaviorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehaviorSettings.swift; sourceTree = "<group>"; };
 		9BCF71812E6D1E1F00B3921B /* BehaviorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BehaviorViewModel.swift; sourceTree = "<group>"; };
 		9BCF71832E6D1F2000B3921B /* MenuBarBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarBehavior.swift; sourceTree = "<group>"; };
+		9BCF71852E6D2B3C00B3921B /* MenuBarPowerButtonSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarPowerButtonSide.swift; sourceTree = "<group>"; };
+		9BCF718A2E6D2C1200B3921B /* HotKeyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotKeyCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BCF71892E6D2B7900B3921B /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +178,7 @@
 				9B48F8F52E651F3700C470ED /* MenuBarCoordinator.swift */,
 				9B48F8F62E651F3700C470ED /* SettingsCoordinator.swift */,
 				9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */,
+				9BCF718A2E6D2C1200B3921B /* HotKeyCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -254,6 +261,7 @@
 			children = (
 				9B5C4FD82E6A886F008BD465 /* Metal */,
 				9B5C4D3F2E68A8EB008BD465 /* AppSettings.swift */,
+				9BCF71852E6D2B3C00B3921B /* MenuBarPowerButtonSide.swift */,
 				9B5C4D332E68A3DB008BD465 /* SettingsTab.swift */,
 				9B5C4D222E678508008BD465 /* Export.swift */,
 				9B48F95A2E65FBEF00C470ED /* Stroke.swift */,
@@ -433,6 +441,7 @@
 			);
 			name = ComfyMark;
 			packageProductDependencies = (
+				9BCF71882E6D2B7900B3921B /* KeyboardShortcuts */,
 			);
 			productName = ComfyMark;
 			productReference = 9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */;
@@ -462,6 +471,9 @@
 			);
 			mainGroup = 9B9F5B842E64FFC100F3396D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9BCF71872E6D2B7900B3921B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9B9F5B8E2E64FFC100F3396D /* Products */;
 			projectDirPath = "";
@@ -506,9 +518,11 @@
 				9B5C4D2A2E688527008BD465 /* EditorState.swift in Sources */,
 				9B5C50282E6BA423008BD465 /* View+omnidirectionalPanGesture.swift in Sources */,
 				9B5C4C082E65FC07008BD465 /* MetalContext.swift in Sources */,
+				9BCF71862E6D2B4100B3921B /* MenuBarPowerButtonSide.swift in Sources */,
 				9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */,
 				9B5C4D432E68AB8E008BD465 /* GeneralViewModel.swift in Sources */,
 				9BCF71842E6D1F2100B3921B /* MenuBarBehavior.swift in Sources */,
+				9BCF718B2E6D2C1700B3921B /* HotKeyCoordinator.swift in Sources */,
 				9B48F90C2E651F3700C470ED /* ComfyMarkCoordinator.swift in Sources */,
 				9B5C4D402E68A8ED008BD465 /* AppSettings.swift in Sources */,
 				9B48F90D2E651F3700C470ED /* MenuBarCoordinator.swift in Sources */,
@@ -750,6 +764,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9BCF71872E6D2B7900B3921B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9BCF71882E6D2B7900B3921B /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BCF71872E6D2B7900B3921B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9B9F5B852E64FFC100F3396D /* Project object */;
 }

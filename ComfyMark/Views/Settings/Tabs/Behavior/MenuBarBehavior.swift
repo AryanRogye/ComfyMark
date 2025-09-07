@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-
-enum MenuBarPowerButtonSide: String, CaseIterable {
-    case left = "Left"
-    case right = "Right"
-}
-
 struct MenuBarBehavior: View {
     
     @EnvironmentObject var behaviorVM : BehaviorViewModel

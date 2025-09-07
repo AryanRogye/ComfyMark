@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import KeyboardShortcuts
 
 struct GeneralSettings: View {
     
@@ -13,12 +14,24 @@ struct GeneralSettings: View {
     
     var body: some View {
         SettingsContainerView {
-            SettingsSection {
-                showDockIcon
-                Divider().groupBoxStyle()
-                launchAtLogin
-            }
+            hotkeySettings
+            basicSettings
         }
+    }
+    
+    private var hotkeySettings: some View {
+        SettingsSection {
+            KeyboardShortcuts.Recorder("Take Screen Shot:", name: .ComfyMarkScreenshot)
+        }
+    }
+    
+    private var basicSettings: some View {
+        SettingsSection {
+            showDockIcon
+            Divider().groupBoxStyle()
+            launchAtLogin
+        }
+
     }
     
     private var showDockIcon: some View {

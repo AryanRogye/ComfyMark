@@ -10,9 +10,11 @@ class AppCoordinator {
     
     private var menuBarCoordinator = MenuBarCoordinator()
     
-    private lazy var windowCoordinator = WindowCoordinator()
-    private var settingsCoordinator : SettingsCoordinator!
-    private var comfyMarkCoordinator : ComfyMarkCoordinator!
+    /// Coordinators
+    private lazy var windowCoordinator  = WindowCoordinator()
+    private var hotkeyCoordinator       = HotKeyCoordinator()
+    private var settingsCoordinator     : SettingsCoordinator!
+    private var comfyMarkCoordinator    : ComfyMarkCoordinator!
     
     /// Protocols/Services
     private var screenshots : ScreenshotProviding
