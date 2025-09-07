@@ -26,7 +26,7 @@ struct MenuBarAppStats: View {
             
             MenuBarStatsContainer {
                 MenuBarScreenshotNumber(
-                    menuBarVM: menuBarVM,
+                    screenshotManager: menuBarVM.screenshotManager,
                     textFont: textFont,
                     numberFont: numberFont
                 )
@@ -36,7 +36,9 @@ struct MenuBarAppStats: View {
 }
 
 struct MenuBarScreenshotNumber: View {
-    @ObservedObject var menuBarVM : MenuBarViewModel
+    
+    @ObservedObject var screenshotManager : ScreenshotManager
+    
     let textFont: CGFloat
     let numberFont: CGFloat
     
@@ -46,7 +48,7 @@ struct MenuBarScreenshotNumber: View {
                 .font(.system(size: textFont, weight: .regular, design: .default))
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-            Text("\(menuBarVM.screenshotManager.screenshotHistory.count)")
+            Text("\(screenshotManager.screenshotHistory.count)")
                 .font(.system(size: numberFont, weight: .regular, design: .monospaced))
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)

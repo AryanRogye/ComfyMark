@@ -14,14 +14,12 @@ struct MenuBarSettings: View {
     var body: some View {
         MenuBarMaterialButton {
             HStack {
-                Label("Settings", systemImage: "clock")
+                Label("Settings", systemImage: "gear")
                     .foregroundStyle(.secondary)
                 Spacer()
             }
         } action: {
-            withAnimation(.bouncy) {
-                menuBarVM.isShowingHistory.toggle()
-            }
+            menuBarVM.openSettings()
         }
 
     }
