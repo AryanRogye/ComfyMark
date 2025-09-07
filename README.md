@@ -23,6 +23,7 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [x] Saving menu bar state
 - [x] Screenshot capture hotkeys
 - [ ] Shape tools (rectangles, arrows, etc.)
+- [ ] I rlly want a spotlight, for me
 - [ ] Text annotations
 - [ ] Background blur/pixelation
   - [ ] think i can look at different blurs and where they are, what they are behind etc

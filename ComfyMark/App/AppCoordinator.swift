@@ -51,7 +51,7 @@ class AppCoordinator {
         self.hotkeyCoordinator = HotKeyCoordinator(
             onHotKeyDown: { [weak self] in
                 guard let self = self else { return }
-                self.onStartTapped()
+                self.takeScreenshot()
             },
             onHotKeyUp: {
                 
@@ -66,16 +66,17 @@ class AppCoordinator {
         menuBarCoordinator.start(
             screenshotManager: screenshotManager,
             appSettings: appSettings,
-            onSettingsTapped: {
-                [weak self] in self?.settingsCoordinator.showSettings()
+            onSettingsTapped: { [weak self] in
+                guard let self = self else { return }
+                self.settingsCoordinator.showSettings()
             },
             onStartTapped: { [weak self] in
                 guard let self else { return }
-                onStartTapped()
+                takeScreenshot()
             })
     }
     
-    private func onStartTapped() {
+    private func takeScreenshot() {
         Task {
             let image = try await self.screenshots.takeScreenshot()
             self.comfyMarkCoordinator.showComfyMark(

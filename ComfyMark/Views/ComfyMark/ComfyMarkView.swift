@@ -142,7 +142,7 @@ struct ComfyMarkView: View {
     }
     
     private func handleEraseEnded() {
-        
+        comfyMarkVM.endStroke()
     }
 
     // MARK: - Zoom
