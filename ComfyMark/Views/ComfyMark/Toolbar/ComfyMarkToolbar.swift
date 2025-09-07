@@ -139,7 +139,8 @@ struct ComfyMarkToolbar: View {
     ComfyMarkToolbar(
         comfyMarkVM: ComfyMarkViewModel(
             image: CGImage.placeholder(),
-            windowID: ""
+            windowID: "",
+            projectName: nil
         )
     )
 }

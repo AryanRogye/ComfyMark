@@ -79,7 +79,7 @@ class AppCoordinator {
             },
             onStartTappedImage: {[weak self] image, projectName in
                 guard let self else { return }
-                showImage(image, windowID: projectName)
+                showImage(image, projectName: projectName)
             }
         )
     }
@@ -103,6 +103,23 @@ class AppCoordinator {
                 self.menuBarCoordinator.updateRenderTime(renderTimeMs)
             },
             windowID: windowID
+        )
+    }
+    
+    private func showImage(_ image: CGImage, projectName: String) {
+        let windowID: String = "comfymark-\(UUID().uuidString)"
+        self.comfyMarkCoordinator.showComfyMark(
+            with: image,
+            export: self.export,
+            saving: self.saving,
+            screenshotManager: screenshotManager,
+            /// Update Last Render Time
+            onLastRenderTimeUpdated: { [weak self] renderTimeMs in
+                guard let self = self else { return }
+                self.menuBarCoordinator.updateRenderTime(renderTimeMs)
+            },
+            windowID: windowID,
+            projectName: projectName
         )
     }
 }

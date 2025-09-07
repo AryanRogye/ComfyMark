@@ -22,5 +22,6 @@ struct MenuBarHistory: View {
                 ScreenshotHistoryView(menuBarVM: menuBarVM)
             }
         }
+        .frame(maxWidth: .infinity)
     }
 }

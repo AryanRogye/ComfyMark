@@ -49,11 +49,14 @@ struct HistoryListMoreOptionsView: View {
     @Namespace var ns
     @State private var erasePressed = false
     
+    @State private var isDeleting = false
+    
     var body: some View {
         HStack(spacing: 0) {
+            
             ForEach(HistoryListViewOptions.allCases, id: \.self) { option in
                 
-                if erasePressed && option == .close || !erasePressed {
+                if !erasePressed {
                     
                     Button(action: {
                         
@@ -65,6 +68,10 @@ struct HistoryListMoreOptionsView: View {
                             erasePressed = true
                         }
                         
+                        if option == .close {
+                            menuBarVM.selectedHistoryIndex = nil
+                        }
+                        
                     }) {
                         option.view
                     }
@@ -72,23 +79,10 @@ struct HistoryListMoreOptionsView: View {
                     .buttonStyle(.plain)
                     .matchedGeometryEffect(id: "Buttons-\(option.rawValue)", in: ns)
                 }
-                
-                
-                if erasePressed {
-                    
-                    Button("Delete?") {
-                        
-                    }
-                    .matchedGeometryEffect(id: "Buttons-Are You Sure", in: ns)
-                    
-                    
-                    Button("Nah?") {
-                        erasePressed = false
-                    }
-                    .matchedGeometryEffect(id: "Buttons-Nah", in: ns)
-                }
-                
-
+            }
+            
+            if erasePressed {
+                eraseOptions
             }
         }
         .padding(4)
@@ -98,5 +92,69 @@ struct HistoryListMoreOptionsView: View {
                 .fill(Color.blue)
         }
         .foregroundStyle(.white)
+    }
+    
+    
+    // MARK: - Erase Options
+    private var eraseOptions: some View {
+        HStack {
+            Text("Delete Screenshot?")
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .frame(maxWidth: .infinity)
+            
+            Spacer()
+            
+            Button("No") {
+                erasePressed = false
+            }
+            .matchedGeometryEffect(id: "Buttons-Nah", in: ns)
+            .padding(4)
+            .padding(.horizontal, 6)
+            .background (
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.white, lineWidth: 1)
+            )
+            .buttonStyle(.plain)
+            
+            Button(action: {
+                isDeleting = true
+                removeURL(history.url)
+                
+                Task {
+                    await menuBarVM.screenshotManager.loadHistoryInBackground()
+                    menuBarVM.selectedHistoryIndex = nil
+                    erasePressed = false
+                    isDeleting = false
+                }
+            }) {
+                HStack(spacing: 6) {
+                    if isDeleting {
+                        ProgressView()
+                            .controlSize(.mini)
+                            .scaleEffect(0.8)
+                    }
+                    Text(isDeleting ? "Deleting..." : "Yes")
+                }
+                .frame(minWidth: 40)
+            }
+            .matchedGeometryEffect(id: "Buttons-Are You Sure", in: ns)
+            .padding(4)
+            .background (
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.white, lineWidth: 1)
+            )
+            .buttonStyle(.plain)
+            .disabled(isDeleting)
+            
+        }
+    }
+    
+    private func removeURL(_ url: URL) {
+        do {
+            try FileManager.default.removeItem(at: url)
+        } catch {
+            print("Failed to delete file: \(error)")
+        }
     }
 }

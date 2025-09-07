@@ -33,9 +33,12 @@ class ComfyMarkViewModel: ObservableObject {
     @Published var alertTitle: String? = nil
     @Published var alertMessage: String? = nil
 
-    init(image: CGImage, windowID: String) {
+    init(image: CGImage, windowID: String, projectName: String?) {
+        
         self.image = image
         self.windowID = windowID
+        self.projectName = projectName ?? ""
+        
         strokeManager = StrokeManager()
 
         
@@ -78,7 +81,7 @@ class ComfyMarkViewModel: ObservableObject {
     var onCancelTapped: (() -> Void)?
     
     /// Save whatever we did - Set by Coordinator
-    var onSaveTapped: ((CGImage, String) -> Void)?
+    var onSaveTapped: ((CGImage, String, String) -> Void)?
     
     var onLastRenderTimeUpdated: ((TimeInterval) -> Void)?
     
@@ -180,7 +183,7 @@ extension ComfyMarkViewModel {
         }
         
         
-        onSaveTapped(cgimage, projectName)
+        onSaveTapped(cgimage, projectName, windowID)
     }
 }
 

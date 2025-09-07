@@ -175,6 +175,8 @@ struct HistoryImageView: View {
                 thumbnailName
                 thumbnailDate()
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            
         }
         .frame(maxWidth: .infinity, maxHeight: 50)
         .padding([.horizontal, .vertical], 4)
