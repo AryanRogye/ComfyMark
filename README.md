@@ -40,7 +40,8 @@ so why make another one?
 
 ## 📷 Screenshots
 
-<img width="200" height="200" src="https://github.com/user-attachments/assets/d1f1bdce-978e-4bfe-b758-741139530e4b" />
+<img width="200" height="200" src="https://github.com/user-attachments/assets/feb51cf0-096e-4297-b78f-e4118c28823d" />
+<img width="500" height="612" alt="Screenshot 2025-09-06 at 9 17 48 PM" src="https://github.com/user-attachments/assets/7dfe51b7-d0d3-413b-b327-b87bc8d7a0da" />
 <img width="500" height="612" alt="Screenshot 2025-09-03 at 7 33 22 PM" src="https://github.com/user-attachments/assets/a570b87d-2a05-4be3-9ad5-a18e5b281606" />
 
 ## Demo
