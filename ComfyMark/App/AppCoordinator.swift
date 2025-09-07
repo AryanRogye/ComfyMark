@@ -12,7 +12,7 @@ class AppCoordinator {
     
     /// Coordinators
     private lazy var windowCoordinator  = WindowCoordinator()
-    private var hotkeyCoordinator       = HotKeyCoordinator()
+    private var hotkeyCoordinator       : HotKeyCoordinator!
     private var settingsCoordinator     : SettingsCoordinator!
     private var comfyMarkCoordinator    : ComfyMarkCoordinator!
     
@@ -48,6 +48,17 @@ class AppCoordinator {
         )
         
         
+        self.hotkeyCoordinator = HotKeyCoordinator(
+            onHotKeyDown: { [weak self] in
+                guard let self = self else { return }
+                self.onStartTapped()
+            },
+            onHotKeyUp: {
+                
+            }
+        )
+        
+        
         /// Starting Our Menu Bar, with Closures, for what happens when we:
         /// Tap On Settings
         /// And
@@ -60,20 +71,24 @@ class AppCoordinator {
             },
             onStartTapped: { [weak self] in
                 guard let self else { return }
-                Task {
-                    let image = try await self.screenshots.takeScreenshot()
-                    self.comfyMarkCoordinator.showComfyMark(
-                        with: image,
-                        export: self.export,
-                        saving: self.saving,
-                        screenshotManager: screenshotManager,
-                        /// Update Last Render Time
-                        onLastRenderTimeUpdated: { [weak self] renderTimeMs in
-                            guard let self = self else { return }
-                            self.menuBarCoordinator.updateRenderTime(renderTimeMs)
-                        }
-                    )
-                }
+                onStartTapped()
             })
+    }
+    
+    private func onStartTapped() {
+        Task {
+            let image = try await self.screenshots.takeScreenshot()
+            self.comfyMarkCoordinator.showComfyMark(
+                with: image,
+                export: self.export,
+                saving: self.saving,
+                screenshotManager: screenshotManager,
+                /// Update Last Render Time
+                onLastRenderTimeUpdated: { [weak self] renderTimeMs in
+                    guard let self = self else { return }
+                    self.menuBarCoordinator.updateRenderTime(renderTimeMs)
+                }
+            )
+        }
     }
 }

@@ -16,14 +16,17 @@ final class HotKeyCoordinator {
     
     private(set) var comfyMarkScreenshot   : KeyboardShortcuts.Name
     
-    init() {
+    init(
+        onHotKeyDown: @escaping () -> Void,
+        onHotKeyUp: @escaping () -> Void
+    ) {
         self.comfyMarkScreenshot = .ComfyMarkScreenshot
         
         KeyboardShortcuts.onKeyDown(for: self.comfyMarkScreenshot) {
-            print("Took Screenshot")
+            onHotKeyUp()
         }
         KeyboardShortcuts.onKeyUp(for: self.comfyMarkScreenshot) {
-            print("Took Screenshot Off")
+            onHotKeyDown()
         }
     }
 }
