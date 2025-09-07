@@ -7,10 +7,18 @@
 
 import Combine
 import SwiftUI
+import ImageIO
+
 
 @MainActor
 class MenuBarViewModel: ObservableObject {
     
+    /// Used For Selecting In History
+    @Published var selectedHistoryIndex: Int? = nil
+    @Published var selectedHistoryIndexs: Set<Int> = []
+    
+    @Published var showMoreOptions: Bool = false
+
     @Published var renderTimeMs : TimeInterval = 0
     
     @Published var startButtonTapped: Bool = false
@@ -38,7 +46,7 @@ class MenuBarViewModel: ObservableObject {
             .sink { [weak self] isShowing in
                 guard let self = self else { return }
                 self.menuBarHeight = isShowing
-                ? 340
+                ? 400
                 : 226
                 self.menuBarWidth = isShowing
                 ? 280
@@ -55,7 +63,22 @@ class MenuBarViewModel: ObservableObject {
     }
 
     var onSettingsTapped: (() -> Void)?
+    var onStartTappedImage: ((CGImage) -> Void)?
     var onStartTapped: (() throws -> Void)?
+    
+    
+    public func onStartTappedOn(_ history: ScreenshotThumbnailInfo) {
+        guard let onStartTappedImage = onStartTappedImage else { return }
+        
+        let url = history.url
+        
+        if ScreenshotManager.isImageFile(url) {
+            guard let src = CGImageSourceCreateWithURL(url as CFURL, nil) else { return }
+            if let cgImage: CGImage = CGImageSourceCreateImageAtIndex(src, 0, nil) {
+                onStartTappedImage(cgImage)
+            }
+        }
+    }
     
     
     // MARK: - Start Tapped

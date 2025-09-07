@@ -5,6 +5,9 @@
 //  Created by Aryan Rogye on 8/31/25.
 //
 
+import CoreGraphics
+import Foundation
+
 @MainActor
 class AppCoordinator {
     
@@ -73,23 +76,33 @@ class AppCoordinator {
             onStartTapped: { [weak self] in
                 guard let self else { return }
                 takeScreenshot()
-            })
+            },
+            onStartTappedImage: {[weak self] image in
+                guard let self else { return }
+                showImage(image)
+            }
+        )
     }
     
     private func takeScreenshot() {
         Task {
             let image = try await self.screenshots.takeScreenshot()
-            self.comfyMarkCoordinator.showComfyMark(
-                with: image,
-                export: self.export,
-                saving: self.saving,
-                screenshotManager: screenshotManager,
-                /// Update Last Render Time
-                onLastRenderTimeUpdated: { [weak self] renderTimeMs in
-                    guard let self = self else { return }
-                    self.menuBarCoordinator.updateRenderTime(renderTimeMs)
-                }
-            )
+            showImage(image)
         }
+    }
+    
+    private func showImage(_ image: CGImage, windowID: String = "comfymark-\(UUID().uuidString)") {
+        self.comfyMarkCoordinator.showComfyMark(
+            with: image,
+            export: self.export,
+            saving: self.saving,
+            screenshotManager: screenshotManager,
+            /// Update Last Render Time
+            onLastRenderTimeUpdated: { [weak self] renderTimeMs in
+                guard let self = self else { return }
+                self.menuBarCoordinator.updateRenderTime(renderTimeMs)
+            },
+            windowID: windowID
+        )
     }
 }

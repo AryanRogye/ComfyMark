@@ -25,11 +25,11 @@ class ComfyMarkCoordinator {
         export     : ExportProviding,
         saving     : SavingProviding,
         screenshotManager : ScreenshotManager,
-        onLastRenderTimeUpdated: @escaping ((TimeInterval) -> Void)
+        onLastRenderTimeUpdated: @escaping ((TimeInterval) -> Void),
+        windowID: String
     ) {
         
         self.onLastRenderTimeUpdated = onLastRenderTimeUpdated
-        let windowID = "comfymark-\(UUID().uuidString)"
         
         let comfyMarkVM = ComfyMarkViewModel(
             image: image,

@@ -23,6 +23,7 @@ struct MenuBarAppStats: View {
                     numberFont: numberFont
                 )
             }
+            .help("Rendering speed (measured on the GPU)")
             
             MenuBarStatsContainer {
                 MenuBarScreenshotNumber(
@@ -31,6 +32,7 @@ struct MenuBarAppStats: View {
                     numberFont: numberFont
                 )
             }
+            .help("Number Of Screenshots Stored")
         }
     }
 }
@@ -64,7 +66,7 @@ struct MenuBarRenderTime: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Last Render")
+            Text("Last GPU Render")
                 .font(.system(size: textFont, weight: .regular, design: .default))
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
@@ -72,7 +74,7 @@ struct MenuBarRenderTime: View {
                 AnimatedCounterText(value: menuBarVM.renderTimeMs,
                                      numberFont: numberFont)
                     .animation(.easeOut(duration: 0.35), value: menuBarVM.renderTimeMs)
-                Text("Ms")
+                Text("ms")
                     .font(.system(size: numberFont+1, weight: .regular, design: .monospaced))
                     .padding(.leading, 1)
                     .lineLimit(1)

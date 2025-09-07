@@ -38,6 +38,8 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
 - [ ] Text annotations
 - [ ] Background blur/pixelation
   - [ ] think i can look at different blurs and where they are, what they are behind etc
+- [ ] Hide popover on not tap on our stuff
+- [ ] allow pinning open
 - [x] Export formats (PNG, JPG, clipboard)
   - [x] Export the edited image
 

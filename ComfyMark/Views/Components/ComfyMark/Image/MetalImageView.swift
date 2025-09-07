@@ -167,9 +167,6 @@ struct MetalImageView: NSViewRepresentable {
             guard let rpd = view.currentRenderPassDescriptor,
                   let drw = view.currentDrawable else { return }
             currentView = view
-            // Start timing
-            let startTime = CACurrentMediaTime()
-
             
             if let viewport = viewport {
                 let viewportBufferInfo = viewportBuffer.contents().bindMemory(to: Viewport.self, capacity: 1)
@@ -204,16 +201,16 @@ struct MetalImageView: NSViewRepresentable {
             
             
             // Add completion handler to measure GPU time
-            cmd.addCompletedHandler { [weak self] _ in
-                let endTime = CACurrentMediaTime()
-                let renderTime = (endTime - startTime) * 1000 // Convert to milliseconds
+            cmd.addCompletedHandler { [weak self] cb in
                 
-                DispatchQueue.main.async {
-                    // Update your view model with the timing
-                    self?.parent.comfyMarkVM.onLastRenderTime(renderTime)
+                /// true GPU timing
+                if cb.gpuStartTime > 0, cb.gpuEndTime > 0 {
+                    let ms = (cb.gpuEndTime - cb.gpuStartTime) * 1000.0
+                    DispatchQueue.main.async {
+                        self?.parent.comfyMarkVM.onLastRenderTime(ms)
+                    }
                 }
             }
-            
             cmd.commit()
         }
         

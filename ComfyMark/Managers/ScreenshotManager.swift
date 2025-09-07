@@ -55,7 +55,7 @@ final class ScreenshotManager: ObservableObject {
         return AsyncStream { continuation in
             Task {
                 for url in urls {
-                    if isImageFile(url) {
+                    if ScreenshotManager.isImageFile(url) {
                         
                         if let fullImage = NSImage(contentsOf: url) {
                             
@@ -81,7 +81,7 @@ final class ScreenshotManager: ObservableObject {
     }
     
     /// function to determine if is iamge or not
-    private func isImageFile(_ url: URL) -> Bool {
+    static func isImageFile(_ url: URL) -> Bool {
         let imageExts = ["png", "jpg", "jpeg", "gif", "heic"]
         return imageExts.contains(url.pathExtension.lowercased())
     }
