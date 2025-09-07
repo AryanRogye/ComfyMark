@@ -10,8 +10,35 @@ import SwiftUI
 
 @MainActor
 class MenuBarViewModel: ObservableObject {
+    
+    @Published var renderTimeMs : TimeInterval = 0
+    
     @Published var startButtonTapped: Bool = false
     @Published var errorMessage: String? = nil
+    
+    @Published var isShowingHistory: Bool = false
+    
+    @Published var menuBarWidth: CGFloat = 280
+    @Published var menuBarHeight: CGFloat = 230
+    
+    private var cancellables: Set<AnyCancellable> = []
+    
+    var screenshotManager: ScreenshotManager
+
+    init(screenshotManager: ScreenshotManager) {
+        self.screenshotManager = screenshotManager
+        $isShowingHistory
+            .sink { [weak self] isShowing in
+                guard let self = self else { return }
+                self.menuBarHeight = isShowing
+                ? 340
+                : 230
+                self.menuBarWidth = isShowing
+                ? 280
+                : 280
+            }
+            .store(in: &cancellables)
+    }
     
     var hasError: Binding<Bool> {
         Binding(

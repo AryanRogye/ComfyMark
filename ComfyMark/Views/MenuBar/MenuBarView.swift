@@ -18,14 +18,30 @@ struct MenuBarView: View {
     var body: some View {
         VStack {
             VStack {
+                
                 startButton
-                historyButton
+                
+                MenuBarAppStats(
+                    menuBarVM: menuBarVM
+                )
+                
+                MenuBarHistory(
+                    menuBarVM: menuBarVM
+                )
+                
+                Divider().padding(.horizontal)
+                
                 settingsSection()
             }
             .padding()
         }
-        .frame(width: 200)
-        .background(.ultraThinMaterial)
+        .frame(
+            maxWidth: .infinity,
+            maxHeight: .infinity,
+            alignment: .top
+        )
+//        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .background(.clear)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(radius: 8, y: 2)
         .alert("Error", isPresented: menuBarVM.hasError, presenting: menuBarVM.errorMessage) { _ in
@@ -35,20 +51,9 @@ struct MenuBarView: View {
         }
     }
     
-    // MARK: - History Button
-    private var historyButton: some View {
-        DisclosureGroup {
-            MenuBarHistory(
-                menuBarVM: menuBarVM
-            )
-        } label: {
-            Text("View History")
-        }
-    }
-    
     // MARK: - Start Button
     private var startButton: some View {
-        MenuBarViewButton {
+        ComfyMarkButton {
             Label("Start", systemImage: "play.fill")
                 .foregroundStyle(.white)
                 .padding()
@@ -73,8 +78,7 @@ struct MenuBarView: View {
             if isHoveringOverSettings {
                 powerLogo
             }
-            settingsButton
-            
+            MenuBarSettings(menuBarVM: menuBarVM)
         }
         .animation(.spring(response: 0.28, dampingFraction: 0.9), value: isHoveringOverSettings)
         .onHover { isHoveringOverSettings = $0 }
@@ -82,7 +86,7 @@ struct MenuBarView: View {
     
     // MARK: - Exit Button
     private var settingsButton: some View {
-        MenuBarViewButton {
+        ComfyMarkButton {
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.gray.opacity(0.7))
                 .matchedGeometryEffect(id: "settingsBackground", in: ns)
@@ -98,14 +102,14 @@ struct MenuBarView: View {
     
     // MARK: - Settings Logo
     private var powerLogo: some View {
-        MenuBarViewButton {
+        ComfyMarkButton {
             Circle()
                 .fill(Color.red)
-                .frame(width: 40, height: 40)
+                .frame(width: 24, height: 24)
                 .matchedGeometryEffect(id: "exitButton", in: ns)
                 .overlay {
                     Image(systemName: "power")
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(size: 12, weight: .semibold))
                         .foregroundStyle(.white)
                 }
         } action: {
@@ -118,7 +122,20 @@ struct MenuBarView: View {
 
 
 #Preview {
-    MenuBarView(
-        menuBarVM: MenuBarViewModel()
-    )
+    let screenshotManager = ScreenshotManager(saving: SavingService())
+    var menuBarVM: MenuBarViewModel = MenuBarViewModel(screenshotManager: screenshotManager)
+    
+    
+    ZStack {
+        
+        Color.black.opacity(0.3)
+            .frame(width: menuBarVM.menuBarWidth, height: menuBarVM.menuBarHeight)
+        
+        MenuBarView(
+            menuBarVM: menuBarVM
+        )
+        .frame(width: menuBarVM.menuBarWidth, height: menuBarVM.menuBarHeight)
+        .background(.thinMaterial)
+    }
+    .frame(width: menuBarVM.menuBarWidth, height: menuBarVM.menuBarHeight)
 }

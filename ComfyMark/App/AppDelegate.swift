@@ -14,9 +14,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @MainActor
     override init() {
+        
+        let screenshots = ScreenshotService()
+        let export = ExportService()
+        let saving = SavingService()
+        
+        let screenshotManager = ScreenshotManager(saving: saving)
+        
+        
         appCoordinator = AppCoordinator(
             screenshots: ScreenshotService(),
-            export: ExportService()
+            export: export,
+            saving: saving,
+            screenshotManager: screenshotManager
         )
     }
     

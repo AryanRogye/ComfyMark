@@ -1,5 +1,5 @@
 //
-//  MenuBarViewButton.swift
+//  ComfyMarkButton.swift
 //  ComfyMark
 //
 //  Created by Aryan Rogye on 8/31/25.
@@ -9,7 +9,7 @@ import SwiftUI
 
 
 
-struct MenuBarViewButton<Content: View>: View {
+struct ComfyMarkButton<Content: View>: View {
     
     var content: () -> Content
     var action: () -> Void

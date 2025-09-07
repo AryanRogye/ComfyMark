@@ -17,16 +17,24 @@ class AppCoordinator {
     /// Protocols/Services
     private var screenshots : ScreenshotProviding
     private var export      : ExportProviding
+    private var saving      : SavingProviding
+    
+    /// Managers
+    private var screenshotManager : ScreenshotManager
     
     /// App Settings
     private let appSettings = AppSettings()
     
     init(
-        screenshots: ScreenshotProviding,
-        export     : ExportProviding
+        screenshots         : ScreenshotProviding,
+        export              : ExportProviding,
+        saving              : SavingProviding,
+        screenshotManager   : ScreenshotManager
     ) {
         self.screenshots = screenshots
         self.export      = export
+        self.saving      = saving
+        self.screenshotManager = screenshotManager
         
         self.settingsCoordinator = SettingsCoordinator(
             windows: windowCoordinator,
@@ -43,6 +51,7 @@ class AppCoordinator {
         /// And
         /// Tap On Start
         menuBarCoordinator.start(
+            screenshotManager: screenshotManager,
             onSettingsTapped: {
                 [weak self] in self?.settingsCoordinator.showSettings()
             },
@@ -52,7 +61,14 @@ class AppCoordinator {
                     let image = try await self.screenshots.takeScreenshot()
                     self.comfyMarkCoordinator.showComfyMark(
                         with: image,
-                        export: self.export
+                        export: self.export,
+                        saving: self.saving,
+                        screenshotManager: screenshotManager,
+                        /// Update Last Render Time
+                        onLastRenderTimeUpdated: { [weak self] renderTimeMs in
+                            guard let self = self else { return }
+                            self.menuBarCoordinator.updateRenderTime(renderTimeMs)
+                        }
                     )
                 }
             })

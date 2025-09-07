@@ -71,11 +71,20 @@ class ComfyMarkViewModel: ObservableObject {
     /// Cacel The View - Set by Coordinator
     var onCancelTapped: (() -> Void)?
     
+    /// Save whatever we did - Set by Coordinator
+    var onSaveTapped: ((CGImage) -> Void)?
+    
+    var onLastRenderTimeUpdated: ((TimeInterval) -> Void)?
+    
     // MARK: - Undo/Redo, TODO
     func undo() {
     }
     func redo() {
     }
+}
+
+// MARK: - ViewModel + Metal MenuBar Related
+extension ComfyMarkViewModel {
 }
 
 // MARK: - ViewModel + Radius {
@@ -88,6 +97,14 @@ extension ComfyMarkViewModel {
 // MARK: - ViewModel + Closures
 extension ComfyMarkViewModel {
     
+    public func onLastRenderTime(_ time: TimeInterval) {
+        guard let onLastRenderTimeUpdated = onLastRenderTimeUpdated else {
+            print("Returned On Last Render Time Cuz No Closure Was Set")
+            return
+        }
+        onLastRenderTimeUpdated(time)
+    }
+
     /// Function handles what we do on Exporting
     /// - onExport is set by the coordinator that passes this into the view
     /// - getMetalImage is setup by our metalView - `MetalImageView.swift`
@@ -128,6 +145,22 @@ extension ComfyMarkViewModel {
     func onCancel() {
         guard let onCancelTapped = onCancelTapped else { return }
         onCancelTapped()
+    }
+    
+    func onSave() {
+        guard let onSaveTapped = onSaveTapped else { return }
+        
+        /// Verify we can call the metal to get the image
+        guard let getMetalImage = getMetalImage else {
+            print("Returned On Export Cuz No Metal Image Function Was Set")
+            return
+        }
+        
+        let cgimage = getMetalImage()
+        guard let cgimage = cgimage else {
+            return
+        }
+        onSaveTapped(cgimage)
     }
 }
 

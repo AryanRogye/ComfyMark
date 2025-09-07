@@ -17,7 +17,7 @@ struct ExportFormatRow: View {
     @State private var isHovering: Bool = false
     
     var body: some View {
-        MenuBarViewButton {
+        ComfyMarkButton {
             HStack(spacing: 10) {
                 Image(systemName: iconName)
                     .foregroundStyle(iconColor)

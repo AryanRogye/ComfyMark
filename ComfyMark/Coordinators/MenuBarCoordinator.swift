@@ -6,66 +6,184 @@
 //
 
 import AppKit
+import Combine
 import SwiftUI
 
 @MainActor
 class MenuBarCoordinator: NSObject {
     
-    private var statusItem: NSStatusItem!
+    private var statusItem: NSStatusItem? = nil
     private let popover = NSPopover()
     /// Create The MenuBarViewModel
-    let menuBarVM = MenuBarViewModel()
+    var menuBarVM : MenuBarViewModel? = nil
 
     var onSettingsTapped: (() -> Void)?
+    
+    private var cancellables : Set<AnyCancellable> = []
 
     override init() {
         super.init()
     }
     
     public func start(
+        screenshotManager : ScreenshotManager,
         onSettingsTapped: @escaping () -> Void,
         onStartTapped: @escaping () throws -> Void
     ) {
+        menuBarVM = MenuBarViewModel(screenshotManager: screenshotManager)
+        guard let menuBarVM = menuBarVM else {
+            print("Couldnt Initialize MenuBarViewModel Cuz of MenuBarVM Not Initialized")
+            return
+        }
         
         menuBarVM.onSettingsTapped = onSettingsTapped
         menuBarVM.onStartTapped = onStartTapped
         
-        /// Start Making Menu Bar Item
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-        if let btn = statusItem.button {
-            
-            if let img = NSImage(named: "ComfyMarkMenuBar") {
-                img.isTemplate = true
-                img.size = NSSize(width: 22, height: 22) // force menu bar size
-                statusItem.button?.image = img
-            } else {
-                btn.image = NSImage(systemSymbolName: "pencil", accessibilityDescription: "Annotate")
-            }
-            
-            btn.action = #selector(togglePopover(_:))
-            btn.target = self
-        }
-        
-        /// SwiftUI Inside PopOver
-        popover.behavior = .transient
-        popover.contentSize = NSSize(width: 320, height: 220)
-        popover.contentViewController = NSViewController()
-        popover.contentViewController?.view = NSHostingView(rootView: MenuBarView(
+        let controller = NSHostingController(rootView: MenuBarView(
             menuBarVM: menuBarVM
         ))
+        /// Configure The Popover With the Controller
+        configurePopover(with: controller)
+        /// Configure MenuBar Button
+        configureMenuBarButton()
     }
     
-    @objc private func togglePopover(_ sender: Any?) {
+    // MARK: - RenderTime Update
+    public func updateRenderTime(_ time : TimeInterval) {
+        guard let menuBarVM = menuBarVM else {
+            print("Couldnt Update Render Time Cuz of MenuBarVM Not Initialized")
+            return
+        }
+        menuBarVM.renderTimeMs = time
+    }
+
+    // MARK: - MenuBar
+    private func configureMenuBarButton() {
+        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+
+        configureMenuBarIcon()
+        statusItem?.button?.imagePosition = .imageLeading
+        configureMenuBarAction()
+    }
+    
+    private func configureMenuBarAction() {
+        guard let statusItem = statusItem else { return }
         guard let button = statusItem.button else { return }
+        
+        button.target = self
+        button.action = #selector(togglePopover(_:))
+    }
+    
+    
+    /// Function will load in the menu bar icon
+    /// Either our set, ComfyMarkMenuBar or default Pencil
+    private func configureMenuBarIcon() {
+        if let img = NSImage(named: "ComfyMarkMenuBar") {
+            statusItem?.button?.image = img
+        } else {
+            statusItem?.button?.image = NSImage(systemSymbolName: "pencil", accessibilityDescription: "Annotate")
+        }
+    }
+    
+    
+    // MARK: - Popover
+    
+    
+    /// Function to configure the popover
+    private func configurePopover(with controller: NSViewController) {
+        guard let menuBarVM = menuBarVM else {
+            print("Couldnt Configure Popover Cuz of MenuBarVM Not Initialized")
+            return
+        }
+        popover.contentSize = NSSize(width: menuBarVM.menuBarWidth, height: menuBarVM.menuBarHeight)
+        popover.animates = false
+        
+        popover.contentViewController = controller
+        configurePopoverSizeListener()
+    }
+    
+    
+    /// Function will change the size of the popover, as the viewmodel changes it,
+    /// this was by far the best method i found
+    private func configurePopoverSizeListener() {
+        
+        guard let menuBarVM = menuBarVM else {
+            print("Couldnt Configure Popover Size Listener Cuz of MenuBarVM Not Initialized")
+            return
+        }
+
+        if popover.contentViewController == nil {
+            print("Pop Over Content Not Loaded yet")
+            return
+        }
+        
+        Publishers.CombineLatest(
+            menuBarVM.$menuBarWidth,
+            menuBarVM.$menuBarHeight
+        )
+        .sink { [weak self] width, height in
+            guard let self = self else { return }
+            let newSize = NSSize(width: width, height: height)
+            
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = 0.3
+                context.timingFunction = CAMediaTimingFunction(
+                    controlPoints: 0.25,
+                    0.1,
+                    0.25,
+                    1
+                ) // Custom bezier
+//                context.allowsImplicitAnimation = true
+                self.popover.contentSize = newSize
+            } completionHandler: {
+                /// Most Likely at this point, the statusItem isnt built
+                /// but we can call this function after everything is done
+                /// and itll work cuz its going to make the checks all over again
+                self.showPopover()
+            }
+        }
+        .store(in: &cancellables)
+    }
+    
+    
+    /// Function used to toggle the popover based on what it is
+    /// in that current moment
+    @objc private func togglePopover(_ sender: Any?) {
+        
+        guard statusItem != nil else {
+            print("Status Item Not Configured Yet")
+            return
+        }
+        
+        if popover.contentViewController == nil {
+            print("Pop Over Content Not Loaded yet")
+            return
+        }
+        
         if popover.isShown {
             popover.performClose(sender)
         } else {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
-            NSApp.activate(ignoringOtherApps: true)
+            showPopover()
         }
     }
     
-    public func showError(_ error: any Error) {
+    /// FORCE Function Used to show the popover
+    @objc private func showPopover() {
+        guard let statusItem = statusItem else {
+            print("Status Item Not Configured Yet")
+            return
+        }
         
+        guard let button = statusItem.button else {
+            print("Status Item Button Not Configured Yet")
+            return
+        }
+        
+        if popover.contentViewController == nil {
+            print("Pop Over Content Not Loaded yet")
+            return
+        }
+
+        popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
     }
 }

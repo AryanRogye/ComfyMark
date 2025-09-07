@@ -33,7 +33,7 @@ struct ComfyMarkToolbar: View {
     @ViewBuilder
     private func exportButton() -> some View {
         ZStack {
-            MenuBarViewButton {
+            ComfyMarkButton {
                 Image(systemName: "square.and.arrow.down")
                     .imageScale(.medium)
                     .foregroundStyle(.white)
@@ -98,7 +98,7 @@ struct ComfyMarkToolbar: View {
     
     // MARK: - Cancel Button
     private var cancelButton: some View {
-        MenuBarViewButton {
+        ComfyMarkButton {
             Text("Cancel")
                 .foregroundStyle(.white)
                 .padding(6)
@@ -113,7 +113,7 @@ struct ComfyMarkToolbar: View {
     
     // MARK: - Save Button
     private var saveButton: some View {
-        MenuBarViewButton {
+        ComfyMarkButton {
             Text("Save")
                 .foregroundStyle(.white)
                 .padding(6)
@@ -123,7 +123,7 @@ struct ComfyMarkToolbar: View {
                 }
             
         } action: {
-            
+            comfyMarkVM.onSave()
         }
     }
 }
