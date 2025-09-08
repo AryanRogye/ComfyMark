@@ -42,9 +42,17 @@ class MenuBarCoordinator: NSObject {
         }
         
         menuBarVM.onSettingsTapped = onSettingsTapped
-        menuBarVM.onStartTapped = onStartTapped
-        menuBarVM.onStartTappedImage = { image, projectName in
+        
+        menuBarVM.onStartTapped = { [weak self] in
+            guard let self = self else { return }
+            try onStartTapped()
+            self.hidePopover()
+        }
+        
+        menuBarVM.onStartTappedImage = { [weak self] image, projectName in
+            guard let self = self else { return }
             onStartTappedImage(image, projectName)
+            self.hidePopover()
         }
         
         let controller = NSHostingController(rootView: MenuBarView(
@@ -173,10 +181,20 @@ class MenuBarCoordinator: NSObject {
         }
         
         if popover.isShown {
-            popover.performClose(sender)
+            popover.performClose(nil)
         } else {
             showPopover()
         }
+    }
+    
+    @objc public func hidePopover() {
+        popover.performClose(nil)
+        
+        menuBarVM?.isShowingHistory = false
+        menuBarVM?.historyErasePressed = false
+        
+        menuBarVM?.selectedHistoryIndex = nil
+        menuBarVM?.selectedHistoryIndexs = []
     }
     
     /// FORCE Function Used to show the popover

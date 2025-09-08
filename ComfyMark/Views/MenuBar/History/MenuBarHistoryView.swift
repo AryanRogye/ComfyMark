@@ -8,7 +8,7 @@
 import SwiftUI
 
 // MARK: - Menu Bar History
-struct MenuBarHistory: View {
+struct MenuBarHistoryView: View {
     
     @ObservedObject var menuBarVM : MenuBarViewModel
     
@@ -19,7 +19,7 @@ struct MenuBarHistory: View {
             
             // If Button is pressed
             if menuBarVM.isShowingHistory {
-                ScreenshotHistoryView(menuBarVM: menuBarVM)
+                MenuBarScreenshotView(menuBarVM: menuBarVM)
             }
         }
         .frame(maxWidth: .infinity)

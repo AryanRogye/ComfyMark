@@ -9,7 +9,7 @@ import SwiftUI
 
 
 /// used to show more options for whatever is selected, in teh history view
-struct HistoryListMoreOptionsView: View {
+struct MenuBarHistoryMoreOptions: View {
     
     enum HistoryListViewOptions: String, CaseIterable {
         case open = "Open"
@@ -47,7 +47,6 @@ struct HistoryListMoreOptionsView: View {
     var index: Int
     var history: ScreenshotThumbnailInfo
     @Namespace var ns
-    @State private var erasePressed = false
     
     @State private var isDeleting = false
     
@@ -56,7 +55,7 @@ struct HistoryListMoreOptionsView: View {
             
             ForEach(HistoryListViewOptions.allCases, id: \.self) { option in
                 
-                if !erasePressed {
+                if !menuBarVM.historyErasePressed {
                     
                     Button(action: {
                         
@@ -65,7 +64,7 @@ struct HistoryListMoreOptionsView: View {
                         }
                         
                         if option == .erase {
-                            erasePressed = true
+                            menuBarVM.historyErasePressed = true
                         }
                         
                         if option == .close {
@@ -81,7 +80,7 @@ struct HistoryListMoreOptionsView: View {
                 }
             }
             
-            if erasePressed {
+            if menuBarVM.historyErasePressed {
                 eraseOptions
             }
         }
@@ -106,7 +105,7 @@ struct HistoryListMoreOptionsView: View {
             Spacer()
             
             Button("No") {
-                erasePressed = false
+                menuBarVM.historyErasePressed = false
             }
             .matchedGeometryEffect(id: "Buttons-Nah", in: ns)
             .padding(4)
@@ -124,7 +123,7 @@ struct HistoryListMoreOptionsView: View {
                 Task {
                     await menuBarVM.screenshotManager.loadHistoryInBackground()
                     menuBarVM.selectedHistoryIndex = nil
-                    erasePressed = false
+                    menuBarVM.historyErasePressed = false
                     isDeleting = false
                 }
             }) {

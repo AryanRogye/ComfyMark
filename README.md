@@ -19,11 +19,11 @@ Take a screenshot with a single hotkey, edit it instantly, and save it — all f
   - [x] Brush size/radius change
   - [ ] Nice color picker, something native or also look at colorPicker
 - [x] Erase
-- [ ] Force Title on Save
+- [x] Force Title on Save
 - Saved Stuff
-  - [ ] Allow Select Saved
-  - [ ] Allow Stuff to be entered again (things are 40x40 in the small view)
-  - [ ] Allow Delete Saved
+  - [x] Allow Select Saved
+  - [x] Allow Stuff to be entered again (things are 40x40 in the small view)
+  - [x] Allow Delete Saved
 - Settings
   - Hot Key
     - [x] Screenshot capture hotkeys

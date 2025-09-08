@@ -18,6 +18,7 @@ class MenuBarViewModel: ObservableObject {
     @Published var selectedHistoryIndexs: Set<Int> = []
     
     @Published var showMoreOptions: Bool = false
+    @Published var historyErasePressed: Bool = false
 
     @Published var renderTimeMs : TimeInterval = 0
     
@@ -101,5 +102,21 @@ class MenuBarViewModel: ObservableObject {
     public func openSettings() {
         guard let onSettingsTapped = onSettingsTapped else { return }
         onSettingsTapped()
+    }
+    
+    
+    // MARK: - Handle Multiple Deleted Shortcut
+    public func handleMultipleDeleteShortcut() {
+        /// This means we did command delete on multiple things
+        if selectedHistoryIndexs.count > 1 {
+            print("Multiple Deleted Shortcut")
+            print("Deleting Now")
+        }
+        /// This means we did command delete, AND we have something selected
+        /// so that means we prolly meant to delete it
+        else if selectedHistoryIndex != nil {
+            showMoreOptions = true
+            historyErasePressed = true
+        }
     }
 }

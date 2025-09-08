@@ -26,7 +26,7 @@ struct MenuBarView: View {
                     menuBarVM: menuBarVM
                 )
                 
-                MenuBarHistory(
+                MenuBarHistoryView(
                     menuBarVM: menuBarVM
                 )
                 

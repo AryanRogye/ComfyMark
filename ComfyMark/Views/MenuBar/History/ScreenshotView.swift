@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ScreenshotHistoryView: View {
+struct MenuBarScreenshotView: View {
     
     @ObservedObject var menuBarVM : MenuBarViewModel
     @State private var shouldShow = false
@@ -27,6 +27,15 @@ struct ScreenshotHistoryView: View {
                     bottomText
                         .padding(.bottom, 4)
                     
+                }
+            }
+            .onAppear {
+                NSEvent.addLocalMonitorForEvents(matching: .keyDown) { e in
+                    if e.keyCode == 51, e.modifierFlags.contains(.command) {
+                        menuBarVM.handleMultipleDeleteShortcut()
+                        return nil
+                    }
+                    return e
                 }
             }
         }
@@ -90,7 +99,7 @@ struct ScreenshotHistoryView: View {
             }
             
             if menuBarVM.showMoreOptions && menuBarVM.selectedHistoryIndex == i {
-                HistoryListMoreOptionsView(
+                MenuBarHistoryMoreOptions(
                     menuBarVM: menuBarVM,
                     index: i,
                     history: history
