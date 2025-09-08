@@ -62,7 +62,7 @@ class ComfyMarkCoordinator {
         )
         
         /// TODO: Let Settings allow the default screenshot size
-        let padding = CGFloat(32)
+        let padding = CGFloat(128)
         let screen = ScreenshotService.screenUnderMouse() ?? NSScreen.main!
         let size = NSSize(width: screen.frame.width - padding, height: screen.frame.height - padding)
         
@@ -125,8 +125,7 @@ class ComfyMarkCoordinator {
         }
         
         /// What it will do on the last tapped
-        comfyMarkVM.onLastRenderTimeUpdated = { [weak self] time in
-            guard let self = self else { return }
+        comfyMarkVM.onLastRenderTimeUpdated = { time in
             onLastRenderTimeUpdated(time)
         }
         

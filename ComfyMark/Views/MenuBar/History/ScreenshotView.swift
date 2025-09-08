@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct MenuBarScreenshotView: View {
     
@@ -69,6 +70,27 @@ struct MenuBarScreenshotView: View {
             .scaleEffect(shouldShow ? 1 : 0.98)
             .animation(.snappy(duration: 0.22).delay(0.012 * Double(i)), value: shouldShow)
             .contentShape(Rectangle())
+            .onDrag {
+                let item = NSItemProvider()
+                
+                // 1) Offer the file URL itself
+                item.registerObject(history.url as NSURL, visibility: .all) // provides public.file-url
+                
+                // 2) Also offer image data (PNG). Drop targets that want an image will use this.
+                item.registerFileRepresentation(
+                    forTypeIdentifier: UTType.png.identifier,
+                    fileOptions: [],
+                    visibility: .all
+                ) { completion in
+                    // If your screenshots are PNGs already, you can just pass the same file.
+                    // Otherwise convert to a temp PNG and pass that URL.
+                    completion(history.url, /* isStale */ false, nil)
+                    return nil
+                }
+                
+                item.suggestedName = history.url.deletingPathExtension().lastPathComponent
+                return item
+            }
             
             .onTapGesture {
                 if NSEvent.modifierFlags.contains(.command) || NSEvent.modifierFlags.contains(.shift) {
