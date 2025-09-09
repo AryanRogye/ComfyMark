@@ -118,7 +118,7 @@ struct MenuBarHistoryMoreOptions: View {
             
             Button(action: {
                 isDeleting = true
-                removeURL(history.url)
+                menuBarVM.removeURL(history.url)
                 
                 Task {
                     await menuBarVM.screenshotManager.loadHistoryInBackground()
@@ -147,13 +147,5 @@ struct MenuBarHistoryMoreOptions: View {
             .disabled(isDeleting)
             
         }
-    }
-    
-    private func removeURL(_ url: URL) {
-        do {
-            try FileManager.default.removeItem(at: url)
-        } catch {
-            print("Failed to delete file: \(error)")
-        }
-    }
+    }    
 }

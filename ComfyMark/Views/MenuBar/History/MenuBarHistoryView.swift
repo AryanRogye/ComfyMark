@@ -16,12 +16,22 @@ struct MenuBarHistoryView: View {
         VStack {
             /// This is the Button That Is Default Shown
             MenuBarHistoryButton(menuBarVM: menuBarVM)
-            
-            // If Button is pressed
-            if menuBarVM.isShowingHistory {
+                
+            if menuBarVM.isShowingMultipleDelete {
+                MenuBarMultipleDelete(menuBarVM: menuBarVM)
+            } // If Button is pressed
+            else if menuBarVM.isShowingHistory {
                 MenuBarScreenshotView(menuBarVM: menuBarVM)
             }
         }
         .frame(maxWidth: .infinity)
+        .onChange(of: menuBarVM.isShowingHistory) { _, value in
+            if !value {
+                /// If We Show Multiple Delete Just Cancel It
+                menuBarVM.isShowingMultipleDelete = false
+                menuBarVM.selectedHistoryIndex = nil
+                menuBarVM.selectedHistoryIndexs.removeAll()
+            }
+        }
     }
 }
