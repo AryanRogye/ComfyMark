@@ -159,6 +159,16 @@ struct MenuBarScreenshotView: View {
                     Color.clear.frame(width: 12, height: 12)
                 }
             }
+            
+            Button(action: {
+                menuBarVM.screenshotManager.openScreenshotFolder()
+            }) {
+                Text("Open Screenshot Folder")
+                    .font(.system(size: 10, weight: .regular, design: .monospaced))
+                    .foregroundStyle(.secondary)
+            }
+            .buttonStyle(.plain)
+
         }
     }
 }

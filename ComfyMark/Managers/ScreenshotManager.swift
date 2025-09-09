@@ -35,7 +35,17 @@ final class ScreenshotManager: ObservableObject {
         }
     }
     
+    public func openScreenshotFolder() {
+        if let appURL = appURL {
+            NSWorkspace.shared.open(appURL)
+        }
+    }
+    
     public func loadHistoryInBackground() async {
+        
+        /// Clear Everything from the screenshotHistory
+        screenshotHistory.removeAll()
+        
         for await screenshot in loadScreenshotHistory() {
             // Each time a screenshot loads, add it to the array
             await MainActor.run {

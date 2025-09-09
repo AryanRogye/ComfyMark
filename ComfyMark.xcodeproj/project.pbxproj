@@ -77,6 +77,16 @@
 		9BCF72242E6E545400B3921B /* HistoryMultipleDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72232E6E544F00B3921B /* HistoryMultipleDelete.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9BCF722D2E6E86FF00B3921B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9B9F5B852E64FFC100F3396D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9B9F5B8C2E64FFC100F3396D;
+			remoteInfo = ComfyMark;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9B48F8EE2E651F3700C470ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -150,7 +160,16 @@
 		9BCF71932E6D47D900B3921B /* HistoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryButton.swift; sourceTree = "<group>"; };
 		9BCF71952E6D4C9C00B3921B /* HistoryMoreOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMoreOptions.swift; sourceTree = "<group>"; };
 		9BCF72232E6E544F00B3921B /* HistoryMultipleDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMultipleDelete.swift; sourceTree = "<group>"; };
+		9BCF72292E6E86FF00B3921B /* ComfyMarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComfyMarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ComfyMarkTests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		9B9F5B8A2E64FFC100F3396D /* Frameworks */ = {
@@ -158,6 +177,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BCF71892E6D2B7900B3921B /* KeyboardShortcuts in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9BCF72262E6E86FF00B3921B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +413,7 @@
 				9B5C4CD72E663107008BD465 /* LICENSE */,
 				9B5C4CD82E663107008BD465 /* README.md */,
 				9B48F9082E651F3700C470ED /* ComfyMark */,
+				9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */,
 				9B9F5B8E2E64FFC100F3396D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -395,6 +422,7 @@
 			isa = PBXGroup;
 			children = (
 				9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */,
+				9BCF72292E6E86FF00B3921B /* ComfyMarkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -473,6 +501,29 @@
 			productReference = 9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9BCF72282E6E86FF00B3921B /* ComfyMarkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9BCF722F2E6E86FF00B3921B /* Build configuration list for PBXNativeTarget "ComfyMarkTests" */;
+			buildPhases = (
+				9BCF72252E6E86FF00B3921B /* Sources */,
+				9BCF72262E6E86FF00B3921B /* Frameworks */,
+				9BCF72272E6E86FF00B3921B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9BCF722E2E6E86FF00B3921B /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */,
+			);
+			name = ComfyMarkTests;
+			packageProductDependencies = (
+			);
+			productName = ComfyMarkTests;
+			productReference = 9BCF72292E6E86FF00B3921B /* ComfyMarkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -485,6 +536,10 @@
 				TargetAttributes = {
 					9B9F5B8C2E64FFC100F3396D = {
 						CreatedOnToolsVersion = 16.4;
+					};
+					9BCF72282E6E86FF00B3921B = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 9B9F5B8C2E64FFC100F3396D;
 					};
 				};
 			};
@@ -506,6 +561,7 @@
 			projectRoot = "";
 			targets = (
 				9B9F5B8C2E64FFC100F3396D /* ComfyMark */,
+				9BCF72282E6E86FF00B3921B /* ComfyMarkTests */,
 			);
 		};
 /* End PBXProject section */
@@ -516,6 +572,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B48F9192E651F3700C470ED /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9BCF72272E6E86FF00B3921B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,7 +658,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9BCF72252E6E86FF00B3921B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9BCF722E2E6E86FF00B3921B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9B9F5B8C2E64FFC100F3396D /* ComfyMark */;
+			targetProxy = 9BCF722D2E6E86FF00B3921B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9B9F5B972E64FFC300F3396D /* Debug */ = {
@@ -774,6 +852,40 @@
 			};
 			name = Release;
 		};
+		9BCF72302E6E86FF00B3921B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B9P888266K;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aryanrogye.ComfyMarkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ComfyMark.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ComfyMark";
+			};
+			name = Debug;
+		};
+		9BCF72312E6E86FF00B3921B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B9P888266K;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aryanrogye.ComfyMarkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ComfyMark.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ComfyMark";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -791,6 +903,15 @@
 			buildConfigurations = (
 				9B9F5B9A2E64FFC300F3396D /* Debug */,
 				9B9F5B9B2E64FFC300F3396D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9BCF722F2E6E86FF00B3921B /* Build configuration list for PBXNativeTarget "ComfyMarkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9BCF72302E6E86FF00B3921B /* Debug */,
+				9BCF72312E6E86FF00B3921B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
