@@ -24,14 +24,24 @@ class FocusablePanel: NSPanel {
 final class SelectionOverlayCoordinator {
     
     var overlayScreen : NSPanel!
+    private var targetScreen: NSScreen?
     let selectionOverlayVM : SelectionOverlayViewModel
     
-    init() {
+    init(
+        capture: @escaping (CGRect, NSScreen) -> Void
+    ) {
         /// Setup OverlayViewModel Closures
         self.selectionOverlayVM = SelectionOverlayViewModel()
         selectionOverlayVM.onExit = self.hide
-        selectionOverlayVM.onSelectionFinished = { rect in
-            print("Finished On Rect: \(rect)")
+        
+        selectionOverlayVM.capture = { [weak self] rect in
+            guard let self = self else { return }
+            // Prefer the screen captured during setup;
+            // fall back to the window's screen.
+            if let screen = self.targetScreen ?? self.overlayScreen?.screen ?? ScreenshotService.screenUnderMouse() {
+                capture(rect, screen)
+            }
+            self.hide()
         }
         
         setupOverlay()
@@ -43,6 +53,7 @@ final class SelectionOverlayCoordinator {
             print("Cant SetupOverlay, No screen")
             return
         }
+        self.targetScreen = screen
         
         overlayScreen = FocusablePanel(
             contentRect: .zero,

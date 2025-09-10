@@ -14,8 +14,24 @@ final class SelectionOverlayViewModel: ObservableObject {
     @Published var dragCurrent: CGPoint?
 
     // Optional callback with final rect (in view coordinates)
-    var onSelectionFinished: ((CGRect) -> Void)?
+    var capture: ((CGRect) -> Void)?
     var onExit: (() -> Void)?
+}
+
+// MARK: - Closures
+extension SelectionOverlayViewModel {
+    public func exit() {
+        onExit?()
+    }
+    
+    public func captureSelection() {
+        guard let capture = capture else { return }
+        
+        if let rect = selectionRect {
+            capture(rect)
+        }
+    }
+    
 }
 
 // MARK: - Public API
@@ -34,20 +50,12 @@ extension SelectionOverlayViewModel {
     // End drag, emit final rect and keep it visible (consumer may clear)
     func endDrag(at point: CGPoint) {
         dragCurrent = point
-        
-        if let rect = selectionRect {
-            onSelectionFinished?(rect)
-        }
     }
 
     // Clear current selection
     func clearSelection() {
         dragStart = nil
         dragCurrent = nil
-    }
-
-    public func exit() {
-        onExit?()
     }
 }
 

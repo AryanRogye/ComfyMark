@@ -25,6 +25,8 @@ protocol ScreenshotProviding {
     /// - Returns: A `CGImage` of the captured content.
     /// - Throws: An error if the capture fails or permission is denied.
     func takeScreenshot() async throws -> CGImage
+    /// Captures a screenshot of a specific `NSScreen`.
+    func takeScreenshot(of screen: NSScreen) async throws -> CGImage
 }
 
 // MARK: - Implementation
@@ -34,11 +36,11 @@ protocol ScreenshotProviding {
 ///     Configures stream dimensions to match the display
 ///     Captures a single `CGImage` via `SCScreenshotManager`
 final class ScreenshotService: ScreenshotProviding {
+    
     /// Takes a screenshot of the main display using ScreenCaptureKit.
     ///
     /// Notes:
     /// - Requires Screen Recording permission on macOS.
-    /// - Currently selects the first available display.
     public func takeScreenshot() async throws -> CGImage {
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
 
@@ -58,6 +60,16 @@ final class ScreenshotService: ScreenshotProviding {
         }
         
         return try await captureScreen(targetScreen, content: content, excludedApps: excludedApps)
+    }
+
+    public func takeScreenshot(of screen: NSScreen) async throws -> CGImage {
+        let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
+
+        // Get current app to exclude
+        let currentApp = NSRunningApplication.current
+        let excludedApps = content.applications.filter { $0.bundleIdentifier == currentApp.bundleIdentifier }
+
+        return try await captureScreen(screen, content: content, excludedApps: excludedApps)
     }
     
     private func captureScreen(_ screen: NSScreen, content: SCShareableContent, excludedApps: [SCRunningApplication]) async throws -> CGImage {

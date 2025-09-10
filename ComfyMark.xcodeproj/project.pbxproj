@@ -84,6 +84,7 @@
 		9BDA24AD2E71D1B200A28DBB /* SelectionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24AC2E71D1AE00A28DBB /* SelectionOverlay.swift */; };
 		9BDA24B02E71DC5A00A28DBB /* SelectionOverlayHotkeySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24AF2E71DC5700A28DBB /* SelectionOverlayHotkeySettings.swift */; };
 		9BDA24B22E71E92800A28DBB /* SelectionOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24B12E71E92100A28DBB /* SelectionOverlayViewModel.swift */; };
+		9BDA24BA2E72174600A28DBB /* SelectionRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24B92E72174500A28DBB /* SelectionRect.swift */; };
 		9BDA24C12E71F00000A28DBB /* CrosshairHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -181,6 +182,7 @@
 		9BDA24AF2E71DC5700A28DBB /* SelectionOverlayHotkeySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlayHotkeySettings.swift; sourceTree = "<group>"; };
 		9BDA24B12E71E92100A28DBB /* SelectionOverlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlayViewModel.swift; sourceTree = "<group>"; };
 		9BDA24B72E7205EC00A28DBB /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
+		9BDA24B92E72174500A28DBB /* SelectionRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionRect.swift; sourceTree = "<group>"; };
 		9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairHostingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -336,6 +338,7 @@
 		9B5C4C092E65FC5B008BD465 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9BDA24B82E72173F00A28DBB /* SelectionOverlay */,
 				9BCF717B2E6D083400B3921B /* ComfyMark */,
 				9BCF717A2E6D082000B3921B /* Settings */,
 				9BCF71792E6D07F700B3921B /* MenuBar */,
@@ -534,6 +537,14 @@
 			path = SelectionOverlay;
 			sourceTree = "<group>";
 		};
+		9BDA24B82E72173F00A28DBB /* SelectionOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				9BDA24B92E72174500A28DBB /* SelectionRect.swift */,
+			);
+			path = SelectionOverlay;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -669,6 +680,7 @@
 				9B5C50282E6BA423008BD465 /* View+omnidirectionalPanGesture.swift in Sources */,
 				9B5C4C082E65FC07008BD465 /* MetalContext.swift in Sources */,
 				9BCF71862E6D2B4100B3921B /* MenuBarPowerButtonSide.swift in Sources */,
+				9BDA24BA2E72174600A28DBB /* SelectionRect.swift in Sources */,
 				9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */,
 				9B5C4D432E68AB8E008BD465 /* GeneralViewModel.swift in Sources */,
 				9BCF71842E6D1F2100B3921B /* MenuBarBehavior.swift in Sources */,
