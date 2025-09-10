@@ -80,6 +80,11 @@
 		9BCF72D72E70F81800B3921B /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72D62E70F81600B3921B /* HistoryManager.swift */; };
 		9BCF72DA2E710CFB00B3921B /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72D92E710CF900B3921B /* HistoryView.swift */; };
 		9BCF72DC2E710F3C00B3921B /* ViewSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72DB2E710F3A00B3921B /* ViewSidebar.swift */; };
+		9BDA24A02E71D06F00A28DBB /* SelectionOverlayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA249F2E71D06D00A28DBB /* SelectionOverlayCoordinator.swift */; };
+		9BDA24AD2E71D1B200A28DBB /* SelectionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24AC2E71D1AE00A28DBB /* SelectionOverlay.swift */; };
+		9BDA24B02E71DC5A00A28DBB /* SelectionOverlayHotkeySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24AF2E71DC5700A28DBB /* SelectionOverlayHotkeySettings.swift */; };
+		9BDA24B22E71E92800A28DBB /* SelectionOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24B12E71E92100A28DBB /* SelectionOverlayViewModel.swift */; };
+		9BDA24C12E71F00000A28DBB /* CrosshairHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +176,12 @@
 		9BCF72D62E70F81600B3921B /* HistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryManager.swift; sourceTree = "<group>"; };
 		9BCF72D92E710CF900B3921B /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		9BCF72DB2E710F3A00B3921B /* ViewSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSidebar.swift; sourceTree = "<group>"; };
+		9BDA249F2E71D06D00A28DBB /* SelectionOverlayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlayCoordinator.swift; sourceTree = "<group>"; };
+		9BDA24AC2E71D1AE00A28DBB /* SelectionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlay.swift; sourceTree = "<group>"; };
+		9BDA24AF2E71DC5700A28DBB /* SelectionOverlayHotkeySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlayHotkeySettings.swift; sourceTree = "<group>"; };
+		9BDA24B12E71E92100A28DBB /* SelectionOverlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlayViewModel.swift; sourceTree = "<group>"; };
+		9BDA24B72E7205EC00A28DBB /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
+		9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairHostingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -227,6 +238,7 @@
 				9B48F8F62E651F3700C470ED /* SettingsCoordinator.swift */,
 				9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */,
 				9BCF718A2E6D2C1200B3921B /* HotKeyCoordinator.swift */,
+				9BDA249F2E71D06D00A28DBB /* SelectionOverlayCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -282,6 +294,7 @@
 		9B48F9062E651F3700C470ED /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9BDA24AB2E71D1A700A28DBB /* SelectionOverlay */,
 				9B5C4CD32E662EE5008BD465 /* Settings */,
 				9B48F8FF2E651F3700C470ED /* ComfyMark */,
 				9B48F9042E651F3700C470ED /* MenuBar */,
@@ -354,6 +367,7 @@
 		9B5C4D352E68A429008BD465 /* General */ = {
 			isa = PBXGroup;
 			children = (
+				9BDA24AF2E71DC5700A28DBB /* SelectionOverlayHotkeySettings.swift */,
 				9BCF718C2E6D304900B3921B /* ScreenshotHotkeySettings.swift */,
 				9B5C4D422E68AB8B008BD465 /* GeneralViewModel.swift */,
 				9B5C4D372E68A432008BD465 /* GeneralSettings.swift */,
@@ -427,6 +441,7 @@
 				9B48F9082E651F3700C470ED /* ComfyMark */,
 				9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */,
 				9B9F5B8E2E64FFC100F3396D /* Products */,
+				9BDA24B72E7205EC00A28DBB /* Untitled.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -507,6 +522,16 @@
 				9BCF72D92E710CF900B3921B /* HistoryView.swift */,
 			);
 			path = History;
+			sourceTree = "<group>";
+		};
+		9BDA24AB2E71D1A700A28DBB /* SelectionOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */,
+				9BDA24B12E71E92100A28DBB /* SelectionOverlayViewModel.swift */,
+				9BDA24AC2E71D1AE00A28DBB /* SelectionOverlay.swift */,
+			);
+			path = SelectionOverlay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -620,6 +645,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BDA24C12E71F00000A28DBB /* CrosshairHostingView.swift in Sources */,
 				9B5C4FDA2E6A8889008BD465 /* ComputeCache.swift in Sources */,
 				9B5C50312E6BEA3E008BD465 /* Bundle.swift in Sources */,
 				9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */,
@@ -672,6 +698,7 @@
 				9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */,
 				9BCF71782E6D07DE00B3921B /* MenuBarStatsContainer.swift in Sources */,
 				9BCF72D52E70F22300B3921B /* ComfyMarkViewModel+Closures.swift in Sources */,
+				9BDA24B02E71DC5A00A28DBB /* SelectionOverlayHotkeySettings.swift in Sources */,
 				9B5C503B2E6D018C008BD465 /* VisualEffectView.swift in Sources */,
 				9B5C4F942E6A87FC008BD465 /* image.metal in Sources */,
 				9B5C502F2E6BE4FD008BD465 /* Divider+groupBoxStyle.swift in Sources */,
@@ -680,11 +707,14 @@
 				9B5C50332E6BEEAC008BD465 /* SavingService.swift in Sources */,
 				9B5C4F982E6A880B008BD465 /* MetalBrush.swift in Sources */,
 				9BCF717D2E6D08A600B3921B /* MenuBarSettings.swift in Sources */,
+				9BDA24B22E71E92800A28DBB /* SelectionOverlayViewModel.swift in Sources */,
 				9B5C4D1D2E6779DE008BD465 /* MenuBarHistoryView.swift in Sources */,
 				9B48F9142E651F3700C470ED /* ComfyMarkButton.swift in Sources */,
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
+				9BDA24A02E71D06F00A28DBB /* SelectionOverlayCoordinator.swift in Sources */,
 				9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */,
 				9BCF71802E6D1DD900B3921B /* BehaviorSettings.swift in Sources */,
+				9BDA24AD2E71D1B200A28DBB /* SelectionOverlay.swift in Sources */,
 				9B5C4D322E688A3B008BD465 /* ToolbarEditorStateView.swift in Sources */,
 				9B5C4CDA2E671D6A008BD465 /* ExportService.swift in Sources */,
 				9B5C4CD02E662EB9008BD465 /* ComfyMarkToolbar.swift in Sources */,

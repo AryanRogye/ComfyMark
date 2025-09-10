@@ -14,10 +14,11 @@ class AppCoordinator {
     private var menuBarCoordinator = MenuBarCoordinator()
     
     /// Coordinators
-    private lazy var windowCoordinator  = WindowCoordinator()
-    private var hotkeyCoordinator       : HotKeyCoordinator!
-    private var settingsCoordinator     : SettingsCoordinator!
-    private var comfyMarkCoordinator    : ComfyMarkCoordinator!
+    private lazy var windowCoordinator      = WindowCoordinator()
+    private var hotkeyCoordinator           : HotKeyCoordinator!
+    private var settingsCoordinator         : SettingsCoordinator!
+    private var comfyMarkCoordinator        : ComfyMarkCoordinator!
+    private var selectionOverlayCoordinator : SelectionOverlayCoordinator
     
     /// Protocols/Services
     private var screenshots : ScreenshotProviding
@@ -41,6 +42,9 @@ class AppCoordinator {
         self.saving      = saving
         self.screenshotManager = screenshotManager
         
+        self.selectionOverlayCoordinator = SelectionOverlayCoordinator()
+        
+        
         self.settingsCoordinator = SettingsCoordinator(
             windows: windowCoordinator,
             appSettings: appSettings
@@ -59,6 +63,13 @@ class AppCoordinator {
             },
             onHotKeyUp: {
                 
+            },
+            
+            onSelectionOverlayDown: { [weak self] in
+                guard let self = self else { return }
+                self.selectionOverlayCoordinator.show()
+            },
+            onSelectionOverlayUp: {
             }
         )
         

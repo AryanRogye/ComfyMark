@@ -28,6 +28,7 @@ struct SettingsSection<Content: View>: View {
                 content
             }
             .frame(maxWidth: .infinity)
+            .padding(.vertical, 8)
         }
         .padding(.horizontal)
     }
