@@ -18,6 +18,7 @@ class ComfyMarkViewModel: ObservableObject {
     let ctx = MetalContext.shared
     var metalBrush : MetalBrush?
     var strokeManager : StrokeManager
+    var historyManager = HistoryManager()
     
     /// Passed in
     let windowID : String
