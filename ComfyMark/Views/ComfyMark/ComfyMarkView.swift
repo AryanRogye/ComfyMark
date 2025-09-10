@@ -24,7 +24,7 @@ struct ComfyMarkView: View {
                 
                 if comfyMarkVM.showHistory {
                     HistoryView(
-                        comfyMarkVM: comfyMarkVM,
+                        historyManager: comfyMarkVM.historyManager,
                         geo: geo
                     )
                 }

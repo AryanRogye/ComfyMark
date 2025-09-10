@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct Stroke {
+struct Stroke : Identifiable {
+    let id: UUID = UUID()
     var points: [CGPoint]
     var brushSize: Float
     var color: NSColor

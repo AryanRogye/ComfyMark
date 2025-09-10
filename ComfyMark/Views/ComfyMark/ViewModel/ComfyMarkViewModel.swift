@@ -103,10 +103,10 @@ extension ComfyMarkViewModel {
 extension ComfyMarkViewModel {
     
     public func undo() {
-        
+        historyManager.undo()
     }
     public func redo() {
-        
+        historyManager.redo()
     }
     
 }
@@ -130,23 +130,30 @@ extension ComfyMarkViewModel {
 // MARK: 🖍️ Drawing
 extension ComfyMarkViewModel {
     func beginStroke(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
-        let newP = viewToImagePx(point, viewSize: viewSize, viewport: viewport)
-        let clampedPt = clampToImageBounds(newP)
+        /// wherever we touch, we convert that into what px we touched on the image
+        let clampedPt = clampToImageBounds(viewToImagePx(point, viewSize: viewSize, viewport: viewport))
         strokeManager.beginStroke(at: clampedPt)
     }
     
+    /*
+     Function Will Draw A Point From First Point To The NExt One:
+     // Touch 1: (100, 200) → no previous point, so no line drawn yet
+     // Touch 2: (105, 205) → draws line from (100,200) to (105,205)
+     // Touch 3: (110, 210) → draws line from (105,205) to (110,210)
+     // Touch 4: (115, 215) → draws line from (110,210) to (115,215)
+     */
     func addPoint(_ viewPoint: CGPoint, viewSize: CGSize, viewport: Viewport) {
+        /// wherever we touch, we convert that into what px we touched on the image
         let imgPt = clampToImageBounds(viewToImagePx(viewPoint, viewSize: viewSize, viewport: viewport))
         
-        // 1) stash previous point (if any)
+        // stash previous point (if any)
         let prev = strokeManager.activeStroke?.points.last
         
-        // 2) update model
+        // update model
         strokeManager.addPoint(imgPt)
         
-        // 3) render only the delta (prev -> imgPt)
-        if let p0 = prev {
-            renderSegment(from: p0, to: imgPt)
+        if let prev = prev {
+            renderSegment(from: prev, to: imgPt)
         }
     }
     

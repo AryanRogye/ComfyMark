@@ -8,25 +8,44 @@
 import Combine
 import Foundation
 
-enum HistoryType {
-    case draw
-    case erase
-    /// Your Undo Goes Into the History When you Undo
-    case undo
-}
-
-struct HistoryItem {
-    var type : HistoryType
-}
-
 final class HistoryManager: ObservableObject {
-    @Published var history: [HistoryItem] = []
     
-    public func add(for type: HistoryType) {
-        
-        let hist = HistoryItem(
-            type: type
+    @Published private(set) var items: [HistoryItem] = []  // full timeline/log
+    
+    @Published private(set) var undoStack: [HistoryItem] = []
+    @Published private(set) var redoStack: [HistoryItem] = []
+    
+    func canUndo() -> Bool { !undoStack.isEmpty }
+    func canRedo() -> Bool { !redoStack.isEmpty }
+    
+    /// Use when the UI change is already applied (e.g. live drawing).
+    func commitApplied(
+        operation: any Undoable,
+    ) {
+        let item = HistoryItem(
+            operation: operation
         )
+        items.append(item)
+        undoStack.append(item)
+        redoStack.removeAll()
+    }
+    
+    /// Undo the Stack
+    func undo() {
+        guard let item = undoStack.popLast() else { return }
         
+        item.operation.revert()
+        
+        redoStack.append(item)
+        
+        items.append(HistoryItem(operation: item.operation))
+    }
+    
+    func redo() {
+        guard let item = redoStack.popLast() else { return }
+        item.operation.perform()
+        undoStack.append(item)
+        
+        items.append(HistoryItem(operation: item.operation))
     }
 }

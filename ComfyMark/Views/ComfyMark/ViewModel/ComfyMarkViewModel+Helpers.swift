@@ -66,6 +66,34 @@ extension ComfyMarkViewModel {
     }
 }
 
+// MARK: - ViewModel + Stroke Helpers
+
+extension ComfyMarkViewModel {
+    internal func replayStroke(_ s: Stroke) {
+        let pts = s.smoothed ?? s.points
+        guard pts.count > 1 else { return }
+        for i in 0..<(pts.count - 1) {
+            renderSegment(from: pts[i], to: pts[i+1])
+        }
+    }
+    
+    internal func replayErase(_ pts: [CGPoint]) {
+        guard pts.count > 1 else { return }
+        for i in 0..<(pts.count - 1) {
+            renderErase(from: pts[i], to: pts[i+1])
+        }
+    }
+    
+    // Clear & rebuild everything from model (fallback if you don’t have region redraw)
+    internal func rerenderAllFromModel() {
+//        resetToBaseImage()                 // whatever you use to clear to original image/texture
+        for stroke in strokeManager.allStrokesInOrder() {
+            print("Using Stroke: \(stroke)")
+            replayStroke(stroke)
+        }
+    }
+}
+
 
 
 // MARK: - 📐 ViewModel + Draw Helpers
