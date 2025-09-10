@@ -80,6 +80,9 @@
 		9BCF72D72E70F81800B3921B /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72D62E70F81600B3921B /* HistoryManager.swift */; };
 		9BCF72DA2E710CFB00B3921B /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72D92E710CF900B3921B /* HistoryView.swift */; };
 		9BCF72DC2E710F3C00B3921B /* ViewSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72DB2E710F3A00B3921B /* ViewSidebar.swift */; };
+		9BDA24942E71CDA200A28DBB /* HistoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24932E71CD9D00A28DBB /* HistoryType.swift */; };
+		9BDA24962E71CDB500A28DBB /* Undoable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24952E71CDB400A28DBB /* Undoable.swift */; };
+		9BDA24982E71CDC600A28DBB /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24972E71CDC400A28DBB /* HistoryItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +174,9 @@
 		9BCF72D62E70F81600B3921B /* HistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryManager.swift; sourceTree = "<group>"; };
 		9BCF72D92E710CF900B3921B /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		9BCF72DB2E710F3A00B3921B /* ViewSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSidebar.swift; sourceTree = "<group>"; };
+		9BDA24932E71CD9D00A28DBB /* HistoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryType.swift; sourceTree = "<group>"; };
+		9BDA24952E71CDB400A28DBB /* Undoable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Undoable.swift; sourceTree = "<group>"; };
+		9BDA24972E71CDC400A28DBB /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -309,6 +315,7 @@
 		9B48F9592E65FBDE00C470ED /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9BDA24922E71CD9800A28DBB /* History */,
 				9B5C4FD82E6A886F008BD465 /* Metal */,
 				9B5C4D3F2E68A8EB008BD465 /* AppSettings.swift */,
 				9BCF71852E6D2B3C00B3921B /* MenuBarPowerButtonSide.swift */,
@@ -509,6 +516,16 @@
 			path = History;
 			sourceTree = "<group>";
 		};
+		9BDA24922E71CD9800A28DBB /* History */ = {
+			isa = PBXGroup;
+			children = (
+				9BDA24972E71CDC400A28DBB /* HistoryItem.swift */,
+				9BDA24952E71CDB400A28DBB /* Undoable.swift */,
+				9BDA24932E71CD9D00A28DBB /* HistoryType.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -625,9 +642,11 @@
 				9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */,
 				9BCF72242E6E545400B3921B /* HistoryMultipleDelete.swift in Sources */,
 				9B5C4D3E2E68A5EF008BD465 /* Image+iconWithRectangle.swift in Sources */,
+				9BDA24962E71CDB500A28DBB /* Undoable.swift in Sources */,
 				9B5C50352E6BF6E1008BD465 /* ScreenshotManager.swift in Sources */,
 				9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */,
 				9BCF72DA2E710CFB00B3921B /* HistoryView.swift in Sources */,
+				9BDA24982E71CDC600A28DBB /* HistoryItem.swift in Sources */,
 				9B5C4D3A2E68A452008BD465 /* AboutView.swift in Sources */,
 				9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */,
 				9B5C4D1F2E6783EC008BD465 /* ExportFormatRow.swift in Sources */,
@@ -684,6 +703,7 @@
 				9B48F9142E651F3700C470ED /* ComfyMarkButton.swift in Sources */,
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
 				9B48F9162E651F3700C470ED /* MenuBarViewModel.swift in Sources */,
+				9BDA24942E71CDA200A28DBB /* HistoryType.swift in Sources */,
 				9BCF71802E6D1DD900B3921B /* BehaviorSettings.swift in Sources */,
 				9B5C4D322E688A3B008BD465 /* ToolbarEditorStateView.swift in Sources */,
 				9B5C4CDA2E671D6A008BD465 /* ExportService.swift in Sources */,

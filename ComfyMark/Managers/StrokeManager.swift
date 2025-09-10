@@ -10,6 +10,32 @@ import CoreGraphics
 import Combine
 import SwiftUI
 
+struct DrawStrokeOperation: Undoable {
+    var type: HistoryType = .draw
+    let drawData : Stroke
+    
+    func perform() {
+        
+    }
+    
+    func revert() {
+        
+    }
+}
+
+struct EraseStrokeOperation: Undoable {
+    var type: HistoryType = .erase
+    var eraseData : Stroke
+    
+    func perform() {
+        
+    }
+    
+    func revert() {
+        
+    }
+}
+
 /// Class made in ComfyMark ViewModel
 @MainActor
 final class StrokeManager: ObservableObject {
@@ -40,6 +66,29 @@ final class StrokeManager: ObservableObject {
         activeStroke = s // publish minimal object, not whole strokes array
     }
     
+    func allStrokesInOrder() -> [Stroke] { strokes }
+
+    
+    // MARK: - Remove
+    /// Removes a stroke by id. Returns the removed stroke if present.
+    @discardableResult
+    func remove(withID id: UUID) -> Stroke? {
+        guard let idx = strokes.firstIndex(where: { $0.id == id }) else { return nil }
+        return strokes.remove(at: idx)
+    }
+    
+    func endStroke(finalizingWith s: Stroke) {
+        var s = s
+        let raw = s.points
+        let smoothed = catmullRom(points: raw, alpha: 0.5, segmentStep: max(1, Int(s.brushSize/2)))
+        
+        if !smoothed.isEmpty {
+            s.points = smoothed
+        }
+        strokes.append(s)
+        activeStroke = nil
+    }
+    
     func endStroke() {
         guard var s = activeStroke else { return }
         
@@ -57,7 +106,7 @@ final class StrokeManager: ObservableObject {
     
     /// Uniform Catmull–Rom spline (alpha=0.5 is centripetal; avoids loops).
     /// Returns a densified set of points suitable for stroke quads in Metal.
-    private func catmullRom(points: [CGPoint], alpha: CGFloat, segmentStep: Int) -> [CGPoint] {
+    func catmullRom(points: [CGPoint], alpha: CGFloat, segmentStep: Int) -> [CGPoint] {
         guard points.count > 2 else { return points }
         var out: [CGPoint] = []
         let pts = [points.first!] + points + [points.last!]
