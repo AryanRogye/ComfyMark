@@ -14,6 +14,7 @@ struct ComfyMarkToolbar: View {
     
     var body: some View {
         HStack {
+            toggleHistoryView
             ToolbarEditorStateView(
                 comfyMarkVM: comfyMarkVM
             )
@@ -24,6 +25,22 @@ struct ComfyMarkToolbar: View {
             exportButton()
         }
         .padding(.horizontal, 8)
+    }
+    
+    private var toggleHistoryView: some View {
+        Button(action: {
+            comfyMarkVM.toggleHistoryView()
+        }) {
+            Image(systemName: "clock.arrow.circlepath")
+                .resizable()
+                .frame(width: 15, height: 15)
+                .foregroundStyle(.white)
+                .padding(6)
+                .background(
+                    Circle().fill(comfyMarkVM.showHistory ? Color.blue : Color.gray)
+                )
+        }
+        .buttonStyle(.plain)
     }
     
     

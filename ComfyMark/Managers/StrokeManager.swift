@@ -14,24 +14,17 @@ import SwiftUI
 @MainActor
 final class StrokeManager: ObservableObject {
     
-    // Finished strokes only (stable; good for @Published)
+    /// Finished strokes only
     @Published private(set) var strokes: [Stroke] = []
     
-    // The in-progress stroke is separate to avoid copying the whole strokes array every .append(point)
+    /// The in-progress stroke is separate to avoid copying the whole strokes array every .append(point)
     @Published var activeStroke: Stroke? = nil
     
-    // Redo stack (push here when you undo)
-    private var redoStack: [Stroke] = []
-    
     var hasActiveStroke: Bool { activeStroke != nil }
-    var canUndo: Bool { !strokes.isEmpty || activeStroke != nil }
-    var canRedo: Bool { !redoStack.isEmpty }
     
     // MARK: - Input
     
     func beginStroke(at p: CGPoint, brushSize: Float = 10, color: NSColor = .black) {
-        // New stroke invalidates redo history
-        redoStack.removeAll()
         activeStroke = Stroke(points: [p], brushSize: brushSize, color: color, timestamp: .now)
     }
     
@@ -49,45 +42,15 @@ final class StrokeManager: ObservableObject {
     
     func endStroke() {
         guard var s = activeStroke else { return }
-        s.smoothed = catmullRom(points: s.points, alpha: 0.5, segmentStep: max(1, Int(s.brushSize / 2)))
+        
+        let raw = s.points
+        let smoothed = catmullRom(points: raw, alpha: 0.5, segmentStep: max(1, Int(s.brushSize/2)))
+        
+        if !smoothed.isEmpty {
+            s.points = smoothed
+        }
         strokes.append(s)
         activeStroke = nil
-    }
-    
-    // MARK: - Undo / Redo
-    
-    @discardableResult
-    func undo() -> Stroke? {
-        // If user is mid-stroke, cancel that first
-        if let s = activeStroke {
-            activeStroke = nil
-            redoStack.append(s)
-            return s
-        }
-        guard let last = strokes.popLast() else { return nil }
-        redoStack.append(last)
-        return last
-    }
-    
-    @discardableResult
-    func redo() -> Stroke? {
-        guard var s = redoStack.popLast() else { return nil }
-        // If it was an in-progress undo, restore as finished
-        if s.smoothed == nil { s.smoothed = catmullRom(points: s.points, alpha: 0.5, segmentStep: max(1, Int(s.brushSize / 2))) }
-        strokes.append(s)
-        return s
-    }
-    
-    // MARK: - Rendering helpers
-    
-    /// Call this for final draw: use smoothed if available, else raw.
-    func strokesForRender() -> [Stroke] {
-        strokes
-    }
-    
-    /// Optional: a live feed for previewing the active stroke during drawing
-    func activePointsForRender() -> [CGPoint] {
-        activeStroke?.points ?? []
     }
     
     // MARK: - Smoothing
@@ -107,7 +70,7 @@ final class StrokeManager: ObservableObject {
         
         for i in 0..<(pts.count - 3) {
             let p0 = pts[i], p1 = pts[i+1], p2 = pts[i+2], p3 = pts[i+3]
-            var t0: CGFloat = 0
+            let t0: CGFloat = 0
             let t1 = tj(p0, p1, t0)
             let t2 = tj(p1, p2, t1)
             let t3 = tj(p2, p3, t2)
@@ -128,5 +91,41 @@ final class StrokeManager: ObservableObject {
     
     private func lerp(_ a: CGPoint, _ b: CGPoint, _ t: CGFloat) -> CGPoint {
         CGPoint(x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t)
+    }
+    
+    
+    /*
+     
+     Used To Measure the CatMullRom For Better Smoothing
+     
+     Usage:
+     
+     let smoothed = catmullRom(points: raw, alpha: 0.5, segmentStep: max(1, Int(s.brushSize/2)))
+     let rawScore = smoothnessScore(raw)
+     let smoScore = smoothnessScore(smoothed)
+     let improvement = (rawScore - smoScore) / max(rawScore, 1e-6) // 0..1
+     
+     print("Raw score: \(rawScore), Smoothed score: \(smoScore), Improvement: \(improvement)")
+
+     */
+    private func smoothnessScore(_ pts: [CGPoint]) -> CGFloat {
+        guard pts.count >= 3 else { return 0 }
+        var turn: CGFloat = 0, length: CGFloat = 0
+        for i in 1..<pts.count {
+            let a = pts[i-1], b = pts[i]
+            let dx = b.x - a.x, dy = b.y - a.y
+            let seg = max(hypot(dx, dy), 1e-6)
+            length += seg
+            if i >= 2 {
+                let c = pts[i-2]
+                let v1 = CGVector(dx: a.x - c.x, dy: a.y - c.y)
+                let v2 = CGVector(dx: b.x - a.x, dy: b.y - a.y)
+                let dot = max(min((v1.dx*v2.dx + v1.dy*v2.dy) /
+                                  (hypot(v1.dx,v1.dy)*hypot(v2.dx,v2.dy) + 1e-6), 1), -1)
+                let angle = acos(dot) // radians
+                turn += angle
+            }
+        }
+        return turn / max(length, 1e-6) // radians per point-length
     }
 }

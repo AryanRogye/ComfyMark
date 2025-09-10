@@ -14,9 +14,26 @@ struct ComfyMarkView: View {
     @State private var viewport = Viewport()
     @State private var pinchStartScale: Float? = nil
     @State var isPinching = false
+    @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
+
     
     var body: some View {
-        
+        GeometryReader { geo in
+            ZStack {
+                comfyMarkDownView()
+                
+                if comfyMarkVM.showHistory {
+                    HistoryView(
+                        comfyMarkVM: comfyMarkVM,
+                        geo: geo
+                    )
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func comfyMarkDownView() -> some View {
         CustomToolbarView {
             GeometryReader { geo in
                 ZStack {

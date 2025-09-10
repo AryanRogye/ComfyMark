@@ -75,6 +75,11 @@
 		9BCF71942E6D47DB00B3921B /* HistoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71932E6D47D900B3921B /* HistoryButton.swift */; };
 		9BCF71962E6D4C9D00B3921B /* HistoryMoreOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF71952E6D4C9C00B3921B /* HistoryMoreOptions.swift */; };
 		9BCF72242E6E545400B3921B /* HistoryMultipleDelete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72232E6E544F00B3921B /* HistoryMultipleDelete.swift */; };
+		9BCF72D32E70EE9700B3921B /* ComfyMarkViewModel+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72D22E70EE9500B3921B /* ComfyMarkViewModel+Helpers.swift */; };
+		9BCF72D52E70F22300B3921B /* ComfyMarkViewModel+Closures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72D42E70F21D00B3921B /* ComfyMarkViewModel+Closures.swift */; };
+		9BCF72D72E70F81800B3921B /* HistoryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72D62E70F81600B3921B /* HistoryManager.swift */; };
+		9BCF72DA2E710CFB00B3921B /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72D92E710CF900B3921B /* HistoryView.swift */; };
+		9BCF72DC2E710F3C00B3921B /* ViewSidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BCF72DB2E710F3A00B3921B /* ViewSidebar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,6 +166,11 @@
 		9BCF71952E6D4C9C00B3921B /* HistoryMoreOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMoreOptions.swift; sourceTree = "<group>"; };
 		9BCF72232E6E544F00B3921B /* HistoryMultipleDelete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMultipleDelete.swift; sourceTree = "<group>"; };
 		9BCF72292E6E86FF00B3921B /* ComfyMarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ComfyMarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BCF72D22E70EE9500B3921B /* ComfyMarkViewModel+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ComfyMarkViewModel+Helpers.swift"; sourceTree = "<group>"; };
+		9BCF72D42E70F21D00B3921B /* ComfyMarkViewModel+Closures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ComfyMarkViewModel+Closures.swift"; sourceTree = "<group>"; };
+		9BCF72D62E70F81600B3921B /* HistoryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryManager.swift; sourceTree = "<group>"; };
+		9BCF72D92E710CF900B3921B /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		9BCF72DB2E710F3A00B3921B /* ViewSidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewSidebar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -248,9 +258,10 @@
 		9B48F8FF2E651F3700C470ED /* ComfyMark */ = {
 			isa = PBXGroup;
 			children = (
+				9BCF72D82E710CF700B3921B /* History */,
+				9BCF72D12E70EE4D00B3921B /* ViewModel */,
 				9B5C4D302E688A31008BD465 /* Toolbar */,
 				9B48F8FD2E651F3700C470ED /* ComfyMarkView.swift */,
-				9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */,
 			);
 			path = ComfyMark;
 			sourceTree = "<group>";
@@ -401,6 +412,7 @@
 		9B5C50292E6BAA20008BD465 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				9BCF72D62E70F81600B3921B /* HistoryManager.swift */,
 				9B5C50342E6BF6DE008BD465 /* ScreenshotManager.swift */,
 				9B5C502A2E6BAA23008BD465 /* StrokeManager.swift */,
 			);
@@ -452,6 +464,7 @@
 				9B5C4F932E6A87FC008BD465 /* Image */,
 				9B5C4D1E2E6783EB008BD465 /* ExportFormatRow.swift */,
 				9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */,
+				9BCF72DB2E710F3A00B3921B /* ViewSidebar.swift */,
 			);
 			path = ComfyMark;
 			sourceTree = "<group>";
@@ -474,6 +487,24 @@
 				9BCF71932E6D47D900B3921B /* HistoryButton.swift */,
 				9BCF71912E6D47B900B3921B /* ScreenshotView.swift */,
 				9B5C4D1C2E6779DB008BD465 /* MenuBarHistoryView.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		9BCF72D12E70EE4D00B3921B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9BCF72D42E70F21D00B3921B /* ComfyMarkViewModel+Closures.swift */,
+				9BCF72D22E70EE9500B3921B /* ComfyMarkViewModel+Helpers.swift */,
+				9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		9BCF72D82E710CF700B3921B /* History */ = {
+			isa = PBXGroup;
+			children = (
+				9BCF72D92E710CF900B3921B /* HistoryView.swift */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -596,6 +627,7 @@
 				9B5C4D3E2E68A5EF008BD465 /* Image+iconWithRectangle.swift in Sources */,
 				9B5C50352E6BF6E1008BD465 /* ScreenshotManager.swift in Sources */,
 				9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */,
+				9BCF72DA2E710CFB00B3921B /* HistoryView.swift in Sources */,
 				9B5C4D3A2E68A452008BD465 /* AboutView.swift in Sources */,
 				9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */,
 				9B5C4D1F2E6783EC008BD465 /* ExportFormatRow.swift in Sources */,
@@ -619,6 +651,7 @@
 				9B5C4D402E68A8ED008BD465 /* AppSettings.swift in Sources */,
 				9B48F90D2E651F3700C470ED /* MenuBarCoordinator.swift in Sources */,
 				9BCF71922E6D47BA00B3921B /* ScreenshotView.swift in Sources */,
+				9BCF72D72E70F81800B3921B /* HistoryManager.swift in Sources */,
 				9BCF71822E6D1E2300B3921B /* BehaviorViewModel.swift in Sources */,
 				9B5C4CDC2E675390008BD465 /* Viewport.swift in Sources */,
 				9B48F90E2E651F3700C470ED /* SettingsCoordinator.swift in Sources */,
@@ -627,7 +660,9 @@
 				9B48F9102E651F3700C470ED /* View+destroyViewWindow.swift in Sources */,
 				9B5C4CCE2E662D23008BD465 /* CustomToolbarView.swift in Sources */,
 				9B5C502D2E6BB8F7008BD465 /* NSColor+toSIMD.swift in Sources */,
+				9BCF72DC2E710F3C00B3921B /* ViewSidebar.swift in Sources */,
 				9B5C4FDC2E6A88BD008BD465 /* brush.metal in Sources */,
+				9BCF72D32E70EE9700B3921B /* ComfyMarkViewModel+Helpers.swift in Sources */,
 				9B5C4D232E678509008BD465 /* Export.swift in Sources */,
 				9B5C4FDE2E6B38C1008BD465 /* SegmentUniform.swift in Sources */,
 				9B5C4D3C2E68A487008BD465 /* SettingsViewModel.swift in Sources */,
@@ -636,6 +671,7 @@
 				9B5C4D342E68A3DD008BD465 /* SettingsTab.swift in Sources */,
 				9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */,
 				9BCF71782E6D07DE00B3921B /* MenuBarStatsContainer.swift in Sources */,
+				9BCF72D52E70F22300B3921B /* ComfyMarkViewModel+Closures.swift in Sources */,
 				9B5C503B2E6D018C008BD465 /* VisualEffectView.swift in Sources */,
 				9B5C4F942E6A87FC008BD465 /* image.metal in Sources */,
 				9B5C502F2E6BE4FD008BD465 /* Divider+groupBoxStyle.swift in Sources */,

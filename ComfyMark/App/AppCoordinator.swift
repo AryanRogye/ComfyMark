@@ -51,6 +51,7 @@ class AppCoordinator {
         )
         
         
+        
         self.hotkeyCoordinator = HotKeyCoordinator(
             onHotKeyDown: { [weak self] in
                 guard let self = self else { return }
