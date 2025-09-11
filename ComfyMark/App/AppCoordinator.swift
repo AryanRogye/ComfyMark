@@ -115,7 +115,7 @@ class AppCoordinator {
         return nil
     }
     
-    /// Functio nto take screenshot and show on the screen
+    /// Function to take screenshot and show on the screen
     private func takeScreenshotAndShow(rect: CGRect, on screen: NSScreen) {
         Task {
             guard let image = await takeScreenshot(of: screen) else { return }

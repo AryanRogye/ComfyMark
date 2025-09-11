@@ -1,5 +1,5 @@
 //
-//  CursorManager.swift
+//  SelectionOverlayCoordinator.swift
 //  ComfyMark
 //
 //  Created by Aryan Rogye on 9/10/25.
@@ -23,9 +23,9 @@ class FocusablePanel: NSPanel {
 
 final class SelectionOverlayCoordinator {
     
-    var overlayScreen : NSPanel!
-    private var targetScreen: NSScreen?
-    let selectionOverlayVM : SelectionOverlayViewModel
+    var overlayScreen           : NSPanel!
+    private var targetScreen    : NSScreen?
+    let selectionOverlayVM      : SelectionOverlayViewModel
     
     init(
         capture: @escaping (CGRect, NSScreen) -> Void
