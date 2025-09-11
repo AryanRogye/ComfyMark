@@ -44,17 +44,45 @@ struct ToolbarEditorStateView: View {
                     attachmentAnchor: .rect(.bounds),
                     arrowEdge: .bottom
                 ) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Radius").font(.headline)
-                        // Example control; bind to your VM
-                        Slider(value: $comfyMarkVM.brushRadius, in: 1...64, step: 1)
-                        Text("\(Int(comfyMarkVM.brushRadius)) px")
-                            .font(.caption).foregroundStyle(.secondary)
-                    }
-                    .padding(12)
-                    .frame(width: 220)
+                    radiusPopover
                 }
             }
         }
+    }
+    
+    private var radiusPopover: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text("Radius")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.primary)
+                
+                Spacer()
+                
+                Text("\(Int(comfyMarkVM.brushRadius))")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.secondary)
+                    .monospacedDigit()
+            }
+            
+            Slider(value: $comfyMarkVM.brushRadius, in: 1...64, step: 1) {
+                Text("Radius")
+            } minimumValueLabel: {
+                Text("1")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            } maximumValueLabel: {
+                Text("64")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+            .accentColor(.blue)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
+        .frame(width: 240)
     }
 }

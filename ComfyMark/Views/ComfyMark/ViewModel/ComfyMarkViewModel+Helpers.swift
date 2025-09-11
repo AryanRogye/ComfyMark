@@ -79,6 +79,25 @@ extension ComfyMarkViewModel {
  ---------------------------------------------------------------------------------
  */
 extension ComfyMarkViewModel {
+    
+    /// Where the image actually is when .aspectRatio(.fit) is applied.
+    private func fittedImageRect(in viewSize: CGSize, imageSize: CGSize) -> CGRect {
+        let imageAspect = imageSize.width / imageSize.height
+        let viewAspect  = viewSize.width / viewSize.height
+        
+        if viewAspect > imageAspect {
+            // pillarbox (bars left/right)
+            let h = viewSize.height
+            let w = h * imageAspect
+            return CGRect(x: (viewSize.width - w) * 0.5, y: 0, width: w, height: h)
+        } else {
+            // letterbox (bars top/bottom)
+            let w = viewSize.width
+            let h = w / imageAspect
+            return CGRect(x: 0, y: (viewSize.height - h) * 0.5, width: w, height: h)
+        }
+    }
+    
     // MARK: - 🎯 clampToImageBounds
     internal func clampToImageBounds(_ point: CGPoint) -> CGPoint {
         guard let imageTexture = imageTexture else { return point }
@@ -91,23 +110,33 @@ extension ComfyMarkViewModel {
             y: CGFloat(max(0, min(maxY, Float(point.y))))
         )
     }
-    // MARK: - 🗺️ viewToImagePx
-    internal func viewToImagePx(_ p: CGPoint, viewSize: CGSize, viewport: Viewport) -> CGPoint {
-        // First, convert SwiftUI view coordinates to normalized coordinates (-1 to +1)
-        let normalizedX = (2.0 * p.x / viewSize.width) - 1.0
-        let normalizedY = 1.0 - (2.0 * p.y / viewSize.height) // Flip Y for Metal coordinates
+    
+    private func clampPoint(_ p: CGPoint, to rect: CGRect) -> CGPoint {
+        CGPoint(x: min(max(p.x, rect.minX), rect.maxX),
+                y: min(max(p.y, rect.minY), rect.maxY))
+    }
+    
+    internal func viewToImagePx(_ p: CGPoint,
+                                viewSize: CGSize,
+                                viewport: Viewport) -> CGPoint {
+        let imgSize = CGSize(width: image.width, height: image.height)
+        let rect = fittedImageRect(in: viewSize, imageSize: imgSize)
         
-        // Apply viewport transformation
-        let worldX = normalizedX / CGFloat(viewport.scale) + CGFloat(viewport.origin.x)
-        let worldY = normalizedY / CGFloat(viewport.scale) + CGFloat(viewport.origin.y)
+        // Clamp to the image rect instead of bailing
+        let clamped = clampPoint(p, to: rect)
+        let lp = CGPoint(x: clamped.x - rect.minX, y: clamped.y - rect.minY)
         
-        // Convert to texture pixel coordinates
-        // Assuming your texture coordinates go from (0,0) to (textureWidth, textureHeight)
-        guard let imageTexture = imageTexture else { return CGPoint.zero }
+        let nx = (2.0 * lp.x / rect.width)  - 1.0
+        let ny = 1.0 - (2.0 * lp.y / rect.height)
         
-        let textureX = (worldX + 1.0) * 0.5 * CGFloat(imageTexture.width)
-        let textureY = (1.0 - worldY) * 0.5 * CGFloat(imageTexture.height) // Flip Y back for texture coordinates
+        let worldX = nx / CGFloat(viewport.scale) + CGFloat(viewport.origin.x)
+        let worldY = ny / CGFloat(viewport.scale) + CGFloat(viewport.origin.y)
         
-        return CGPoint(x: textureX, y: textureY)
+        let tex = imageTexture!
+        var tx = (worldX + 1.0) * 0.5 * CGFloat(tex.width)
+        var ty = (1.0 - worldY) * 0.5 * CGFloat(tex.height)
+        tx = max(0, min(CGFloat(tex.width  - 1), tx))
+        ty = max(0, min(CGFloat(tex.height - 1), ty))
+        return CGPoint(x: tx, y: ty)
     }
 }

@@ -127,13 +127,18 @@ class AppCoordinator {
             )
             let bounds = CGRect(x: 0, y: 0, width: image.width, height: image.height)
             let clamped = Self.clamp(pixelRect, to: bounds)
+            
+            /// If We Have Bad Size
             guard clamped.width > 0, clamped.height > 0 else {
                 showImage(image)
                 return
             }
+            
             if let cropped = image.cropping(to: clamped) {
+                /// If Valid Crop Show with rect or we thought
                 showImage(cropped)
             } else {
+                /// Not Valid
                 showImage(image)
             }
         }
@@ -147,7 +152,6 @@ class AppCoordinator {
             }
         }
     }
-   
     
     private func showImage(_ image: CGImage, windowID: String = "comfymark-\(UUID().uuidString)") {
         self.comfyMarkCoordinator.showComfyMark(

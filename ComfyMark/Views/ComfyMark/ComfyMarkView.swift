@@ -37,9 +37,16 @@ struct ComfyMarkView: View {
         CustomToolbarView {
             GeometryReader { geo in
                 ZStack {
+                    
+                    Color(red: 0.95, green: 0.95, blue: 0.95)
+                    
                     MetalImageView(
                         viewport: $viewport,
                         comfyMarkVM: comfyMarkVM
+                    )
+                    .aspectRatio(
+                        CGFloat(comfyMarkVM.image.width) / CGFloat(comfyMarkVM.image.height),
+                        contentMode: .fit
                     )
                     .id(comfyMarkVM.windowID)
                 }
