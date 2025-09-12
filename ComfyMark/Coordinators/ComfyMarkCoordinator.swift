@@ -34,8 +34,8 @@ class ComfyMarkCoordinator {
         saving                  : SavingProviding,
         screenshotManager       : ScreenshotManager,
         onLastRenderTimeUpdated : @escaping ((TimeInterval) -> Void),
-        windowID: String,
-        projectName: String? = nil
+        windowID                : String,
+        projectName             : String? = nil
     ) {
         /// Make sure no session with the windowID
         if self.hasSession(for: windowID, projectName) {
@@ -61,16 +61,26 @@ class ComfyMarkCoordinator {
             comfyMarkVM: session.comfyMarkVM
         )
         
-        /// TODO: Let Settings allow the default screenshot size
-        let padding = CGFloat(128)
+        var windowSize: NSSize
+        let paddingAround = CGFloat(20)
         let screen = ScreenshotService.screenUnderMouse() ?? NSScreen.main!
-        let size = NSSize(width: screen.frame.width - padding, height: screen.frame.height - padding)
-        
+        let visibleFrame = screen.visibleFrame
+
+        windowSize = NSSize(
+            width: visibleFrame.width - (paddingAround * 2),
+            height: visibleFrame.height - (paddingAround * 2)
+        )
+        let windowOrigin = CGPoint(
+            x: visibleFrame.origin.x + paddingAround,
+            y: visibleFrame.origin.y + paddingAround
+        )
+
         windowCoordinator.showWindow(
             id: windowID,
             title: projectName ?? "Image",
             content: view,
-            size: size,
+            size: windowSize,
+            origin: windowOrigin,
             onOpen: { [weak self] in
                 self?.windowCoordinator.activateWithRetry()
             },

@@ -50,6 +50,7 @@ class WindowCoordinator {
         title: String,
         content: some View,
         size: NSSize = .init(width: 600, height: 400),
+        origin: CGPoint? = nil,
         onOpen: (() -> Void)? = nil,
         onClose: (() -> Void)? = nil
     ) {
@@ -61,8 +62,10 @@ class WindowCoordinator {
             return
         }
         
+        let windowOrigin = origin ?? .zero
+
         let window = NSWindow(
-            contentRect: NSRect(origin: .zero, size: size),
+            contentRect: NSRect(origin: windowOrigin, size: size),
             styleMask: [.titled, .closable, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: false

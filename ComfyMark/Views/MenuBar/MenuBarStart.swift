@@ -9,101 +9,181 @@
 
 import SwiftUI
 
-struct MenuBarStart: View {
-    
-    @ObservedObject var menuBarVM: MenuBarViewModel
-    @State private var isHovering = false
-    
-    @State private var startLogo: String = "camera.viewfinder"
-    @State private var captureTick: Int = 0
-    
-    var body: some View {
-        ComfyMarkButton {
-            
-            HStack(spacing: 4) {
-                StartMarkLogo(isHovering: isHovering, symbolName: startLogo, captureTick: captureTick)
-                Text("Mark")
-            }
-            .labelStyle(.titleAndIcon)
-            .imageScale(.medium)
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity, maxHeight: 18, alignment: .center)
-            .padding(12)
-            .background {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(
-                        menuBarVM.startButtonTapped
-                        ? Color.red : Color.blue
-                    )
-                    .opacity(isHovering ? 0.95 : 1.0)
-            }
-            .onHover { isHovering = $0 }
-            .accessibilityLabel("Mark screen")
-        } action: {
-            // Trigger a subtle capture animation on the icon
-            captureTick &+= 1
-            menuBarVM.startTapped()
-        }
-        .help("Capture & mark the screen (Set Hotkey in Settings)")
+private enum CaptureMode: String { case mark, crop }
+private enum MenuBarViewModifierSide { case left, right }
+
+private extension View {
+    func menuBarStartStyle(
+        color: AnyShapeStyle,
+        isHovering: Binding<Bool>,
+        accessibilityLabel: String,
+        side : MenuBarViewModifierSide,
+        width: CGFloat = .infinity
+    ) -> some View {
+        modifier(MenuBarViewModifier(
+            color: color,
+            isHovering: isHovering,
+            accessibilityLabel: accessibilityLabel,
+            width: width,
+            side: side
+        ))
     }
 }
 
-private struct StartMarkLogo: View {
-    let isHovering: Bool
-    let symbolName: String
-    var captureTick: Int = 0
+private struct MenuBarViewModifier: ViewModifier {
     
-    @State private var flashOpacity: CGFloat = 0
-    @State private var recoilScale: CGFloat = 1
+    var color: AnyShapeStyle
+    @Binding var isHovering: Bool
+    var accessibilityLabel: String
+    var width: CGFloat
+    var side: MenuBarViewModifierSide
+    
+    func body(content: Content) -> some View {
+        content
+            .labelStyle(.titleAndIcon)
+            .imageScale(.medium)
+            .foregroundStyle(.white)
+            .frame(maxWidth: width, maxHeight: 18, alignment: .center)
+            .padding(12)
+            .background {
+                UnevenRoundedRectangle(cornerRadii: cornerRadii)
+                    .fill(color)
+                    .opacity(isHovering ? 0.95 : 1.0)
+                    .shadow(color: .black.opacity(0.1), radius: 1, y: 0.5)
+            }
+            .onHover { isHovering = $0 }
+            .accessibilityLabel(accessibilityLabel)
+    }
+    
+    private var cornerRadii: RectangleCornerRadii {
+        switch side {
+        case .left:
+            // order: topLeading, bottomLeading, bottomTrailing, topTrailing
+            return .init(topLeading: 8, bottomLeading: 8, bottomTrailing: 0, topTrailing: 0)
+        case .right:
+            return .init(topLeading: 0, bottomLeading: 0, bottomTrailing: 8, topTrailing: 8)
+        }
+    }
+}
+
+struct MenuBarStart: View {
+    
+    @ObservedObject var menuBarVM: MenuBarViewModel
+    
+    /// Saving Last Capture Mode
+    @AppStorage("ComfyMark.captureMode") private var modeRaw = CaptureMode.mark.rawValue
+    
+    private var mode: CaptureMode {
+        get { CaptureMode(rawValue: modeRaw) ?? .mark }
+        nonmutating set { modeRaw = newValue.rawValue }
+    }
+    
+    @State private var isHoverLeft = false
+    @State private var isHoverRight = false
+
+    @State private var startLogo: String = "camera.viewfinder"
+    @State private var captureTick: Int = 0
+    @State private var showModeMenu = false
+    
+    private var titleText: String { mode == .mark ? "Mark" : "Crop" }
+    private var iconName: String { mode == .mark ? "camera.viewfinder" : "crop" }
     
     var body: some View {
-        ZStack {
-            // Single container that morphs rather than switching views
-            RoundedRectangle(cornerRadius: isHovering ? 5.5 : 5)
-                .stroke(.white.opacity(isHovering ? 0.25 : 0.12),
-                        lineWidth: isHovering ? 1.2 : 1)
-                .frame(width: isHovering ? 18 : 16,
-                       height: isHovering ? 18 : 16)
+        HStack(spacing: 0) {
+            let base = menuBarVM.startButtonTapped ? Color.red : Color.blue
+
+            ComfyMarkButton {
+                startButton
+                    .menuBarStartStyle(
+                        color: AnyShapeStyle(LinearGradient(
+                            colors: [base.opacity(0.95), base.opacity(0.85)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        ))
+                        ,
+                        isHovering: $isHoverLeft,
+                        accessibilityLabel: "Mark Screen",
+                        side: .left
+                    )
+            } action: {
+                if mode == .mark {
+                    // Trigger a subtle capture animation on the icon
+                    captureTick &+= 1
+                    menuBarVM.startTapped()
+                } else if mode == .crop {
+                    menuBarVM.startCropped()
+                }
+            }
+            .help("Capture & mark the screen (Set Hotkey in Settings)")
             
-            // Center icon - stays in same position
-            Image(systemName: symbolName)
-                .font(.system(size: isHovering ? 12.5 : 12,
-                              weight: isHovering ? .medium : .regular))
-                .foregroundStyle(.white)
+            // Divider between the two
+            Rectangle()
+                .fill(.white.opacity(0.15))
+                .frame(width: 0.3, height: 18)
             
-            // Capture flash overlay
-            RoundedRectangle(cornerRadius: 5)
-                .fill(Color.white)
-                .opacity(Double(flashOpacity))
+            ComfyMarkButton {
+                moreOptions
+                    .menuBarStartStyle(
+                        color: AnyShapeStyle(base),
+                        isHovering: $isHoverRight,
+                        accessibilityLabel: "More Options",
+                        side: .right,
+                        width: 25
+                    )
+            } action: {
+                showModeMenu = !showModeMenu
+            }
         }
-        .frame(width: 18, height: 18) // Fixed container size
-        .scaleEffect(recoilScale)
-        .animation(.spring(response: 0.25, dampingFraction: 0.8, blendDuration: 0),
-                   value: isHovering)
-        .accessibilityHidden(true)
-        .onChange(of: captureTick) {
-            playCaptureAnimation()
+        .animation(.spring(response: 0.18, dampingFraction: 0.9), value: isHoverLeft)
+        .animation(.spring(response: 0.18, dampingFraction: 0.9), value: isHoverRight)
+    }
+    
+    private var startButton: some View {
+        HStack(spacing: 6) {
+            StartMarkLogo(isHovering: isHoverLeft, symbolName: iconName, captureTick: captureTick)
+            Text(titleText)
+                .fontWeight(.semibold)
+            Spacer()
+        }
+
+    }
+    
+    private var moreOptions: some View {
+        HStack {
+            // tiny chevron hotspot
+            Image(systemName: "chevron.down")
+                .font(.caption2.weight(.bold))
+                .opacity(0.9)
+                .padding(.horizontal, 6)
+                .contentShape(Rectangle())
+                .popover(isPresented: $showModeMenu, arrowEdge: .top) {
+                    modePicker
+                }
         }
     }
     
-    private func playCaptureAnimation() {
-        // Single smooth recoil animation
-        withAnimation(.spring(response: 0.15, dampingFraction: 0.6)) {
-            recoilScale = 0.92
+    private var modePicker: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            modeRow(.mark, "camera.viewfinder", "Mark")
+            modeRow(.crop, "crop", "Crop")
         }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
-                recoilScale = 1.0
-            }
+        .padding(10)
+        .frame(width: 160)
+    }
+    private func modeRow(_ m: CaptureMode, _ icon: String, _ title: String) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: icon)
+            Text(title)
+            Spacer()
+            if m == mode { Image(systemName: "checkmark") }
         }
-        
-        // Clean flash
-        withAnimation(.easeOut(duration: 0.08)) {
-            flashOpacity = 0.8
+        .contentShape(Rectangle())
+        .onTapGesture {
+            mode = m
+            showModeMenu = false
         }
-        withAnimation(.easeIn(duration: 0.15).delay(0.08)) {
-            flashOpacity = 0
-        }
+        .padding(6)
+        .background(m == mode ? AnyShapeStyle(Color.accentColor) : AnyShapeStyle(Color.clear))
+        .cornerRadius(6)
     }
 }

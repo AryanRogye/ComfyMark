@@ -28,7 +28,7 @@ struct MetalImageView: NSViewRepresentable {
         self._viewport = viewport
         self.comfyMarkVM = comfyMarkVM
     }
-
+    
     
     private let ctx = MetalContext.shared
     
@@ -40,7 +40,7 @@ struct MetalImageView: NSViewRepresentable {
         let mtkView = MTKView()
         mtkView.device = ctx.device
         mtkView.delegate = context.coordinator
-        mtkView.clearColor = MTLClearColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        mtkView.clearColor = MTLClearColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)
         mtkView.autoResizeDrawable = true
         mtkView.framebufferOnly = true
         mtkView.enableSetNeedsDisplay = true
@@ -81,7 +81,7 @@ struct MetalImageView: NSViewRepresentable {
         private var inkTexture     : MTLTexture!
         
         public var viewport: Viewport?
-
+        
         /// Parent
         var parent: MetalImageView
         
@@ -104,7 +104,7 @@ struct MetalImageView: NSViewRepresentable {
         
         private weak var currentView: MTKView?
         private var cancellables: Set<AnyCancellable> = []
-
+        
         init(_ parent: MetalImageView) {
             self.parent = parent
             super.init()
@@ -142,7 +142,7 @@ struct MetalImageView: NSViewRepresentable {
                 self?.exportToCGImage()
             }
         }
-
+        
         /// This has to be called on the main actor, because comfyMarkVM is on the
         /// the MainActor
         @MainActor
@@ -232,85 +232,72 @@ struct MetalImageView: NSViewRepresentable {
         ///   - size: The desired output size (defaults to current textures' size)
         ///   - viewport: The viewport to use for rendering (defaults to current viewport)
         /// - Returns: A CIImage of the rendered output, or nil if rendering fails
-        func exportToCGImage(size: CGSize = CGSize(width: 3840, height: 2160), viewport: Viewport? = nil) -> CGImage? {
-            guard let imageTexture = imageTexture,
-                  let inkTexture = inkTexture else {
-                print("Missing required textures for export")
-                return nil
-            }
+        func exportToCGImage() -> CGImage? {
+            guard let imageTexture, let inkTexture else { return nil }
             
-            // Determine output size
-            let outputSize = size ?? CGSize(
-                width: imageTexture.width,
-                height: imageTexture.height
-            )
+            // 1) Lock the target to the source texture size
+            let w = imageTexture.width
+            let h = imageTexture.height
+            let outputSize = CGSize(width: w, height: h)
             
-            // Use provided viewport or current one
-            let exportViewport = viewport ?? self.viewport ?? Viewport(origin: SIMD2(0, 0), scale: 1.0)
-            
-            // Create offscreen render target
-            let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(
+            // 2) Create offscreen RT of the same size
+            let desc = MTLTextureDescriptor.texture2DDescriptor(
                 pixelFormat: .bgra8Unorm,
-                width: Int(outputSize.width),
-                height: Int(outputSize.height),
-                mipmapped: false
+                width: w, height: h, mipmapped: false
             )
-            textureDescriptor.usage = [.renderTarget, .shaderRead]
+            desc.usage = [.renderTarget, .shaderRead]
+            guard let offscreen = device.makeTexture(descriptor: desc) else { return nil }
             
-            guard let offscreenTexture = device.makeTexture(descriptor: textureDescriptor) else {
-                print("Failed to create offscreen texture")
-                return nil
-            }
+            // 3) Render pass + identity viewport uniform
+            let rpd = MTLRenderPassDescriptor()
+            rpd.colorAttachments[0].texture = offscreen
+            rpd.colorAttachments[0].loadAction = .clear
+            rpd.colorAttachments[0].storeAction = .store
+            rpd.colorAttachments[0].clearColor = MTLClearColor(red: 0, green: 0, blue: 0, alpha: 0)
             
-            // Render pass descriptor
-            let renderPassDescriptor = MTLRenderPassDescriptor()
-            renderPassDescriptor.colorAttachments[0].texture = offscreenTexture
-            renderPassDescriptor.colorAttachments[0].loadAction = .clear
-            renderPassDescriptor.colorAttachments[0].storeAction = .store
-            renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColor(
-                red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0
-            )
+            // Identity viewport for shader (no pan/zoom)
+            viewportBuffer.contents()
+                .bindMemory(to: Viewport.self, capacity: 1)
+                .pointee = Viewport(origin: SIMD2<Float>(0, 0), scale: 1)
             
-            // Update viewport buffer
-            let viewportBufferInfo = viewportBuffer.contents().bindMemory(to: Viewport.self, capacity: 1)
-            viewportBufferInfo.pointee = Viewport(
-                origin: exportViewport.origin,
-                scale: exportViewport.scale
-            )
+            guard let cb = queue.makeCommandBuffer(),
+                  let enc = cb.makeRenderCommandEncoder(descriptor: rpd) else { return nil }
             
-            // Render
-            guard let commandBuffer = queue.makeCommandBuffer(),
-                  let renderEncoder = commandBuffer.makeRenderCommandEncoder(descriptor: renderPassDescriptor) else {
-                print("Failed to create command buffer or render encoder")
-                return nil
-            }
+            enc.setRenderPipelineState(pso)
+            enc.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
+            enc.setVertexBuffer(viewportBuffer, offset: 0, index: 1)
+            enc.setFragmentTexture(imageTexture, index: 0)
+            enc.setFragmentTexture(inkTexture,   index: 1)
             
-            renderEncoder.setRenderPipelineState(pso)
-            renderEncoder.setVertexBuffer(vertexBuffer, offset: 0, index: 0)
-            renderEncoder.setVertexBuffer(viewportBuffer, offset: 0, index: 1)
-            renderEncoder.setFragmentTexture(imageTexture, index: 0)
-            renderEncoder.setFragmentTexture(inkTexture, index: 1)
-            renderEncoder.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6)
-            renderEncoder.endEncoding()
+            // Make the raster viewport EXACTLY the RT size
+            enc.setViewport(MTLViewport(
+                originX: 0, originY: 0,
+                width:  Double(w), height: Double(h),
+                znear: 0, zfar: 1
+            ))
             
-            commandBuffer.commit()
-            commandBuffer.waitUntilCompleted()
+            enc.drawPrimitives(type: .triangle, vertexStart: 0, vertexCount: 6)
+            enc.endEncoding()
+            cb.commit()
+            cb.waitUntilCompleted()
             
-            // Convert to CGImage
-            guard let ci = CIImage(mtlTexture: offscreenTexture, options: [
-                .colorSpace: CGColorSpaceCreateDeviceRGB()
-            ]) else {
-                print("Failed to create CIImage from texture")
-                return nil
-            }
+            // 4) Turn it into CGImage (flip w/out changing extent)
+            guard let ci0 = CIImage(mtlTexture: offscreen,
+                                    options: [.colorSpace: CGColorSpaceCreateDeviceRGB()])
+            else { return nil }
             
-            let h = ci.extent.height
-            let flipped = ci
-                .transformed(by: CGAffineTransform(scaleX: 1, y: -1)
-                    .translatedBy(x: 0, y: -h))
+            // Metal -> Quartz vertical flip that PRESERVES extent
+            let ci = ci0.oriented(.downMirrored)    // try .upMirrored if your quad is inverted
             
-            let ciContext = CIContext(mtlDevice: device)
-            return ciContext.createCGImage(flipped, from: flipped.extent)
+            let ctx = CIContext(mtlDevice: device)
+            let rect = ci.extent.integral            // guaranteed inside
+            let cg   = ctx.createCGImage(ci, from: rect)
+            
+            // Debug
+            if let cg { print("✅ exported CGImage:", cg.width, "x", cg.height) }
+            else      { print("❌ createCGImage failed. extent:", ci.extent) }
+            
+            return cg
         }
     }
 }

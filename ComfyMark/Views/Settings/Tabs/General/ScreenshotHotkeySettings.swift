@@ -11,7 +11,7 @@ import KeyboardShortcuts
 struct ScreenshotHotkeySettings: View {
     
     var body: some View {
-        HStack {
+        HStack(alignment: .center) {
             Text("Screenshot Hotkey")
             Spacer()
             KeyboardShortcuts.Recorder("", name: .ComfyMarkScreenshot)
