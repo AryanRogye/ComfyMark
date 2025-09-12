@@ -9,32 +9,30 @@ import XCTest
 @testable import ComfyMark
 import CoreGraphics
 
-/// I want to make sure certain settings are right, when using this
-
-// Mock ScreenshotProviding
-class MockScreenshotProviding: ScreenshotProviding {
-    var capturedImage: CGImage?
-    
-    func takeScreenshot() async throws -> CGImage {
-        // Simulate a screenshot with a mock CGImage
-        guard let image = CGImage(
-            width: 100,
-            height: 100,
-            bitsPerComponent: 8,
-            bitsPerPixel: 32,
-            bytesPerRow: 400,
-            space: CGColorSpaceCreateDeviceRGB(),
-            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue),
-            provider: CGDataProvider(data: CFDataCreate(nil, [UInt8](repeating: 0, count: 40000), 0)!)!,
-            decode: nil,
-            shouldInterpolate: false,
-            intent: .defaultIntent
-        ) else {
-            throw NSError(domain: "MockScreenshotError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to create mock CGImage"])
-        }
-        capturedImage = image
-        return image
+final class ScreenshotProviderTests: XCTestCase {
+    func testTakeScreenshotReturnsImage() async throws {
+        let mock = MockScreenshotProvider()
+        let img = await mock.takeScreenshot()
+        XCTAssertNotNil(img)
+        XCTAssertEqual(img?.width, 100)
+        XCTAssertEqual(img?.height, 50)
     }
 }
 
+final class MockScreenshotProvider: ScreenshotProviding {
+    func takeScreenshot() async -> CGImage? { makeTestImage(w: 100, h: 50) }
+    func takeScreenshot(of screen: NSScreen) async -> CGImage? { makeTestImage(w: 80, h: 60) }
+    
+    private func makeTestImage(w: Int, h: Int) -> CGImage? {
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        guard let ctx = CGContext(
+            data: nil, width: w, height: h,
+            bitsPerComponent: 8, bytesPerRow: w*4,
+            space: colorSpace, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
+        ) else { return nil }
+        ctx.setFillColor(NSColor.systemBlue.cgColor)
+        ctx.fill(CGRect(x: 0, y: 0, width: w, height: h))
+        return ctx.makeImage()
+    }
+}
 
