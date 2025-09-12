@@ -85,6 +85,7 @@
 		9BDA24B02E71DC5A00A28DBB /* SelectionOverlayHotkeySettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24AF2E71DC5700A28DBB /* SelectionOverlayHotkeySettings.swift */; };
 		9BDA24B22E71E92800A28DBB /* SelectionOverlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24B12E71E92100A28DBB /* SelectionOverlayViewModel.swift */; };
 		9BDA24BA2E72174600A28DBB /* SelectionRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24B92E72174500A28DBB /* SelectionRect.swift */; };
+		9BDA24BC2E73291800A28DBB /* StartMarkLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24BB2E73291600A28DBB /* StartMarkLogo.swift */; };
 		9BDA24C12E71F00000A28DBB /* CrosshairHostingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -183,6 +184,7 @@
 		9BDA24B12E71E92100A28DBB /* SelectionOverlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlayViewModel.swift; sourceTree = "<group>"; };
 		9BDA24B72E7205EC00A28DBB /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
 		9BDA24B92E72174500A28DBB /* SelectionRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionRect.swift; sourceTree = "<group>"; };
+		9BDA24BB2E73291600A28DBB /* StartMarkLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMarkLogo.swift; sourceTree = "<group>"; };
 		9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairHostingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -483,6 +485,7 @@
 				9B5C4D1E2E6783EB008BD465 /* ExportFormatRow.swift */,
 				9B5C4CCD2E662D22008BD465 /* CustomToolbarView.swift */,
 				9BCF72DB2E710F3A00B3921B /* ViewSidebar.swift */,
+				9BDA24BB2E73291600A28DBB /* StartMarkLogo.swift */,
 			);
 			path = ComfyMark;
 			sourceTree = "<group>";
@@ -684,6 +687,7 @@
 				9B5C4C8B2E65FF4C008BD465 /* Vertex.swift in Sources */,
 				9B5C4D432E68AB8E008BD465 /* GeneralViewModel.swift in Sources */,
 				9BCF71842E6D1F2100B3921B /* MenuBarBehavior.swift in Sources */,
+				9BDA24BC2E73291800A28DBB /* StartMarkLogo.swift in Sources */,
 				9BCF718B2E6D2C1700B3921B /* HotKeyCoordinator.swift in Sources */,
 				9B48F90C2E651F3700C470ED /* ComfyMarkCoordinator.swift in Sources */,
 				9B5C4D402E68A8ED008BD465 /* AppSettings.swift in Sources */,

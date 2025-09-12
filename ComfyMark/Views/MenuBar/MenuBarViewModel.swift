@@ -82,7 +82,9 @@ class MenuBarViewModel: ObservableObject {
     
     var onSettingsTapped: (() -> Void)?
     var onStartTappedImage: ((CGImage, String) -> Void)?
+    
     var onStartTapped: (() throws -> Void)?
+    var onCrop: (() -> Void)?
     
     
     public func onStartTappedOn(_ history: ScreenshotThumbnailInfo) {
@@ -99,6 +101,15 @@ class MenuBarViewModel: ObservableObject {
         }
     }
     
+    public func startCropped() {
+        
+        if startButtonTapped { return }
+        startButtonTapped = true
+        defer { startButtonTapped = false }
+        
+        guard let onCrop = onCrop else { return }
+        onCrop()
+    }
     
     // MARK: - Start Tapped
     /// function will take trigger what it was set with

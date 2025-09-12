@@ -58,6 +58,7 @@ class AppCoordinator {
         )
         
         self.hotkeyCoordinator = HotKeyCoordinator(
+            // Regular Screenshot
             onHotKeyDown: { [weak self] in
                 guard let self = self else { return }
                 self.takeScreenshotAndShow()
@@ -65,7 +66,7 @@ class AppCoordinator {
             onHotKeyUp: {
                 
             },
-            
+            /// Overlay Selection Screenshot
             onSelectionOverlayDown: { [weak self] in
                 guard let self = self else { return }
                 self.selectionOverlayCoordinator.show()
@@ -92,6 +93,10 @@ class AppCoordinator {
             onStartTappedImage: {[weak self] image, projectName in
                 guard let self else { return }
                 showImage(image, projectName: projectName)
+            },
+            onCrop: { [weak self] in
+                guard let self = self else { return }
+                self.selectionOverlayCoordinator.show()
             }
         )
     }

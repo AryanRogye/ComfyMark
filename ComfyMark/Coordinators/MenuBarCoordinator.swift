@@ -30,18 +30,25 @@ class MenuBarCoordinator: NSObject {
         appSettings       : AppSettings,
         onSettingsTapped: @escaping () -> Void,
         onStartTapped: @escaping () throws -> Void,
-        onStartTappedImage: @escaping (CGImage, String) -> Void
+        onStartTappedImage: @escaping (CGImage, String) -> Void,
+        onCrop: @escaping () -> Void
     ) {
         menuBarVM = MenuBarViewModel(
             appSettings: appSettings,
-            screenshotManager: screenshotManager
+            screenshotManager: screenshotManager,
         )
         guard let menuBarVM = menuBarVM else {
             print("Couldnt Initialize MenuBarViewModel Cuz of MenuBarVM Not Initialized")
             return
         }
         
-        menuBarVM.onSettingsTapped = onSettingsTapped
+        menuBarVM.onSettingsTapped = {
+            onSettingsTapped()
+        }
+        
+        menuBarVM.onCrop = {
+            onCrop()
+        }
         
         menuBarVM.onStartTapped = { [weak self] in
             guard let self = self else { return }
