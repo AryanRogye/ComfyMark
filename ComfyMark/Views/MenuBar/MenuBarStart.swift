@@ -71,7 +71,7 @@ struct MenuBarStart: View {
     @ObservedObject var menuBarVM: MenuBarViewModel
     
     /// Saving Last Capture Mode
-    @AppStorage("cm.captureMode") private var modeRaw = CaptureMode.mark.rawValue
+    @AppStorage("ComfyMark.captureMode") private var modeRaw = CaptureMode.mark.rawValue
     
     private var mode: CaptureMode {
         get { CaptureMode(rawValue: modeRaw) ?? .mark }
@@ -85,10 +85,8 @@ struct MenuBarStart: View {
     @State private var captureTick: Int = 0
     @State private var showModeMenu = false
     
-    
     private var titleText: String { mode == .mark ? "Mark" : "Crop" }
     private var iconName: String { mode == .mark ? "camera.viewfinder" : "crop" }
-    private var shortcutHint: String { mode == .mark ? "⌘⇧4" : "⌘⇧5" }
     
     var body: some View {
         HStack(spacing: 0) {

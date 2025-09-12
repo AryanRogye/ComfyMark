@@ -27,7 +27,8 @@ extension SelectionOverlayViewModel {
     public func captureSelection() {
         guard let capture = capture else { return }
         
-        if let rect = selectionRect {
+        /// Make Sure Valid Rect
+        if let rect = selectionRect, rect.width > 0, rect.height > 0 {
             capture(rect)
         }
     }
@@ -73,6 +74,6 @@ extension SelectionOverlayViewModel {
 
     var selectionSizeText: String? {
         guard let rect = selectionRect, rect.width > 0, rect.height > 0 else { return nil }
-        return "\(Int(rect.width)) × \(Int(rect.height))"
+        return "\(Int(rect.width)) X \(Int(rect.height))"
     }
 }
