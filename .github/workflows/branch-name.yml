@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ensure source branch starts with feature/ or fix/
-      run: |
+        run: |
           BRANCH="${{ github.head_ref }}"
           echo "Source branch: $BRANCH"
           if [[ ! "$BRANCH" =~ ^(feature|fix)/ ]]; then
