@@ -1,0 +1,17 @@
+name: Enforce branch naming
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited]
+    branches: [main]
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure source branch starts with feature/
+        run: |
+          BRANCH="${{ github.head_ref }}"
+          if [[ ! "$BRANCH" =~ ^feature/ ]]; then
+            echo "Branch '$BRANCH' must start with 'feature/'."
+            exit 1
+          fi
