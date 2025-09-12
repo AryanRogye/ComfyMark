@@ -27,7 +27,8 @@ struct MenuBarScreenshotView: View {
                     
                     bottomText
                         .padding(.bottom, 4)
-                    
+                        .frame(alignment: .center)
+
                 }
             }
             .onAppear {
@@ -133,10 +134,9 @@ struct MenuBarScreenshotView: View {
     // MARK: - Bottom View
     private var bottomText: some View {
         VStack(spacing: 1) {
-            
             Text("No More Screenshots")
                 .font(.system(size: 10, weight: .regular, design: .monospaced))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
             
             HStack(spacing: 6) {
                 Button("Refresh") {
@@ -147,7 +147,7 @@ struct MenuBarScreenshotView: View {
                     }
                 }
                 .font(.system(size: 10, weight: .regular, design: .monospaced))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
                 .buttonStyle(.plain)
                 
                 // reserve 12x12 space so layout doesn’t shift
@@ -165,7 +165,7 @@ struct MenuBarScreenshotView: View {
             }) {
                 Text("Open Screenshot Folder")
                     .font(.system(size: 10, weight: .regular, design: .monospaced))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(.primary)
             }
             .buttonStyle(.plain)
 
