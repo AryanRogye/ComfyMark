@@ -132,9 +132,7 @@ class AppCoordinator {
             projectName: projectName
         )
     }
-    
 }
-
 
 // MARK: - Helpers
 extension AppCoordinator {
@@ -144,26 +142,7 @@ extension AppCoordinator {
     /// so we have to always remeber what screen we're doing it on
     private func takeScreenshotAndShow(rect: CGRect, on screen: NSScreen) {
         Task {
-            guard let image = await self.screenshots.takeScreenshot(of: screen) else { return }
-            
-            // Map points (overlay) -> pixels (screenshot) using actual image-to-screen ratio.
-            let clamped = Self.pixelCropRect(
-                fromPoints: rect,
-                image: image,
-                screenSizePoints: screen.frame.size
-            )
-            
-            /// If We Have Bad Size
-            guard clamped.width > 0, clamped.height > 0 else {
-                showImage(image)
-                return
-            }
-            
-            if let cropped = image.cropping(to: clamped) {
-                /// If Valid Crop Show with rect or we thought
-                showImage(cropped)
-            } else {
-                /// Not Valid
+            if let image = await self.screenshots.takeScreenshot(of: screen, croppingTo: rect) {
                 showImage(image)
             }
         }
@@ -176,33 +155,5 @@ extension AppCoordinator {
                 showImage(image)
             }
         }
-    }
-    
-    static func pixelCropRect(fromPoints r: CGRect, image: CGImage, screenSizePoints: CGSize) -> CGRect {
-        
-        func clamp(_ r: CGRect, to bounds: CGRect) -> CGRect {
-            let x = max(bounds.minX, min(r.minX, bounds.maxX))
-            let y = max(bounds.minY, min(r.minY, bounds.maxY))
-            let w = max(0, min(r.width, bounds.maxX - x))
-            let h = max(0, min(r.height, bounds.maxY - y))
-            return CGRect(x: x, y: y, width: w, height: h)
-        }
-
-        
-        let imageSize: CGSize = CGSize(width: image.width, height: image.height)
-        
-        let sx = imageSize.width / screenSizePoints.width
-        let sy = imageSize.height / screenSizePoints.height
-        let x = r.origin.x * sx
-        let y = r.origin.y * sy
-        let w = r.size.width * sx
-        let h = r.size.height * sy
-        
-        
-        let pixelRect = CGRect(x: floor(x), y: floor(y), width: floor(w), height: floor(h))
-        let bounds = CGRect(x: 0, y: 0, width: image.width, height: image.height)
-        let clamped = clamp(pixelRect, to: bounds)
-
-        return clamped
-    }
+    }    
 }

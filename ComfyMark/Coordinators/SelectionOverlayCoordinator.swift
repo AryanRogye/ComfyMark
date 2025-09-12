@@ -105,6 +105,18 @@ final class SelectionOverlayCoordinator {
             return
         }
         
+        // Get the current screen under mouse when showing
+        guard let currentScreen = ScreenshotService.screenUnderMouse() else {
+            print("Can't show, no screen under mouse")
+            return
+        }
+        
+        // If we need to recreate the overlay for a different screen
+        if targetScreen != currentScreen {
+            targetScreen = currentScreen
+            setupOverlay()
+        }
+        
         if !overlayScreen.isVisible {
             NSApp.activate(ignoringOtherApps: true)
             overlayScreen.makeKeyAndOrderFront(nil)
