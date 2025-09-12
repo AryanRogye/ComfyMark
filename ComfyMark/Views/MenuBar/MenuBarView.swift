@@ -41,7 +41,6 @@ struct MenuBarView: View {
             maxHeight: .infinity,
             alignment: .top
         )
-//        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         .background(.clear)
         .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         .shadow(radius: 8, y: 2)

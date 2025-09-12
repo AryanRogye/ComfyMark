@@ -1,0 +1,33 @@
+# .github/workflows/xcode-tests.yml
+name: Xcode Unit Tests
+
+on:
+  push:
+    branches: [ main, feature/*, fix/* ]
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    runs-on: macos-15
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.4'
+
+      - name: Confirm Xcode Version
+        run: xcodebuild -version
+
+      - name: Clean DerivedData (just in case)
+        run: rm -rf ~/Library/Developer/Xcode/DerivedData
+
+      - name: Build & test (no codesign, macOS 15.0)
+        run: |
+          xcodebuild test \
+          -scheme ComfyMarkCI_Tests \
+          -project ComfyMark.xcodeproj \
+          -destination 'platform=macOS' \
+          -enableCodeCoverage YES | xcpretty

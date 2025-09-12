@@ -182,7 +182,6 @@
 		9BDA24AC2E71D1AE00A28DBB /* SelectionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlay.swift; sourceTree = "<group>"; };
 		9BDA24AF2E71DC5700A28DBB /* SelectionOverlayHotkeySettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlayHotkeySettings.swift; sourceTree = "<group>"; };
 		9BDA24B12E71E92100A28DBB /* SelectionOverlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionOverlayViewModel.swift; sourceTree = "<group>"; };
-		9BDA24B72E7205EC00A28DBB /* Untitled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Untitled.swift; sourceTree = "<group>"; };
 		9BDA24B92E72174500A28DBB /* SelectionRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionRect.swift; sourceTree = "<group>"; };
 		9BDA24BB2E73291600A28DBB /* StartMarkLogo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartMarkLogo.swift; sourceTree = "<group>"; };
 		9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairHostingView.swift; sourceTree = "<group>"; };
@@ -446,7 +445,6 @@
 				9B48F9082E651F3700C470ED /* ComfyMark */,
 				9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */,
 				9B9F5B8E2E64FFC100F3396D /* Products */,
-				9BDA24B72E7205EC00A28DBB /* Untitled.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -884,6 +882,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ComfyMark/Config/ComfyMark.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -912,6 +911,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ComfyMark/Config/ComfyMark.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

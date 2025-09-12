@@ -101,63 +101,6 @@ class AppCoordinator {
         )
     }
     
-    /// Function To Take Screenshot Of Screen Under Mouse
-    private func takeScreenshot() async -> CGImage? {
-        if let image = try? await self.screenshots.takeScreenshot() {
-            return image
-        }
-        return nil
-    }
-    
-    /// Function To Take Screenshot Of Specified Screen, this is cuz
-    /// When we decide what to show the overlay on THAT is the screen
-    /// and if the user changes the mouse, then this wont be valid anymore
-    /// so we have to always remeber what screen we're doing it on
-    private func takeScreenshot(of screen: NSScreen) async -> CGImage? {
-        if let image = try? await self.screenshots.takeScreenshot(of: screen) {
-            return image
-        }
-        return nil
-    }
-    
-    /// Function to take screenshot and show on the screen
-    private func takeScreenshotAndShow(rect: CGRect, on screen: NSScreen) {
-        Task {
-            guard let image = await takeScreenshot(of: screen) else { return }
-            // Map points (overlay) -> pixels (screenshot) using actual image-to-screen ratio.
-            let pixelRect = Self.pixelCropRect(
-                fromPoints: rect,
-                imageSize: CGSize(width: image.width, height: image.height),
-                screenSizePoints: screen.frame.size
-            )
-            let bounds = CGRect(x: 0, y: 0, width: image.width, height: image.height)
-            let clamped = Self.clamp(pixelRect, to: bounds)
-            
-            /// If We Have Bad Size
-            guard clamped.width > 0, clamped.height > 0 else {
-                showImage(image)
-                return
-            }
-            
-            if let cropped = image.cropping(to: clamped) {
-                /// If Valid Crop Show with rect or we thought
-                showImage(cropped)
-            } else {
-                /// Not Valid
-                showImage(image)
-            }
-        }
-    }
-    
-    /// Function takes a screenshot and then shows
-    private func takeScreenshotAndShow() {
-        Task {
-            if let image = await takeScreenshot() {
-                showImage(image)
-            }
-        }
-    }
-    
     private func showImage(_ image: CGImage, windowID: String = "comfymark-\(UUID().uuidString)") {
         self.comfyMarkCoordinator.showComfyMark(
             with: image,
@@ -190,24 +133,76 @@ class AppCoordinator {
         )
     }
     
-    // MARK: - Helpers
+}
+
+
+// MARK: - Helpers
+extension AppCoordinator {
+    /// Function To Take Screenshot Of Specified Screen, this is cuz
+    /// When we decide what to show the overlay on THAT is the screen
+    /// and if the user changes the mouse, then this wont be valid anymore
+    /// so we have to always remeber what screen we're doing it on
+    private func takeScreenshotAndShow(rect: CGRect, on screen: NSScreen) {
+        Task {
+            guard let image = await self.screenshots.takeScreenshot(of: screen) else { return }
+            
+            // Map points (overlay) -> pixels (screenshot) using actual image-to-screen ratio.
+            let clamped = Self.pixelCropRect(
+                fromPoints: rect,
+                image: image,
+                screenSizePoints: screen.frame.size
+            )
+            
+            /// If We Have Bad Size
+            guard clamped.width > 0, clamped.height > 0 else {
+                showImage(image)
+                return
+            }
+            
+            if let cropped = image.cropping(to: clamped) {
+                /// If Valid Crop Show with rect or we thought
+                showImage(cropped)
+            } else {
+                /// Not Valid
+                showImage(image)
+            }
+        }
+    }
     
-    static func pixelCropRect(fromPoints r: CGRect, imageSize: CGSize, screenSizePoints: CGSize) -> CGRect {
+    /// Function takes a screenshot and then shows
+    private func takeScreenshotAndShow() {
+        Task {
+            if let image = await self.screenshots.takeScreenshot() {
+                showImage(image)
+            }
+        }
+    }
+    
+    static func pixelCropRect(fromPoints r: CGRect, image: CGImage, screenSizePoints: CGSize) -> CGRect {
+        
+        func clamp(_ r: CGRect, to bounds: CGRect) -> CGRect {
+            let x = max(bounds.minX, min(r.minX, bounds.maxX))
+            let y = max(bounds.minY, min(r.minY, bounds.maxY))
+            let w = max(0, min(r.width, bounds.maxX - x))
+            let h = max(0, min(r.height, bounds.maxY - y))
+            return CGRect(x: x, y: y, width: w, height: h)
+        }
+
+        
+        let imageSize: CGSize = CGSize(width: image.width, height: image.height)
+        
         let sx = imageSize.width / screenSizePoints.width
         let sy = imageSize.height / screenSizePoints.height
         let x = r.origin.x * sx
         let y = r.origin.y * sy
         let w = r.size.width * sx
         let h = r.size.height * sy
-        return CGRect(x: floor(x), y: floor(y), width: floor(w), height: floor(h))
-    }
-    
+        
+        
+        let pixelRect = CGRect(x: floor(x), y: floor(y), width: floor(w), height: floor(h))
+        let bounds = CGRect(x: 0, y: 0, width: image.width, height: image.height)
+        let clamped = clamp(pixelRect, to: bounds)
 
-    static func clamp(_ r: CGRect, to bounds: CGRect) -> CGRect {
-        let x = max(bounds.minX, min(r.minX, bounds.maxX))
-        let y = max(bounds.minY, min(r.minY, bounds.maxY))
-        let w = max(0, min(r.width, bounds.maxX - x))
-        let h = max(0, min(r.height, bounds.maxY - y))
-        return CGRect(x: x, y: y, width: w, height: h)
+        return clamped
     }
 }
