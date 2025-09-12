@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B0F3D752E74B5ED00CE2BA0 /* MockScreenshotProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D722E74B5ED00CE2BA0 /* MockScreenshotProvider.swift */; };
+		9B0F3D762E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D732E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift */; };
 		9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */; };
 		9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EE2E651F3700C470ED /* AppDelegate.swift */; };
 		9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */; };
@@ -100,6 +102,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B0F3D722E74B5ED00CE2BA0 /* MockScreenshotProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockScreenshotProvider.swift; sourceTree = "<group>"; };
+		9B0F3D732E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotProviderTests.swift; sourceTree = "<group>"; };
 		9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9B48F8EE2E651F3700C470ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkApp.swift; sourceTree = "<group>"; };
@@ -187,14 +191,6 @@
 		9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairHostingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ComfyMarkTests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
 		9B9F5B8A2E64FFC100F3396D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -214,6 +210,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B0F3D742E74B5ED00CE2BA0 /* ComfyMarkTests */ = {
+			isa = PBXGroup;
+			children = (
+				9B0F3D772E74B5EF00CE2BA0 /* Screenshot */,
+			);
+			path = ComfyMarkTests;
+			sourceTree = "<group>";
+		};
+		9B0F3D772E74B5EF00CE2BA0 /* Screenshot */ = {
+			isa = PBXGroup;
+			children = (
+				9B0F3D722E74B5ED00CE2BA0 /* MockScreenshotProvider.swift */,
+				9B0F3D732E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift */,
+			);
+			path = Screenshot;
+			sourceTree = "<group>";
+		};
 		9B48F8F02E651F3700C470ED /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -443,7 +456,7 @@
 				9B5C4CD72E663107008BD465 /* LICENSE */,
 				9B5C4CD82E663107008BD465 /* README.md */,
 				9B48F9082E651F3700C470ED /* ComfyMark */,
-				9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */,
+				9B0F3D742E74B5ED00CE2BA0 /* ComfyMarkTests */,
 				9B9F5B8E2E64FFC100F3396D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -581,9 +594,6 @@
 			);
 			dependencies = (
 				9BCF722E2E6E86FF00B3921B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */,
 			);
 			name = ComfyMarkTests;
 			packageProductDependencies = (
@@ -742,6 +752,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B0F3D752E74B5ED00CE2BA0 /* MockScreenshotProvider.swift in Sources */,
+				9B0F3D762E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
