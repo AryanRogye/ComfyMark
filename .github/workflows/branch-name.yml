@@ -6,12 +6,15 @@ on:
 
 jobs:
   check-branch-name:
+    name: Branch must be feature/* or fix/*
     runs-on: ubuntu-latest
     steps:
-      - name: Ensure source branch starts with feature/
+      - name: Ensure source branch starts with feature/ or fix/
         run: |
           BRANCH="${{ github.head_ref }}"
-          if [[ ! "$BRANCH" =~ ^feature/ ]]; then
-            echo "Branch '$BRANCH' must start with 'feature/'."
+          echo "Source branch: $BRANCH"
+          if [[ ! "$BRANCH" =~ ^(feature|fix)/ ]]; then
+            echo "❌ Branch '$BRANCH' must start with 'feature/' or 'fix/'."
             exit 1
           fi
+          echo "✅ Branch name OK"
