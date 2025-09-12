@@ -4,8 +4,6 @@ name: Xcode Unit Tests
 on:
   push:
     branches: [ main, feature/*, fix/* ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch: {}
 
 jobs:
