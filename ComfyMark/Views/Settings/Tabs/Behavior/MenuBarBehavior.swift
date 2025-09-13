@@ -13,12 +13,15 @@ struct MenuBarBehavior: View {
 
     var body: some View {
         HStack {
+            Text("Power Button Side")
+            Spacer()
             Picker("Power Button Side", selection: $behaviorVM.appSettings.menuBarPowerButtonSide) {
                 ForEach(MenuBarPowerButtonSide.allCases, id: \.self) { side in
                     Text(side.rawValue).tag(side)
                 }
             }
             .pickerStyle(.segmented)
+            .labelsHidden()
         }
         .padding(.horizontal)
     }

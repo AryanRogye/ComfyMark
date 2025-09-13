@@ -33,11 +33,13 @@ class AppCoordinator {
     /// App Settings
     private let appSettings = AppSettings()
     
+    var openSettings: (() -> Void)?
+    
     init(
         screenshots         : ScreenshotProviding,
         export              : ExportProviding,
         saving              : SavingProviding,
-        screenshotManager   : ScreenshotManager
+        screenshotManager   : ScreenshotManager,
     ) {
         self.screenshots = screenshots
         self.export      = export
@@ -51,6 +53,15 @@ class AppCoordinator {
         self.configureComfyMarkCoordinator()
         self.configureHotKeyCoordinator()
         
+        openSettings = {
+            /// If Overlay Screen is Showing, Hide It
+            if self.selectionOverlayCoordinator.overlayScreen.isVisible {
+                self.selectionOverlayCoordinator.hide()
+            }
+            
+            self.settingsCoordinator.showSettings()
+        }
+        
         /// Starting Our Menu Bar, with Closures, for what happens when we:
         /// Tap On Settings
         /// Tap On Start
@@ -61,7 +72,7 @@ class AppCoordinator {
             appSettings: appSettings,
             onSettingsTapped: { [weak self] in
                 guard let self = self else { return }
-                self.settingsCoordinator.showSettings()
+                self.openSettings?()
             },
             onStartTapped: { [weak self] in
                 guard let self else { return }
@@ -116,7 +127,9 @@ class AppCoordinator {
     
     // MARK: -
     private func configureImageStageCoordinator() {
-        self.imageStageCoordinator = ImageStageCoordinator()
+        self.imageStageCoordinator = ImageStageCoordinator(
+            appSettings: appSettings
+        )
     }
 
     // MARK: - Selection Coordinator

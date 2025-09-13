@@ -9,10 +9,10 @@ import SwiftUI
 
 struct BehaviorSettings: View {
     
-
     var body: some View {
         SettingsContainerView {
             menuBarBehavior
+            ScreenshotBehaviorSettings()
         }
     }
     

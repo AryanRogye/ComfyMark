@@ -13,6 +13,8 @@
 		9B0F3D7B2E74E47800CE2BA0 /* FocusablePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7A2E74E47500CE2BA0 /* FocusablePanel.swift */; };
 		9B0F3D7E2E74E56600CE2BA0 /* ImageStager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7D2E74E56400CE2BA0 /* ImageStager.swift */; };
 		9B0F3D802E74E58200CE2BA0 /* ImageStageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */; };
+		9B0F3D822E75BF4F00CE2BA0 /* ImageStagerSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */; };
+		9B0F3D842E75E61500CE2BA0 /* ScreenshotBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D832E75E61400CE2BA0 /* ScreenshotBehavior.swift */; };
 		9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */; };
 		9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EE2E651F3700C470ED /* AppDelegate.swift */; };
 		9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */; };
@@ -112,6 +114,8 @@
 		9B0F3D7A2E74E47500CE2BA0 /* FocusablePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusablePanel.swift; sourceTree = "<group>"; };
 		9B0F3D7D2E74E56400CE2BA0 /* ImageStager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStager.swift; sourceTree = "<group>"; };
 		9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStageViewModel.swift; sourceTree = "<group>"; };
+		9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStagerSide.swift; sourceTree = "<group>"; };
+		9B0F3D832E75E61400CE2BA0 /* ScreenshotBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotBehavior.swift; sourceTree = "<group>"; };
 		9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9B48F8EE2E651F3700C470ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkApp.swift; sourceTree = "<group>"; };
@@ -360,11 +364,12 @@
 			children = (
 				9B5C4FD82E6A886F008BD465 /* Metal */,
 				9B5C4D3F2E68A8EB008BD465 /* AppSettings.swift */,
-				9BCF71852E6D2B3C00B3921B /* MenuBarPowerButtonSide.swift */,
 				9B5C4D332E68A3DB008BD465 /* SettingsTab.swift */,
+				9BCF71852E6D2B3C00B3921B /* MenuBarPowerButtonSide.swift */,
 				9B5C4D222E678508008BD465 /* Export.swift */,
 				9B48F95A2E65FBEF00C470ED /* Stroke.swift */,
 				9B5C4D282E688527008BD465 /* EditorState.swift */,
+				9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -524,6 +529,7 @@
 		9BCF717E2E6D1DD000B3921B /* Behavior */ = {
 			isa = PBXGroup;
 			children = (
+				9B0F3D832E75E61400CE2BA0 /* ScreenshotBehavior.swift */,
 				9BCF71832E6D1F2000B3921B /* MenuBarBehavior.swift */,
 				9BCF71812E6D1E1F00B3921B /* BehaviorViewModel.swift */,
 				9BCF717F2E6D1DD500B3921B /* BehaviorSettings.swift */,
@@ -724,6 +730,7 @@
 				9B48F90D2E651F3700C470ED /* MenuBarCoordinator.swift in Sources */,
 				9BCF71922E6D47BA00B3921B /* ScreenshotView.swift in Sources */,
 				9BCF72D72E70F81800B3921B /* HistoryManager.swift in Sources */,
+				9B0F3D822E75BF4F00CE2BA0 /* ImageStagerSide.swift in Sources */,
 				9BCF71822E6D1E2300B3921B /* BehaviorViewModel.swift in Sources */,
 				9B5C4CDC2E675390008BD465 /* Viewport.swift in Sources */,
 				9B48F90E2E651F3700C470ED /* SettingsCoordinator.swift in Sources */,
@@ -747,6 +754,7 @@
 				9BDA24B02E71DC5A00A28DBB /* SelectionOverlayHotkeySettings.swift in Sources */,
 				9B5C503B2E6D018C008BD465 /* VisualEffectView.swift in Sources */,
 				9B5C4F942E6A87FC008BD465 /* image.metal in Sources */,
+				9B0F3D842E75E61500CE2BA0 /* ScreenshotBehavior.swift in Sources */,
 				9B5C502F2E6BE4FD008BD465 /* Divider+groupBoxStyle.swift in Sources */,
 				9BCF71962E6D4C9D00B3921B /* HistoryMoreOptions.swift in Sources */,
 				9B5C4F952E6A87FC008BD465 /* MetalImageView.swift in Sources */,

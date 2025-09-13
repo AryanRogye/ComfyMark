@@ -14,6 +14,7 @@ class AppSettings: ObservableObject {
     enum Keys {
         static let showDockIcon             = "showDockIcon"
         static let menuBarPowerButtonSide   = "menuBarPowerButtonSide"
+        static let screenshotSide           = "screenshotSide"
     }
     
     /// Defaults
@@ -31,6 +32,12 @@ class AppSettings: ObservableObject {
     @Published var menuBarPowerButtonSide: MenuBarPowerButtonSide {
         didSet {
             defaults.set(menuBarPowerButtonSide.rawValue, forKey: Keys.menuBarPowerButtonSide)
+        }
+    }
+    
+    @Published var screenshotSide: ImageStagerSide {
+        didSet {
+            defaults.set(screenshotSide.rawValue, forKey: Keys.screenshotSide)
         }
     }
     
@@ -55,6 +62,10 @@ class AppSettings: ObservableObject {
         /// Init menuBarPowerButtonSide
         let side : String = defaults.string(forKey: Keys.menuBarPowerButtonSide) ?? "right"
         self.menuBarPowerButtonSide = MenuBarPowerButtonSide(rawValue: side) ?? .right
+        
+        // Init ScreenshotSide
+        let screenshotSide = defaults.string(forKey: Keys.screenshotSide) ?? ImageStagerSide.right.rawValue
+        self.screenshotSide = ImageStagerSide(rawValue: screenshotSide) ?? .right
         
         
         // MARK: - Binding Dock Icon
@@ -156,6 +167,7 @@ extension AppSettings {
     public static func registerDefaults(in defaults: UserDefaults = .standard) {
         registerMenuBarPowerButtonSide(defaults)
         registerShowDockIcon(defaults)
+        registerScreenshotSide(defaults)
     }
     
     private static func registerMenuBarPowerButtonSide(_ defaults: UserDefaults) {
@@ -164,5 +176,9 @@ extension AppSettings {
     
     private static func registerShowDockIcon(_ defaults: UserDefaults) {
         defaults.register(defaults: [Keys.showDockIcon: false])
+    }
+    
+    private static func registerScreenshotSide(_ defaults: UserDefaults) {
+        defaults.register(defaults: [Keys.screenshotSide: ImageStagerSide.right.rawValue])
     }
 }

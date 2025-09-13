@@ -9,6 +9,7 @@ import Combine
 import SwiftUI
 import UniformTypeIdentifiers
 
+@MainActor
 public final class ImageStageViewModel: ObservableObject {
     
     @Published public var image: CGImage?
@@ -31,10 +32,6 @@ public final class ImageStageViewModel: ObservableObject {
         onImageTapped?()
         exitTapped()
     }
-    
-    init() {
-    }
-    
     
     public func handleHover(_ value: Bool) {
         hoverTask?.cancel()

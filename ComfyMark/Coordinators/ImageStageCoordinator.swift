@@ -8,29 +8,39 @@
 import AppKit
 import Cocoa
 import SwiftUI
+import Combine
 
-enum ImageStagerSide {
-    case left
-    case right
-}
-
+@MainActor
 final class ImageStageCoordinator {
     
     var imageStageScreen        : NSPanel!
     private var targetScreen    : NSScreen?
-    private var stageVM         = ImageStageViewModel()
-    private var side            : ImageStagerSide = .left
+    private var stageVM         : ImageStageViewModel
     
-    init() {
+    private var cancellables    : Set<AnyCancellable> = []
+    private var appSettings     : AppSettings
+    
+    init(appSettings: AppSettings) {
+        self.appSettings = appSettings
+        stageVM = ImageStageViewModel()
         stageVM.onExit = { [weak self] in
             guard let self = self else { return }
             self.hide()
         }
         
-        setupOverlay()
+        setupOverlay(side: appSettings.screenshotSide)
+        
+        appSettings.$screenshotSide
+            .sink { [weak self] side in
+                guard let self = self else { return }
+                self.imageStageScreen?.orderOut(nil)
+                self.imageStageScreen?.close()
+                self.setupOverlay(side: side)
+            }
+            .store(in: &cancellables)
     }
     
-    public func setupOverlay() {
+    public func setupOverlay(side: ImageStagerSide) {
         
         guard let screen = ScreenshotService.screenUnderMouse() else {
             print("Cant SetupOverlay, No screen")
@@ -49,8 +59,9 @@ final class ImageStageCoordinator {
         var x      : CGFloat = 0 + leftPadding
         let y      : CGFloat = 0 + bottomPadding
         
+        print("Setting Up Overlay With: \(side)")
         if side == .right {
-            x = screen.visibleFrame.width - (width - leftPadding)
+            x = screen.visibleFrame.width - (width + leftPadding)
         }
         
         let contentRect = CGRect(
@@ -102,7 +113,7 @@ final class ImageStageCoordinator {
     // MARK: - Show Hide Overlay
     public func show(with image: CGImage, onImageTapped: @escaping () -> Void) {
         if self.imageStageScreen == nil {
-            setupOverlay()
+            setupOverlay(side: appSettings.screenshotSide)
             imageStageScreen?.layoutIfNeeded()
         }
         guard let imageStageScreen = self.imageStageScreen else {
@@ -119,7 +130,7 @@ final class ImageStageCoordinator {
         // If we need to recreate the overlay for a different screen
         if targetScreen != currentScreen {
             targetScreen = currentScreen
-            setupOverlay()
+            setupOverlay(side: appSettings.screenshotSide)
         }
         
         stageVM.onImageTapped = onImageTapped

@@ -62,7 +62,7 @@ class ComfyMarkCoordinator {
         )
         
         var windowSize: NSSize
-        let paddingAround = CGFloat(20)
+        let paddingAround = CGFloat(32)
         let screen = ScreenshotService.screenUnderMouse() ?? NSScreen.main!
         let visibleFrame = screen.visibleFrame
 
