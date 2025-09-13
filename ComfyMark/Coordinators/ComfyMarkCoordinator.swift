@@ -35,7 +35,8 @@ class ComfyMarkCoordinator {
         screenshotManager       : ScreenshotManager,
         onLastRenderTimeUpdated : @escaping ((TimeInterval) -> Void),
         windowID                : String,
-        projectName             : String? = nil
+        projectName             : String? = nil,
+        side                    : ImageStagerSide? = nil
     ) {
         /// Make sure no session with the windowID
         if self.hasSession(for: windowID, projectName) {
@@ -74,21 +75,39 @@ class ComfyMarkCoordinator {
             x: visibleFrame.origin.x + paddingAround,
             y: visibleFrame.origin.y + paddingAround
         )
-
-        windowCoordinator.showWindow(
-            id: windowID,
-            title: projectName ?? "Image",
-            content: view,
-            size: windowSize,
-            origin: windowOrigin,
-            onOpen: { [weak self] in
-                self?.windowCoordinator.activateWithRetry()
-            },
-            onClose: { [weak self] in
-                guard let self = self else { return }
-                self.removeSession(for: windowID)
-                NSApp.activate(ignoringOtherApps: false)
-            })
+        
+        if let side = side {
+            windowCoordinator.showWindowWithGenie(
+                id: windowID,
+                title: projectName ?? "Image",
+                content: view,
+                size: windowSize,
+                origin: windowOrigin,
+                side: side,
+                onOpen: { [weak self] in
+                    self?.windowCoordinator.activateWithRetry()
+                },
+                onClose: { [weak self] in
+                    guard let self = self else { return }
+                    self.removeSession(for: windowID)
+                    NSApp.activate(ignoringOtherApps: false)
+                })
+        } else {
+            windowCoordinator.showWindow(
+                id: windowID,
+                title: projectName ?? "Image",
+                content: view,
+                size: windowSize,
+                origin: windowOrigin,
+                onOpen: { [weak self] in
+                    self?.windowCoordinator.activateWithRetry()
+                },
+                onClose: { [weak self] in
+                    guard let self = self else { return }
+                    self.removeSession(for: windowID)
+                    NSApp.activate(ignoringOtherApps: false)
+                })
+        }
     }
     
     /// Function to create a session

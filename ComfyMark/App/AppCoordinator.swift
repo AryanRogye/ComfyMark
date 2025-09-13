@@ -178,10 +178,10 @@ extension AppCoordinator {
     private func stageImage(_ image: CGImage) {
         imageStageCoordinator.show(with: image, onImageTapped: { [weak self] in
             guard let self = self else { return }
-            self.openComfyMarkWindow(image)
+            self.openComfyMarkWindow(image, side: appSettings.screenshotSide)
         })
     }
-    private func openComfyMarkWindow(_ image: CGImage, projectName: String? = nil) {
+    private func openComfyMarkWindow(_ image: CGImage, projectName: String? = nil, side: ImageStagerSide? = nil) {
         /// Generate A Window ID
         let windowID: String = "comfymark-\(UUID().uuidString)"
         self.comfyMarkCoordinator.showComfyMark(
@@ -195,7 +195,8 @@ extension AppCoordinator {
                 self.menuBarCoordinator.updateRenderTime(renderTimeMs)
             },
             windowID: windowID,
-            projectName: projectName
+            projectName: projectName,
+            side: side
         )
     }
 }

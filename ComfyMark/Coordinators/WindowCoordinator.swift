@@ -45,6 +45,105 @@ class WindowCoordinator {
         windows.removeAll()
     }
     
+    func showWindowWithGenie(
+        id: String,
+        title: String,
+        content: some View,
+        size: NSSize = .init(width: 600, height: 400),
+        origin: CGPoint? = nil,
+        side: ImageStagerSide,
+        onOpen: (() -> Void)? = nil,
+        onClose: (() -> Void)? = nil
+    ) {
+        // 1) Build the window but DON'T order front yet
+        showWindow(
+            id: id,
+            title: title,
+            content: content,
+            size: size,
+            origin: origin,
+            onOpen: onOpen,
+            onClose: onClose
+        )
+        
+        guard
+            let window = windows[id],
+            let contentView = window.contentView
+        else { return }
+        
+        window.isOpaque = false
+        window.backgroundColor = .clear
+        
+        // Ensure layer-backed now (before any ordering)
+        contentView.wantsLayer = true
+        contentView.layoutSubtreeIfNeeded()
+        guard let layer = contentView.layer else { return }
+        
+        // ---- anchor setup ----
+        let bounds = layer.bounds
+        let pivot: CGPoint = (side == .left)
+        ? CGPoint(x: 0, y: 0)
+        : CGPoint(x: bounds.width, y: 0)
+        
+        // Helper to build a transform that scales around `pivot`
+        func scaleAround(_ s: CGFloat, pivot p: CGPoint) -> CATransform3D {
+            var t = CATransform3DIdentity
+            // translate pivot to origin
+            t = CATransform3DTranslate(t, p.x, p.y, 0)
+            // apply scale
+            t = CATransform3DScale(t, s, s, 1)
+            // translate back
+            t = CATransform3DTranslate(t, -p.x, -p.y, 0)
+            return t
+        }
+        
+        // Disable implicit actions for initial state
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        
+        // Initial tiny/hidden state using pivot scaling (no anchor changes)
+        let startS: CGFloat = 0.01
+        layer.transform = scaleAround(startS, pivot: pivot)
+        layer.opacity = 0.0
+        CATransaction.commit()
+        CATransaction.flush()
+        
+        // Show window now that it’s tiny/invisible
+        window.animationBehavior = .none
+        let oldHasShadow = window.hasShadow
+        window.hasShadow = false
+        window.makeKeyAndOrderFront(nil)
+        
+        // Animate next tick
+        DispatchQueue.main.async {
+            // Final model state first
+            layer.transform = CATransform3DIdentity
+            layer.opacity = 1.0
+            
+            // CA animations (from tiny-at-pivot -> identity)
+            let t = CABasicAnimation(keyPath: "transform")
+            t.fromValue = scaleAround(startS, pivot: pivot)
+            t.duration = 0.5
+            t.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            t.fillMode = .forwards
+            t.isRemovedOnCompletion = false
+            
+            let o = CABasicAnimation(keyPath: "opacity")
+            o.fromValue = 0.0
+            o.duration = 0.5
+            o.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            o.fillMode = .forwards
+            o.isRemovedOnCompletion = false
+            
+            layer.add(t, forKey: "genieTransform")
+            layer.add(o, forKey: "genieOpacity")
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                window.hasShadow = oldHasShadow
+            }
+        }
+    }
+    
     func showWindow(
         id: String,
         title: String,
@@ -194,3 +293,4 @@ extension WindowCoordinator {
         NSApp.activate(ignoringOtherApps: true) // harmless double-tap; one of these usually “sticks”
     }
 }
+
