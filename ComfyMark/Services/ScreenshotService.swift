@@ -26,7 +26,7 @@ protocol ScreenshotProviding {
     /// - Throws: An error if the capture fails or permission is denied.
     func takeScreenshot() async -> CGImage?
     /// Captures a screenshot of a specific `NSScreen`.
-    func takeScreenshot(of screen: NSScreen) async -> CGImage?
+    func takeScreenshot(of screen: NSScreen, croppingTo rect: CGRect) async -> CGImage?
 }
 
 // MARK: - Implementation
@@ -66,7 +66,7 @@ final class ScreenshotService: ScreenshotProviding {
         }
     }
 
-    public func takeScreenshot(of screen: NSScreen) async -> CGImage? {
+    public func takeScreenshot(of screen: NSScreen, croppingTo rect: CGRect) async -> CGImage? {
         do {
             let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
             
@@ -74,12 +74,58 @@ final class ScreenshotService: ScreenshotProviding {
             let currentApp = NSRunningApplication.current
             let excludedApps = content.applications.filter { $0.bundleIdentifier == currentApp.bundleIdentifier }
             
-            return try await captureScreen(screen, content: content, excludedApps: excludedApps)
+            let image = try await captureScreen(screen, content: content, excludedApps: excludedApps)
+            
+            /// Get Clamped Pixel Rect
+            let clamped = Self.pixelCropRect(
+                fromPoints: rect,
+                image: image,
+                screenSizePoints: screen.frame.size
+            )
+            
+            /// If We Have Bad Size just return original image
+            guard clamped.width > 0, clamped.height > 0 else {
+                return image
+            }
+            
+            if let image = image.cropping(to: clamped) {
+                return image
+            }
+            return image
+            
         } catch {
             return nil
         }
     }
     
+    static func pixelCropRect(fromPoints r: CGRect, image: CGImage, screenSizePoints: CGSize) -> CGRect {
+        
+        func clamp(_ r: CGRect, to bounds: CGRect) -> CGRect {
+            let x = max(bounds.minX, min(r.minX, bounds.maxX))
+            let y = max(bounds.minY, min(r.minY, bounds.maxY))
+            let w = max(0, min(r.width, bounds.maxX - x))
+            let h = max(0, min(r.height, bounds.maxY - y))
+            return CGRect(x: x, y: y, width: w, height: h)
+        }
+        
+        
+        let imageSize: CGSize = CGSize(width: image.width, height: image.height)
+        
+        let sx = imageSize.width / screenSizePoints.width
+        let sy = imageSize.height / screenSizePoints.height
+        let x = r.origin.x * sx
+        let y = r.origin.y * sy
+        let w = r.size.width * sx
+        let h = r.size.height * sy
+        
+        
+        let pixelRect = CGRect(x: floor(x), y: floor(y), width: floor(w), height: floor(h))
+        let bounds = CGRect(x: 0, y: 0, width: image.width, height: image.height)
+        let clamped = clamp(pixelRect, to: bounds)
+        
+        return clamped
+    }
+
     
     private func captureScreen(_ screen: NSScreen, content: SCShareableContent, excludedApps: [SCRunningApplication]) async throws -> CGImage {
         // Find the SCDisplay that matches this NSScreen
