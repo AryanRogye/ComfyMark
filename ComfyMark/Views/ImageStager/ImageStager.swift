@@ -26,19 +26,51 @@ struct ImageStager: View {
                             stageVM.onDrag()
                         }
                         .overlay {
-                            VStack{
-                                topRow
-                                Spacer()
-                            }
+                            imageOverlay
                         }
                         .onTapGesture {
                             stageVM.imageTapped()
                         }
+                        .onHover {
+                            stageVM.isHovering = $0
+                        }
+                        .onChange(of: stageVM.isHovering) { _, newValue in
+                            stageVM.handleHover(newValue)
+                        }
+                        .animation(.spring, value: stageVM.showTapGesture)
+                        .transition(.asymmetric(
+                            insertion: .scale(scale: 0.3).combined(with: .opacity),
+                            removal: .scale(scale: 0.1).combined(with: .opacity)
+                        ))
                 }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .ignoresSafeArea()
+    }
+    
+    private var imageOverlay: some View {
+        ZStack {
+            VStack {
+                topRow
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            
+            if stageVM.showTapGesture {
+                Button(action: stageVM.imageTapped) {
+                    Text("Tap to edit")
+                        .font(.caption)
+                        .foregroundStyle(.primary)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(.ultraThinMaterial, in: Capsule())
+                        .shadow(radius: stageVM.showTapGesture ? 4 : 2)
+                        .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                }
+                .buttonStyle(.plain)
+            }
+        }
     }
     
     private var topRow: some View {
@@ -48,9 +80,13 @@ struct ImageStager: View {
                 Image(systemName: "xmark")
                     .resizable()
                     .frame(width: 12, height: 12)
+                    .padding(6)
+                    .background(.ultraThinMaterial, in: Circle())
+                    .shadow(radius: stageVM.showTapGesture ? 4 : 2)
             }
             .buttonStyle(.plain)
+            .scaleEffect(stageVM.showTapGesture ? 0.9 : 0.8)
         }
         .padding(8)
-    }
+    }    
 }
