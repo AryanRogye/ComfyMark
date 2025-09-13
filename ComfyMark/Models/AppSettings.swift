@@ -10,11 +10,13 @@ import AppKit
 import Foundation
 import ServiceManagement
 
+@MainActor
 class AppSettings: ObservableObject {
     enum Keys {
-        static let showDockIcon             = "showDockIcon"
-        static let menuBarPowerButtonSide   = "menuBarPowerButtonSide"
-        static let screenshotSide           = "screenshotSide"
+        static let showDockIcon                  = "showDockIcon"
+        static let menuBarPowerButtonSide        = "menuBarPowerButtonSide"
+        static let screenshotSide                = "screenshotSide"
+        static let allowNativeScreenshotBehavior = "allowNativeScreenshotBehavior"
     }
     
     /// Defaults
@@ -29,6 +31,7 @@ class AppSettings: ObservableObject {
             defaults.set(showDockIcon, forKey: Keys.showDockIcon)
         }
     }
+    
     @Published var menuBarPowerButtonSide: MenuBarPowerButtonSide {
         didSet {
             defaults.set(menuBarPowerButtonSide.rawValue, forKey: Keys.menuBarPowerButtonSide)
@@ -38,6 +41,12 @@ class AppSettings: ObservableObject {
     @Published var screenshotSide: ImageStagerSide {
         didSet {
             defaults.set(screenshotSide.rawValue, forKey: Keys.screenshotSide)
+        }
+    }
+    
+    @Published var allowNativeScreenshotBehavior: Bool {
+        didSet {
+            defaults.set(allowNativeScreenshotBehavior, forKey: Keys.allowNativeScreenshotBehavior)
         }
     }
     
@@ -63,10 +72,12 @@ class AppSettings: ObservableObject {
         let side : String = defaults.string(forKey: Keys.menuBarPowerButtonSide) ?? "right"
         self.menuBarPowerButtonSide = MenuBarPowerButtonSide(rawValue: side) ?? .right
         
-        // Init ScreenshotSide
+        /// Init ScreenshotSide
         let screenshotSide = defaults.string(forKey: Keys.screenshotSide) ?? ImageStagerSide.right.rawValue
         self.screenshotSide = ImageStagerSide(rawValue: screenshotSide) ?? .right
         
+        /// Init Allow Native Screenshot Behavior
+        self.allowNativeScreenshotBehavior = defaults.bool(forKey: Keys.allowNativeScreenshotBehavior)
         
         // MARK: - Binding Dock Icon
         $showDockIcon
@@ -163,11 +174,11 @@ extension AppSettings {
 
 // MARK: - Default Registering
 extension AppSettings {
-    
     public static func registerDefaults(in defaults: UserDefaults = .standard) {
         registerMenuBarPowerButtonSide(defaults)
         registerShowDockIcon(defaults)
         registerScreenshotSide(defaults)
+        registerAllowNativeScreenshotBehavior(defaults)
     }
     
     private static func registerMenuBarPowerButtonSide(_ defaults: UserDefaults) {
@@ -180,5 +191,9 @@ extension AppSettings {
     
     private static func registerScreenshotSide(_ defaults: UserDefaults) {
         defaults.register(defaults: [Keys.screenshotSide: ImageStagerSide.right.rawValue])
+    }
+    
+    private static func registerAllowNativeScreenshotBehavior(_ defaults: UserDefaults) {
+        defaults.register(defaults: [Keys.allowNativeScreenshotBehavior: true])
     }
 }

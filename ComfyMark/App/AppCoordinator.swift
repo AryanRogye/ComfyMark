@@ -148,7 +148,11 @@ extension AppCoordinator {
     private func showImage(_ image: CGImage) {
         /// Decide How We Want to show The Image, Native way or Fullscreen
 //        openComfyMarkWindow(image)
-        stageImage(image)
+        if appSettings.allowNativeScreenshotBehavior {
+            stageImage(image)
+        } else {
+            openComfyMarkWindow(image)
+        }
     }
     /// Function To Take Screenshot Of Specified Screen, this is cuz
     /// When we decide what to show the overlay on THAT is the screen
