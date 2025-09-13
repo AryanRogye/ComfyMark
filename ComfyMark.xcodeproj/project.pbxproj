@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		9B0F3D752E74B5ED00CE2BA0 /* MockScreenshotProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D722E74B5ED00CE2BA0 /* MockScreenshotProvider.swift */; };
 		9B0F3D762E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D732E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift */; };
+		9B0F3D792E74E44900CE2BA0 /* ImageStageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D782E74E44400CE2BA0 /* ImageStageCoordinator.swift */; };
+		9B0F3D7B2E74E47800CE2BA0 /* FocusablePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7A2E74E47500CE2BA0 /* FocusablePanel.swift */; };
+		9B0F3D7E2E74E56600CE2BA0 /* ImageStager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7D2E74E56400CE2BA0 /* ImageStager.swift */; };
+		9B0F3D802E74E58200CE2BA0 /* ImageStageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */; };
 		9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */; };
 		9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EE2E651F3700C470ED /* AppDelegate.swift */; };
 		9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */; };
@@ -104,6 +108,10 @@
 /* Begin PBXFileReference section */
 		9B0F3D722E74B5ED00CE2BA0 /* MockScreenshotProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockScreenshotProvider.swift; sourceTree = "<group>"; };
 		9B0F3D732E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotProviderTests.swift; sourceTree = "<group>"; };
+		9B0F3D782E74E44400CE2BA0 /* ImageStageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStageCoordinator.swift; sourceTree = "<group>"; };
+		9B0F3D7A2E74E47500CE2BA0 /* FocusablePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusablePanel.swift; sourceTree = "<group>"; };
+		9B0F3D7D2E74E56400CE2BA0 /* ImageStager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStager.swift; sourceTree = "<group>"; };
+		9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStageViewModel.swift; sourceTree = "<group>"; };
 		9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9B48F8EE2E651F3700C470ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkApp.swift; sourceTree = "<group>"; };
@@ -227,6 +235,15 @@
 			path = Screenshot;
 			sourceTree = "<group>";
 		};
+		9B0F3D7C2E74E55E00CE2BA0 /* ImageStager */ = {
+			isa = PBXGroup;
+			children = (
+				9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */,
+				9B0F3D7D2E74E56400CE2BA0 /* ImageStager.swift */,
+			);
+			path = ImageStager;
+			sourceTree = "<group>";
+		};
 		9B48F8F02E651F3700C470ED /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,6 +272,7 @@
 				9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */,
 				9BCF718A2E6D2C1200B3921B /* HotKeyCoordinator.swift */,
 				9BDA249F2E71D06D00A28DBB /* SelectionOverlayCoordinator.swift */,
+				9B0F3D782E74E44400CE2BA0 /* ImageStageCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -262,6 +280,7 @@
 		9B48F8FA2E651F3700C470ED /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9B0F3D7A2E74E47500CE2BA0 /* FocusablePanel.swift */,
 				9B5C50302E6BEA3B008BD465 /* Bundle.swift */,
 				9B5C502C2E6BB8F6008BD465 /* NSColor+toSIMD.swift */,
 				9B5C502E2E6BE4FB008BD465 /* Divider+groupBoxStyle.swift */,
@@ -310,6 +329,7 @@
 		9B48F9062E651F3700C470ED /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9B0F3D7C2E74E55E00CE2BA0 /* ImageStager */,
 				9BDA24AB2E71D1A700A28DBB /* SelectionOverlay */,
 				9B5C4CD32E662EE5008BD465 /* Settings */,
 				9B48F8FF2E651F3700C470ED /* ComfyMark */,
@@ -670,6 +690,7 @@
 				9BDA24C12E71F00000A28DBB /* CrosshairHostingView.swift in Sources */,
 				9B5C4FDA2E6A8889008BD465 /* ComputeCache.swift in Sources */,
 				9B5C50312E6BEA3E008BD465 /* Bundle.swift in Sources */,
+				9B0F3D7E2E74E56600CE2BA0 /* ImageStager.swift in Sources */,
 				9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */,
 				9BCF72242E6E545400B3921B /* HistoryMultipleDelete.swift in Sources */,
 				9B5C4D3E2E68A5EF008BD465 /* Image+iconWithRectangle.swift in Sources */,
@@ -685,6 +706,7 @@
 				9B5C4D482E68AE22008BD465 /* SettingsContainerView.swift in Sources */,
 				9BCF71942E6D47DB00B3921B /* HistoryButton.swift in Sources */,
 				9B5C4D212E6784AD008BD465 /* CGImage+placeholder.swift in Sources */,
+				9B0F3D792E74E44900CE2BA0 /* ImageStageCoordinator.swift in Sources */,
 				9BCF71762E6D07A700B3921B /* MenuBarMaterialButton.swift in Sources */,
 				9B5C4D382E68A434008BD465 /* GeneralSettings.swift in Sources */,
 				9B5C4D2A2E688527008BD465 /* EditorState.swift in Sources */,
@@ -733,6 +755,7 @@
 				9BCF717D2E6D08A600B3921B /* MenuBarSettings.swift in Sources */,
 				9BDA24B22E71E92800A28DBB /* SelectionOverlayViewModel.swift in Sources */,
 				9B5C4D1D2E6779DE008BD465 /* MenuBarHistoryView.swift in Sources */,
+				9B0F3D7B2E74E47800CE2BA0 /* FocusablePanel.swift in Sources */,
 				9B48F9142E651F3700C470ED /* ComfyMarkButton.swift in Sources */,
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
 				9BDA24A02E71D06F00A28DBB /* SelectionOverlayCoordinator.swift in Sources */,
@@ -743,6 +766,7 @@
 				9B5C4CDA2E671D6A008BD465 /* ExportService.swift in Sources */,
 				9B5C4CD02E662EB9008BD465 /* ComfyMarkToolbar.swift in Sources */,
 				9B48F95B2E65FBF000C470ED /* Stroke.swift in Sources */,
+				9B0F3D802E74E58200CE2BA0 /* ImageStageViewModel.swift in Sources */,
 				9BCF718D2E6D304C00B3921B /* ScreenshotHotkeySettings.swift in Sources */,
 				9B5C4CD42E662EE5008BD465 /* SettingsView.swift in Sources */,
 			);

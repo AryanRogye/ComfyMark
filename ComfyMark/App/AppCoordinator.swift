@@ -20,6 +20,7 @@ class AppCoordinator {
     private var settingsCoordinator         : SettingsCoordinator!
     private var comfyMarkCoordinator        : ComfyMarkCoordinator!
     private var selectionOverlayCoordinator : SelectionOverlayCoordinator!
+    private var imageStageCoordinator       : ImageStageCoordinator!
     
     /// Protocols/Services
     private var screenshots : ScreenshotProviding
@@ -45,6 +46,7 @@ class AppCoordinator {
         
         /// Configure Coordinators
         self.configureSelectionOverlayCoordinator()
+        self.configureImageStageCoordinator()
         self.configureSettingsCoordinator()
         self.configureComfyMarkCoordinator()
         self.configureHotKeyCoordinator()
@@ -111,6 +113,11 @@ class AppCoordinator {
             appSettings: appSettings
         )
     }
+    
+    // MARK: -
+    private func configureImageStageCoordinator() {
+        self.imageStageCoordinator = ImageStageCoordinator()
+    }
 
     // MARK: - Selection Coordinator
     private func configureSelectionOverlayCoordinator() {
@@ -127,7 +134,8 @@ class AppCoordinator {
 extension AppCoordinator {
     private func showImage(_ image: CGImage) {
         /// Decide How We Want to show The Image, Native way or Fullscreen
-        openComfyMarkWindow(image)
+//        openComfyMarkWindow(image)
+        stageImage(image)
     }
     /// Function To Take Screenshot Of Specified Screen, this is cuz
     /// When we decide what to show the overlay on THAT is the screen
@@ -152,8 +160,14 @@ extension AppCoordinator {
 }
 
 
-// MARK: - Open ComfyMark Window With Image
+// MARK: - Open Windows
 extension AppCoordinator {
+    private func stageImage(_ image: CGImage) {
+        imageStageCoordinator.show(with: image, onImageTapped: { [weak self] in
+            guard let self = self else { return }
+            self.openComfyMarkWindow(image)
+        })
+    }
     private func openComfyMarkWindow(_ image: CGImage, projectName: String? = nil) {
         /// Generate A Window ID
         let windowID: String = "comfymark-\(UUID().uuidString)"
