@@ -17,14 +17,14 @@ class AppSettings: ObservableObject {
         static let menuBarPowerButtonSide        = "menuBarPowerButtonSide"
         static let screenshotSide                = "screenshotSide"
         static let allowNativeScreenshotBehavior = "allowNativeScreenshotBehavior"
+        static let dismissStagerBehavior         = "dismissStagerBehavior"
     }
     
     /// Defaults
     /// I do this because in init we can inject different settings
     /// and its nicer to test with
     private var defaults: UserDefaults
-
-    @Published var isSettingsWindowOpen = false
+    
     
     @Published var showDockIcon : Bool {
         didSet {
@@ -50,35 +50,54 @@ class AppSettings: ObservableObject {
         }
     }
     
-    
+    @Published var dismissStagerBehavior: DismissScreenshotOption {
+        didSet {
+            defaults.set(dismissStagerBehavior.rawValue, forKey: Keys.dismissStagerBehavior)
+        }
+    }
+    ///=======================================================================================================================================
+    ///=======================================================================================================================================
     /// We Dont Save this cuz we read this value from the system
     @Published var launchAtLogin: Bool
-    
     /// Flag to know if the App Icon is showing or not
+    ///=======================================================================================================================================
+    /// Internal Variables
     private var isShowingAppIcon: Bool = false
-    
     private var cancellables: Set<AnyCancellable> = []
+    ///=======================================================================================================================================
+    /// Public Flags
+    @Published var isSettingsWindowOpen = false
     
+    // MARK: - ⚙️ Initialization
+    ///=======================================================================================================================================
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
-        // Register a default so the first read doesn't cause a write
+        ///=======================================================================================================================================
+        /// Register a default so the first read doesn't cause a write
         AppSettings.registerDefaults(in: defaults)
-        
+        ///=======================================================================================================================================
         self.launchAtLogin = (SMAppService.mainApp.status == .enabled)
         
         self.showDockIcon = defaults.bool(forKey: Keys.showDockIcon)
         
+        /// Init Allow Native Screenshot Behavior
+        self.allowNativeScreenshotBehavior = defaults.bool(forKey: Keys.allowNativeScreenshotBehavior)
+
+        /// Init Enumaration Defaults
+        ///=======================================================================================================================================
         /// Init menuBarPowerButtonSide
-        let side : String = defaults.string(forKey: Keys.menuBarPowerButtonSide) ?? "right"
-        self.menuBarPowerButtonSide = MenuBarPowerButtonSide(rawValue: side) ?? .right
+        let side : String = defaults.string(forKey: Keys.menuBarPowerButtonSide) ?? MenuBarPowerButtonSide.right.rawValue
+        self.menuBarPowerButtonSide = MenuBarPowerButtonSide(rawValue: side)!
+        
+        /// Init Dismiss Stager Behavior
+        let dismissStager = defaults.string(forKey: Keys.dismissStagerBehavior) ?? DismissScreenshotOption.timer.rawValue
+        self.dismissStagerBehavior = DismissScreenshotOption(rawValue: dismissStager)!
         
         /// Init ScreenshotSide
         let screenshotSide = defaults.string(forKey: Keys.screenshotSide) ?? ImageStagerSide.right.rawValue
-        self.screenshotSide = ImageStagerSide(rawValue: screenshotSide) ?? .right
-        
-        /// Init Allow Native Screenshot Behavior
-        self.allowNativeScreenshotBehavior = defaults.bool(forKey: Keys.allowNativeScreenshotBehavior)
-        
+        self.screenshotSide = ImageStagerSide(rawValue: screenshotSide)!
+
+        ///=======================================================================================================================================
         // MARK: - Binding Dock Icon
         $showDockIcon
             .sink { [weak self] show in
@@ -96,7 +115,7 @@ class AppSettings: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-        
+        ///=========================================================================================================================================
         // MARK: - Bind Settings Window Open
         $isSettingsWindowOpen
             .sink { [weak self] isOpen in
@@ -111,7 +130,7 @@ class AppSettings: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-        
+        ///=========================================================================================================================================
         // MARK: - Binding Launch At Login
         $launchAtLogin
             .sink { [weak self] launchAtLogin in
@@ -140,10 +159,11 @@ class AppSettings: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-
     }
 }
 
+///=========================================================================================================================================
+// MARK: - App Icon Behavior
 extension AppSettings {
     private func showAppIcon() {
         if !isShowingAppIcon {
@@ -172,6 +192,7 @@ extension AppSettings {
     }
 }
 
+///=========================================================================================================================================
 // MARK: - Default Registering
 extension AppSettings {
     public static func registerDefaults(in defaults: UserDefaults = .standard) {
@@ -179,6 +200,7 @@ extension AppSettings {
         registerShowDockIcon(defaults)
         registerScreenshotSide(defaults)
         registerAllowNativeScreenshotBehavior(defaults)
+        registerDismissStagerBehavior(defaults)
     }
     
     private static func registerMenuBarPowerButtonSide(_ defaults: UserDefaults) {
@@ -195,5 +217,8 @@ extension AppSettings {
     
     private static func registerAllowNativeScreenshotBehavior(_ defaults: UserDefaults) {
         defaults.register(defaults: [Keys.allowNativeScreenshotBehavior: true])
+    }
+    private static func registerDismissStagerBehavior(_ defaults: UserDefaults) {
+        defaults.register(defaults: [Keys.dismissStagerBehavior: DismissScreenshotOption.timer.rawValue])
     }
 }

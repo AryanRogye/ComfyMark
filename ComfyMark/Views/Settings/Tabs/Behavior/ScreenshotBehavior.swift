@@ -13,25 +13,34 @@ struct ScreenshotBehaviorSettings: View {
     
     var body: some View {
         SettingsSection("Screenshot Behavior") {
+            
+            /// Toggle For Screenshot Behavior
             AllowNativeScreenshotBehavior(
                 appSettings: behaviorVM.appSettings
             )
             
             Divider().groupBoxStyle()
             
-            if behaviorVM.appSettings.allowNativeScreenshotBehavior {
-                ScreenshotPickSide(
-                    appSettings: behaviorVM.appSettings
-                )
-            }
+            /// Screenshot Side Picker
+            ScreenshotPickSide(
+                appSettings: behaviorVM.appSettings
+            )
+            
+            Divider().groupBoxStyle()
+            
+            /// Dismiss Behavior For Screenshot
+            DismissScreenshotStager(
+                appSettings: behaviorVM.appSettings
+            )
         }
     }
 }
 
+// MARK: - Main Allow Native Behavior
 struct AllowNativeScreenshotBehavior: View {
     
     @ObservedObject var appSettings : AppSettings
-
+    
     var body: some View {
         HStack {
             Text("Allow Native Screenshot Behavior")
@@ -44,6 +53,37 @@ struct AllowNativeScreenshotBehavior: View {
     }
 }
 
+// MARK: - Dismiss Behavior Picker
+struct DismissScreenshotStager: View {
+    
+    @ObservedObject var appSettings : AppSettings
+    @State private var tempDismissStagerBehavior : DismissScreenshotOption = .timer
+
+    var body: some View {
+        HStack {
+            Text("Dismiss Screenshot Timer")
+            Spacer()
+            Picker("", selection: $tempDismissStagerBehavior) {
+                ForEach(DismissScreenshotOption.allCases, id: \.self) { option in
+                    Text(option.rawValue).tag(option)
+                }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .allowsHitTesting(appSettings.allowNativeScreenshotBehavior)
+            .opacity(appSettings.allowNativeScreenshotBehavior ? 1.0 : 0.6)
+            .onChange(of: tempDismissStagerBehavior) { _, value in
+                appSettings.dismissStagerBehavior = value
+            }
+        }
+        .padding(.horizontal)
+        .onAppear {
+            tempDismissStagerBehavior = appSettings.dismissStagerBehavior
+        }
+    }
+}
+
+// MARK: - Pick Side Picker
 struct ScreenshotPickSide: View {
     
     @ObservedObject var appSettings : AppSettings

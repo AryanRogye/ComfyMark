@@ -19,6 +19,7 @@ final class ImageStageCoordinator {
     
     private var cancellables    : Set<AnyCancellable> = []
     private var appSettings     : AppSettings
+    private var lastSide        : ImageStagerSide? = nil
     
     init(appSettings: AppSettings) {
         self.appSettings = appSettings
@@ -33,6 +34,13 @@ final class ImageStageCoordinator {
         appSettings.$screenshotSide
             .sink { [weak self] side in
                 guard let self = self else { return }
+                
+                
+                if side == lastSide {
+                    return
+                }
+                lastSide = side
+                
                 self.imageStageScreen?.orderOut(nil)
                 self.imageStageScreen?.close()
                 self.setupOverlay(side: side)
@@ -59,7 +67,6 @@ final class ImageStageCoordinator {
         var x      : CGFloat = 0 + leftPadding
         let y      : CGFloat = 0 + bottomPadding
         
-        print("Setting Up Overlay With: \(side)")
         if side == .right {
             x = screen.visibleFrame.width - (width + leftPadding)
         }

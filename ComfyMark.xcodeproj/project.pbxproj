@@ -15,6 +15,7 @@
 		9B0F3D802E74E58200CE2BA0 /* ImageStageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */; };
 		9B0F3D822E75BF4F00CE2BA0 /* ImageStagerSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */; };
 		9B0F3D842E75E61500CE2BA0 /* ScreenshotBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D832E75E61400CE2BA0 /* ScreenshotBehavior.swift */; };
+		9B0F3D872E7645B300CE2BA0 /* DismissScreenshotOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D862E7645B200CE2BA0 /* DismissScreenshotOption.swift */; };
 		9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */; };
 		9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EE2E651F3700C470ED /* AppDelegate.swift */; };
 		9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */; };
@@ -116,6 +117,7 @@
 		9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStageViewModel.swift; sourceTree = "<group>"; };
 		9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStagerSide.swift; sourceTree = "<group>"; };
 		9B0F3D832E75E61400CE2BA0 /* ScreenshotBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotBehavior.swift; sourceTree = "<group>"; };
+		9B0F3D862E7645B200CE2BA0 /* DismissScreenshotOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissScreenshotOption.swift; sourceTree = "<group>"; };
 		9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9B48F8EE2E651F3700C470ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkApp.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				9B5C4D222E678508008BD465 /* Export.swift */,
 				9B48F95A2E65FBEF00C470ED /* Stroke.swift */,
 				9B5C4D282E688527008BD465 /* EditorState.swift */,
+				9B0F3D862E7645B200CE2BA0 /* DismissScreenshotOption.swift */,
 				9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */,
 			);
 			path = Models;
@@ -738,6 +741,7 @@
 				9B5C502B2E6BAA28008BD465 /* StrokeManager.swift in Sources */,
 				9B48F9102E651F3700C470ED /* View+destroyViewWindow.swift in Sources */,
 				9B5C4CCE2E662D23008BD465 /* CustomToolbarView.swift in Sources */,
+				9B0F3D872E7645B300CE2BA0 /* DismissScreenshotOption.swift in Sources */,
 				9B5C502D2E6BB8F7008BD465 /* NSColor+toSIMD.swift in Sources */,
 				9BCF72DC2E710F3C00B3921B /* ViewSidebar.swift in Sources */,
 				9B5C4FDC2E6A88BD008BD465 /* brush.metal in Sources */,

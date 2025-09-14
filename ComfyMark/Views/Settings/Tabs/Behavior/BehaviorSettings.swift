@@ -11,14 +11,8 @@ struct BehaviorSettings: View {
     
     var body: some View {
         SettingsContainerView {
-            menuBarBehavior
+            MenuBarBehaviorSettings()
             ScreenshotBehaviorSettings()
         }
-    }
-    
-    private var menuBarBehavior: some View {
-        SettingsSection("Menu Bar Behavior") {
-            MenuBarBehavior()
-        }
-    }
+    }    
 }

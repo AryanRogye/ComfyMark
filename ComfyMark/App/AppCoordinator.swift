@@ -13,7 +13,7 @@ import AppKit
 class AppCoordinator {
     
     private var menuBarCoordinator = MenuBarCoordinator()
-    
+    ///=======================================================================================================================================
     /// Coordinators
     private lazy var windowCoordinator      = WindowCoordinator()
     private var hotkeyCoordinator           : HotKeyCoordinator!
@@ -21,20 +21,22 @@ class AppCoordinator {
     private var comfyMarkCoordinator        : ComfyMarkCoordinator!
     private var selectionOverlayCoordinator : SelectionOverlayCoordinator!
     private var imageStageCoordinator       : ImageStageCoordinator!
-    
+    ///=======================================================================================================================================
     /// Protocols/Services
     private var screenshots : ScreenshotProviding
     private var export      : ExportProviding
     private var saving      : SavingProviding
-    
+    ///=======================================================================================================================================
     /// Managers
     private var screenshotManager : ScreenshotManager
-    
+    ///=======================================================================================================================================
     /// App Settings
     private let appSettings = AppSettings()
-    
+    ///=======================================================================================================================================
+    /// Closures
     var openSettings: (() -> Void)?
-    
+    ///=======================================================================================================================================
+    // MARK: - ⚙️ Initialization
     init(
         screenshots         : ScreenshotProviding,
         export              : ExportProviding,
@@ -45,14 +47,15 @@ class AppCoordinator {
         self.export      = export
         self.saving      = saving
         self.screenshotManager = screenshotManager
-        
+        ///=======================================================================================================================================
         /// Configure Coordinators
         self.configureSelectionOverlayCoordinator()
         self.configureImageStageCoordinator()
         self.configureSettingsCoordinator()
         self.configureComfyMarkCoordinator()
         self.configureHotKeyCoordinator()
-        
+        ///=======================================================================================================================================
+        /// Assign Our Open Settings
         openSettings = {
             /// If Overlay Screen is Showing, Hide It
             if self.selectionOverlayCoordinator.overlayScreen.isVisible {
@@ -61,7 +64,7 @@ class AppCoordinator {
             
             self.settingsCoordinator.showSettings()
         }
-        
+        ///=======================================================================================================================================
         /// Starting Our Menu Bar, with Closures, for what happens when we:
         /// Tap On Settings
         /// Tap On Start
@@ -88,7 +91,7 @@ class AppCoordinator {
             }
         )
     }
-    
+    ///=======================================================================================================================================
     // MARK: - HotKey Coordinator
     private func configureHotKeyCoordinator() {
         self.hotkeyCoordinator = HotKeyCoordinator(
@@ -109,14 +112,14 @@ class AppCoordinator {
             }
         )
     }
-    
+    ///=======================================================================================================================================
     // MARK: - ComfyMark Coordinator
     private func configureComfyMarkCoordinator() {
         self.comfyMarkCoordinator = ComfyMarkCoordinator(
             windows: windowCoordinator
         )
     }
-    
+    ///=======================================================================================================================================
     // MARK: - Settings Coordinator
     private func configureSettingsCoordinator() {
         self.settingsCoordinator = SettingsCoordinator(
@@ -124,14 +127,14 @@ class AppCoordinator {
             appSettings: appSettings
         )
     }
-    
+    ///=======================================================================================================================================
     // MARK: -
     private func configureImageStageCoordinator() {
         self.imageStageCoordinator = ImageStageCoordinator(
             appSettings: appSettings
         )
     }
-
+    ///=======================================================================================================================================
     // MARK: - Selection Coordinator
     private func configureSelectionOverlayCoordinator() {
         self.selectionOverlayCoordinator = SelectionOverlayCoordinator(
@@ -142,18 +145,21 @@ class AppCoordinator {
         )
     }
 }
-
+///=======================================================================================================================================
 // MARK: - Screenshot
 extension AppCoordinator {
+    ///=======================================================================================================================================
+    /// Main Function To Show Image
     private func showImage(_ image: CGImage) {
         /// Decide How We Want to show The Image, Native way or Fullscreen
-//        openComfyMarkWindow(image)
+        /// This is set inside the Behaviors Tab, By Default, Staging is on
         if appSettings.allowNativeScreenshotBehavior {
             stageImage(image)
         } else {
             openComfyMarkWindow(image)
         }
     }
+    ///=======================================================================================================================================
     /// Function To Take Screenshot Of Specified Screen, this is cuz
     /// When we decide what to show the overlay on THAT is the screen
     /// and if the user changes the mouse, then this wont be valid anymore
@@ -165,8 +171,8 @@ extension AppCoordinator {
             }
         }
     }
-    
-    /// Function takes a screenshot and then shows
+    ///=======================================================================================================================================
+    /// Function takes a screenshot and then show
     private func takeScreenshotAndShow() {
         Task {
             if let image = await self.screenshots.takeScreenshot() {
@@ -176,15 +182,19 @@ extension AppCoordinator {
     }    
 }
 
-
+///=======================================================================================================================================
 // MARK: - Open Windows
 extension AppCoordinator {
+    ///=======================================================================================================================================
+    /// Function Stages Image into left or Right Corner
     private func stageImage(_ image: CGImage) {
         imageStageCoordinator.show(with: image, onImageTapped: { [weak self] in
             guard let self = self else { return }
             self.openComfyMarkWindow(image, side: appSettings.screenshotSide)
         })
     }
+    ///=======================================================================================================================================
+    /// Function Opens The Window
     private func openComfyMarkWindow(_ image: CGImage, projectName: String? = nil, side: ImageStagerSide? = nil) {
         /// Generate A Window ID
         let windowID: String = "comfymark-\(UUID().uuidString)"
