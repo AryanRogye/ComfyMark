@@ -15,6 +15,11 @@ struct ComfyMarkView: View {
     @State private var pinchStartScale: Float? = nil
     @State var isPinching = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .detailOnly
+    
+    init(comfyMarkVM: ComfyMarkViewModel) {
+        self.comfyMarkVM = comfyMarkVM
+        _viewport = State(initialValue: Viewport(origin: .zero, scale: 0.9))
+    }
 
     
     var body: some View {

@@ -22,12 +22,10 @@ struct GeneralSettings: View {
     private var hotkeySettings: some View {
         SettingsSection("Hotkeys") {
             ScreenshotHotkeySettings()
-                .frame(height: 30)
             
             Divider().groupBoxStyle()
             
             SelectionOverlayHotkeySettings()
-                .frame(height: 30)
         }
     }
     

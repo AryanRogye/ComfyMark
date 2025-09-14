@@ -9,6 +9,7 @@ import Combine
 import SwiftUI
 
 class BehaviorViewModel: ObservableObject {
+    
     var appSettings: AppSettings
     
     init(appSettings: AppSettings) {

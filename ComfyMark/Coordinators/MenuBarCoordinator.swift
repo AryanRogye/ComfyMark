@@ -126,7 +126,6 @@ class MenuBarCoordinator: NSObject {
         
         /// Make sure we hide in the start
         popover.performClose(nil)
-        print("PopOver Has been Hidden")
     }
     
     

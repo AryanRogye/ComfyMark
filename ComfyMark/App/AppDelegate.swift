@@ -11,6 +11,7 @@ import Combine
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     private let appCoordinator: AppCoordinator
+    @MainActor var openSettings: (() -> Void)?
     
     @MainActor
     override init() {
@@ -21,13 +22,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let screenshotManager = ScreenshotManager(saving: saving)
         
-        
         appCoordinator = AppCoordinator(
             screenshots: screenshots,
             export: export,
             saving: saving,
-            screenshotManager: screenshotManager
+            screenshotManager: screenshotManager,
         )
+        openSettings = appCoordinator.openSettings
     }
     
     public func applicationDidFinishLaunching(_ notification: Notification) {
