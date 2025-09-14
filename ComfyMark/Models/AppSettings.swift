@@ -18,6 +18,7 @@ class AppSettings: ObservableObject {
         static let screenshotSide                = "screenshotSide"
         static let allowNativeScreenshotBehavior = "allowNativeScreenshotBehavior"
         static let dismissStagerBehavior         = "dismissStagerBehavior"
+        static let dismissStagerTimer            = "dismissStagerTimer"
     }
     
     /// Defaults
@@ -55,6 +56,11 @@ class AppSettings: ObservableObject {
             defaults.set(dismissStagerBehavior.rawValue, forKey: Keys.dismissStagerBehavior)
         }
     }
+    @Published var dismissStagerTimer: TimeInterval {
+        didSet {
+            defaults.set(dismissStagerTimer, forKey: Keys.dismissStagerTimer)
+        }
+    }
     ///=======================================================================================================================================
     ///=======================================================================================================================================
     /// We Dont Save this cuz we read this value from the system
@@ -82,6 +88,8 @@ class AppSettings: ObservableObject {
         
         /// Init Allow Native Screenshot Behavior
         self.allowNativeScreenshotBehavior = defaults.bool(forKey: Keys.allowNativeScreenshotBehavior)
+        
+        self.dismissStagerTimer = defaults.double(forKey: Keys.dismissStagerTimer)
 
         /// Init Enumaration Defaults
         ///=======================================================================================================================================
@@ -201,6 +209,7 @@ extension AppSettings {
         registerScreenshotSide(defaults)
         registerAllowNativeScreenshotBehavior(defaults)
         registerDismissStagerBehavior(defaults)
+        registerDismissStagerTimer(defaults)
     }
     
     private static func registerMenuBarPowerButtonSide(_ defaults: UserDefaults) {
@@ -220,5 +229,9 @@ extension AppSettings {
     }
     private static func registerDismissStagerBehavior(_ defaults: UserDefaults) {
         defaults.register(defaults: [Keys.dismissStagerBehavior: DismissScreenshotOption.timer.rawValue])
+    }
+    
+    private static func registerDismissStagerTimer(_ defaults: UserDefaults) {
+        defaults.register(defaults: [Keys.dismissStagerTimer: 30.0])
     }
 }

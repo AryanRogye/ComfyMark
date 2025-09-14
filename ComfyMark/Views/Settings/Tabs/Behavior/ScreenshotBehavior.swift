@@ -32,6 +32,12 @@ struct ScreenshotBehaviorSettings: View {
             DismissScreenshotStager(
                 appSettings: behaviorVM.appSettings
             )
+            
+            Divider().groupBoxStyle()
+            
+            DismissScreenshotTimerSlider(
+                appSettings: behaviorVM.appSettings
+            )
         }
     }
 }
@@ -48,6 +54,43 @@ struct AllowNativeScreenshotBehavior: View {
             Toggle("", isOn: $appSettings.allowNativeScreenshotBehavior)
                 .toggleStyle(.switch)
                 .labelsHidden()
+        }
+        .padding(.horizontal)
+    }
+}
+
+// MARK: - Slider For Timer
+struct DismissScreenshotTimerSlider: View {
+    
+    @ObservedObject var appSettings : AppSettings
+    
+    var disabled : Bool {
+        
+        /// Disabled IF
+        /// dismissStageBehavior is not timer
+        appSettings.dismissStagerBehavior != .timer
+        /// or we are not allowing the native screenshot behavior
+        || !appSettings.allowNativeScreenshotBehavior
+    }
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 0) {
+            Text("Dismiss Timer Duration")
+            Slider(value: $appSettings.dismissStagerTimer, in: 5...30, step: 1)
+                .accessibilityLabel("Timer duration in seconds")
+                .disabled(disabled)
+                /// Simulating HStack Spacing with 12
+                .padding(.leading, 32)
+            Text("\(Int(appSettings.dismissStagerTimer))")
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+                /// Simulating HStack Spacing with 8
+                .padding(.leading, 8)
+            Text("s")
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+                /// Simulating Nice Spacing with 2
+                .padding(.leading, 2)
         }
         .padding(.horizontal)
     }
