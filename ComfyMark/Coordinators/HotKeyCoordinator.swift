@@ -43,6 +43,5 @@ final class HotKeyCoordinator {
         KeyboardShortcuts.onKeyDown(for: self.comfyMarkSelectionOverlay) {
             onSelectionOverlayDown()
         }
-        
     }
 }

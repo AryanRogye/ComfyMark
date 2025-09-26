@@ -140,7 +140,7 @@ final class ScreenshotManager: ObservableObject {
         image.draw(in: drawRect)
         thumbnail.unlockFocus()
         
-        print("Created thumbnail - Original: \(imageSize), Thumbnail: \(size)")
+//        print("Created thumbnail - Original: \(imageSize), Thumbnail: \(size)")
         
         return thumbnail
     }

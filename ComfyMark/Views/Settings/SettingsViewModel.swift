@@ -11,10 +11,16 @@ import SwiftUI
 @MainActor
 class SettingsViewModel: ObservableObject {
     
-    @Published var selectedTab: SettingsTab = .general
+    @AppStorage("lastSettingsTab") private var lastTab: String = SettingsTab.general.rawValue
+
+    @Published var selectedTab: SettingsTab = .general {
+        didSet { lastTab = selectedTab.rawValue }
+    }
+    
     let appSettings: AppSettings
     
     init(appSettings: AppSettings) {
         self.appSettings = appSettings
+        self.selectedTab = SettingsTab(rawValue: lastTab) ?? .general
     }
 }
