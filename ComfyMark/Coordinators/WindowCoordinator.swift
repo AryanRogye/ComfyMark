@@ -45,6 +45,7 @@ class WindowCoordinator {
         windows.removeAll()
     }
     
+    /// LOLLLL This is not a genie effect but i'm gonna call it that
     func showWindowWithGenie(
         id: String,
         title: String,
