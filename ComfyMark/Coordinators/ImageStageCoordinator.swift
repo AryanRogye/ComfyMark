@@ -9,6 +9,7 @@ import AppKit
 import Cocoa
 import SwiftUI
 import Combine
+import SnapCore
 
 @MainActor
 final class ImageStageCoordinator {

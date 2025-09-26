@@ -7,6 +7,7 @@
 
 import AppKit
 import SwiftUI
+import SnapCore
 
 final class SelectionOverlayCoordinator {
     

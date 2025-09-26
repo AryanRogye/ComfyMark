@@ -8,6 +8,7 @@
 import CoreGraphics
 import Foundation
 import AppKit
+import SnapCore
 
 @MainActor
 class AppCoordinator {

@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import SnapCore
 
 struct ComfyMarkSession {
     let id: UUID = UUID()
