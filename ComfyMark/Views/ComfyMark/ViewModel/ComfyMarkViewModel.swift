@@ -131,7 +131,7 @@ extension ComfyMarkViewModel {
     func beginStroke(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
         let newP = viewToImagePx(point, viewSize: viewSize, viewport: viewport)
         let clampedPt = clampToImageBounds(newP)
-        strokeManager.beginStroke(at: clampedPt)
+        strokeManager.beginStroke(mode: .draw,at: clampedPt)
     }
     
     func addPoint(_ viewPoint: CGPoint, viewSize: CGSize, viewport: Viewport) {
@@ -160,7 +160,7 @@ extension ComfyMarkViewModel {
     func beginErase(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
         let newP = viewToImagePx(point, viewSize: viewSize, viewport: viewport)
         let clampedPt = clampToImageBounds(newP)
-        strokeManager.beginStroke(at: clampedPt)
+        strokeManager.beginStroke(mode: .erase, at: clampedPt)
     }
     func addErasePoint(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
         let imgPt = clampToImageBounds(viewToImagePx(point, viewSize: viewSize, viewport: viewport))
