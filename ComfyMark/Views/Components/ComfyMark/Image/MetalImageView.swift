@@ -13,9 +13,6 @@ import Combine
 
 struct MetalImageView: NSViewRepresentable {
     
-    var imageTexture: MTLTexture?
-    var inkTexture: MTLTexture?
-    
     @Binding var viewport: Viewport
     var comfyMarkVM : ComfyMarkViewModel
     
@@ -23,8 +20,6 @@ struct MetalImageView: NSViewRepresentable {
         viewport: Binding<Viewport>,
         comfyMarkVM : ComfyMarkViewModel,
     ) {
-        self.imageTexture = comfyMarkVM.imageTexture
-        self.inkTexture   = comfyMarkVM.inkTexture
         self._viewport = viewport
         self.comfyMarkVM = comfyMarkVM
     }
@@ -56,10 +51,10 @@ struct MetalImageView: NSViewRepresentable {
         context.coordinator.viewport = viewport
         
         
-        if let imageTexture = imageTexture {
+        if let imageTexture = comfyMarkVM.imageTexture {
             context.coordinator.setImageTexture(imageTexture)
         }
-        if let inkTexture = inkTexture {
+        if let inkTexture = comfyMarkVM.inkTexture {
             context.coordinator.setInkTexture(inkTexture)
         }
         

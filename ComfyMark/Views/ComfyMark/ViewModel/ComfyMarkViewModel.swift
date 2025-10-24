@@ -18,6 +18,7 @@ class ComfyMarkViewModel: ObservableObject {
     let ctx = MetalContext.shared
     var metalBrush : MetalBrush?
     var strokeManager : StrokeManager
+    private var redoStack: [Stroke] = []
     
     /// Passed in
     let windowID : String
@@ -102,10 +103,14 @@ extension ComfyMarkViewModel {
 extension ComfyMarkViewModel {
     
     public func undo() {
-        
+        guard let stroke = strokeManager.popLastStroke() else { return }
+        redoStack.append(stroke)
+        replayStrokes()
     }
     public func redo() {
-        
+        guard let stroke = redoStack.popLast() else { return }
+        strokeManager.appendStroke(stroke)
+        replayStrokes()
     }
     
 }
@@ -131,7 +136,10 @@ extension ComfyMarkViewModel {
     func beginStroke(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
         let newP = viewToImagePx(point, viewSize: viewSize, viewport: viewport)
         let clampedPt = clampToImageBounds(newP)
-        strokeManager.beginStroke(mode: .draw,at: clampedPt)
+        if !redoStack.isEmpty {
+            redoStack.removeAll()
+        }
+        strokeManager.beginStroke(mode: .draw, at: clampedPt, brushSize: brushRadius)
     }
     
     func addPoint(_ viewPoint: CGPoint, viewSize: CGSize, viewport: Viewport) {
@@ -160,7 +168,10 @@ extension ComfyMarkViewModel {
     func beginErase(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
         let newP = viewToImagePx(point, viewSize: viewSize, viewport: viewport)
         let clampedPt = clampToImageBounds(newP)
-        strokeManager.beginStroke(mode: .erase, at: clampedPt)
+        if !redoStack.isEmpty {
+            redoStack.removeAll()
+        }
+        strokeManager.beginStroke(mode: .erase, at: clampedPt, brushSize: brushRadius)
     }
     func addErasePoint(at point: CGPoint, viewSize: CGSize, viewport: Viewport) {
         let imgPt = clampToImageBounds(viewToImagePx(point, viewSize: viewSize, viewport: viewport))

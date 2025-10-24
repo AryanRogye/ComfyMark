@@ -59,6 +59,15 @@ final class StrokeManager: ObservableObject {
         activeStroke = nil
     }
     
+    func popLastStroke() -> Stroke? {
+        guard !strokes.isEmpty else { return nil }
+        return strokes.removeLast()
+    }
+    
+    func appendStroke(_ stroke: Stroke) {
+        strokes.append(stroke)
+    }
+    
     // MARK: - Smoothing
     
     /// Uniform Catmull–Rom spline (alpha=0.5 is centripetal; avoids loops).
