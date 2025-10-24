@@ -7,19 +7,7 @@
 
 import AppKit
 import SwiftUI
-
-/**
- * Custom NSPanel subclass that can become key and main window.
- * Enables proper focus and interaction handling.
- */
-class FocusablePanel: NSPanel {
-    override var canBecomeKey: Bool {
-        return true
-    }
-    override var canBecomeMain: Bool {
-        return true
-    }
-}
+import SnapCore
 
 final class SelectionOverlayCoordinator {
     
@@ -103,6 +91,18 @@ final class SelectionOverlayCoordinator {
         guard let overlayScreen = self.overlayScreen else {
             print("Cant Show, Overlay is nil")
             return
+        }
+        
+        // Get the current screen under mouse when showing
+        guard let currentScreen = ScreenshotService.screenUnderMouse() else {
+            print("Can't show, no screen under mouse")
+            return
+        }
+        
+        // If we need to recreate the overlay for a different screen
+        if targetScreen != currentScreen {
+            targetScreen = currentScreen
+            setupOverlay()
         }
         
         if !overlayScreen.isVisible {

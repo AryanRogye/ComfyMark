@@ -59,6 +59,10 @@ final class MetalBrush {
         )
     }
     
+    func replaceInkTexture(_ texture: MTLTexture) {
+        inkTexture = texture
+    }
+    
     public func drawErase(from a: CGPoint, to b: CGPoint,
                           radius: Float = 10,
                           feather: Float? = nil

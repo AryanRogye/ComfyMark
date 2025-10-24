@@ -5,9 +5,10 @@
 //  Created by Aryan Rogye on 9/9/25.
 //
 
-import SwiftUI
+import AppKit
 import Metal
 import MetalKit
+import SwiftUI
 
 // MARK: - 🖼️ ViewModel + Textures
 /*
@@ -138,5 +139,112 @@ extension ComfyMarkViewModel {
         tx = max(0, min(CGFloat(tex.width  - 1), tx))
         ty = max(0, min(CGFloat(tex.height - 1), ty))
         return CGPoint(x: tx, y: ty)
+    }
+}
+
+// MARK: - 🔁 History Replay
+extension ComfyMarkViewModel {
+    
+    internal func replayStrokes() {
+        guard let inkSurface = prepareInkTextureForReplay() else { return }
+        
+        clearInkTexture(inkSurface)
+        guard let brush = ensureBrush(using: inkSurface) else { return }
+        
+        for stroke in strokeManager.strokes {
+            guard stroke.points.count > 1 else { continue }
+            let radius = sanitizedRadius(for: stroke.brushSize)
+            
+            for (start, end) in zip(stroke.points, stroke.points.dropFirst()) {
+                guard isFinitePoint(start), isFinitePoint(end) else { continue }
+                
+                switch stroke.mode {
+                case .draw:
+                    brush.drawSegment(
+                        from: start,
+                        to: end,
+                        radius: radius,
+                        color: simdColor(for: stroke.color)
+                    )
+                case .erase:
+                    brush.drawErase(
+                        from: start,
+                        to: end,
+                        radius: radius
+                    )
+                }
+            }
+        }
+        
+        shouldUpdate = true
+    }
+    
+    private func prepareInkTextureForReplay() -> MTLTexture? {
+        if let existing = inkTexture {
+            return existing
+        }
+        
+        guard let base = imageTexture,
+              let created = try? getInkTexture(baseTexture: base) else {
+            return nil
+        }
+        
+        inkTexture = created
+        return created
+    }
+    
+    private func ensureBrush(using texture: MTLTexture) -> MetalBrush? {
+        if let brush = metalBrush {
+            brush.replaceInkTexture(texture)
+            return brush
+        }
+        
+        let brush = MetalBrush(inkTexture: texture)
+        brush.onStampDone = { [weak self] in
+            self?.shouldUpdate = true
+        }
+        metalBrush = brush
+        return brush
+    }
+    
+    private func clearInkTexture(_ texture: MTLTexture) {
+        guard let commandBuffer = ctx.queue.makeCommandBuffer() else { return }
+        
+        let descriptor = MTLRenderPassDescriptor()
+        descriptor.colorAttachments[0].texture = texture
+        descriptor.colorAttachments[0].loadAction = .clear
+        descriptor.colorAttachments[0].storeAction = .store
+        descriptor.colorAttachments[0].clearColor = MTLClearColor(
+            red: 0,
+            green: 0,
+            blue: 0,
+            alpha: 0
+        )
+        
+        guard let encoder = commandBuffer.makeRenderCommandEncoder(descriptor: descriptor) else {
+            return
+        }
+        encoder.endEncoding()
+        commandBuffer.commit()
+        commandBuffer.waitUntilCompleted()
+    }
+    
+    private func simdColor(for color: NSColor) -> SIMD4<Float> {
+        let rgb = color.usingColorSpace(.deviceRGB) ?? color
+        return SIMD4(
+            Float(rgb.redComponent),
+            Float(rgb.greenComponent),
+            Float(rgb.blueComponent),
+            Float(rgb.alphaComponent)
+        )
+    }
+    
+    private func sanitizedRadius(for radius: Float) -> Float {
+        guard radius.isFinite else { return max(brushRadius, 0) }
+        return max(radius, 0)
+    }
+    
+    private func isFinitePoint(_ point: CGPoint) -> Bool {
+        point.x.isFinite && point.y.isFinite
     }
 }

@@ -24,8 +24,14 @@ final class StrokeManager: ObservableObject {
     
     // MARK: - Input
     
-    func beginStroke(at p: CGPoint, brushSize: Float = 10, color: NSColor = .black) {
-        activeStroke = Stroke(points: [p], brushSize: brushSize, color: color, timestamp: .now)
+    func beginStroke(mode: StrokeKind, at p: CGPoint, brushSize: Float = 10, color: NSColor = .black) {
+        activeStroke = Stroke(
+            mode: mode,
+            points: [p],
+            brushSize: brushSize,
+            color: color,
+            timestamp: .now
+        )
     }
     
     func addPoint(_ p: CGPoint) {
@@ -51,6 +57,15 @@ final class StrokeManager: ObservableObject {
         }
         strokes.append(s)
         activeStroke = nil
+    }
+    
+    func popLastStroke() -> Stroke? {
+        guard !strokes.isEmpty else { return nil }
+        return strokes.removeLast()
+    }
+    
+    func appendStroke(_ stroke: Stroke) {
+        strokes.append(stroke)
     }
     
     // MARK: - Smoothing

@@ -17,5 +17,12 @@ struct ComfyMarkApp: App {
             EmptyView()
                 .destroyViewWindow()
         }
+        .commands {
+            CommandGroup(replacing: .appSettings) {
+                Button("Settings…") { appDelegate.openSettings?() }
+                    .keyboardShortcut(",", modifiers: .command)
+                    .disabled(appDelegate.openSettings == nil)
+            }
+        }
     }
 }

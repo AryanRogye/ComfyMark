@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B0F3D752E74B5ED00CE2BA0 /* MockScreenshotProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D722E74B5ED00CE2BA0 /* MockScreenshotProvider.swift */; };
+		9B0F3D762E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D732E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift */; };
+		9B0F3D792E74E44900CE2BA0 /* ImageStageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D782E74E44400CE2BA0 /* ImageStageCoordinator.swift */; };
+		9B0F3D7B2E74E47800CE2BA0 /* FocusablePanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7A2E74E47500CE2BA0 /* FocusablePanel.swift */; };
+		9B0F3D7E2E74E56600CE2BA0 /* ImageStager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7D2E74E56400CE2BA0 /* ImageStager.swift */; };
+		9B0F3D802E74E58200CE2BA0 /* ImageStageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */; };
+		9B0F3D822E75BF4F00CE2BA0 /* ImageStagerSide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */; };
+		9B0F3D842E75E61500CE2BA0 /* ScreenshotBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D832E75E61400CE2BA0 /* ScreenshotBehavior.swift */; };
+		9B0F3D872E7645B300CE2BA0 /* DismissScreenshotOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0F3D862E7645B200CE2BA0 /* DismissScreenshotOption.swift */; };
+		9B35D5462E86EAB600158FA1 /* SnapCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9B35D5452E86EAB600158FA1 /* SnapCore */; };
 		9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */; };
 		9B48F90A2E651F3700C470ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EE2E651F3700C470ED /* AppDelegate.swift */; };
 		9B48F90B2E651F3700C470ED /* ComfyMarkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */; };
@@ -15,7 +25,6 @@
 		9B48F90E2E651F3700C470ED /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8F62E651F3700C470ED /* SettingsCoordinator.swift */; };
 		9B48F90F2E651F3700C470ED /* WindowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */; };
 		9B48F9102E651F3700C470ED /* View+destroyViewWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8F92E651F3700C470ED /* View+destroyViewWindow.swift */; };
-		9B48F9112E651F3700C470ED /* ScreenshotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8FB2E651F3700C470ED /* ScreenshotService.swift */; };
 		9B48F9122E651F3700C470ED /* ComfyMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8FD2E651F3700C470ED /* ComfyMarkView.swift */; };
 		9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */; };
 		9B48F9142E651F3700C470ED /* ComfyMarkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B48F9002E651F3700C470ED /* ComfyMarkButton.swift */; };
@@ -100,6 +109,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B0F3D722E74B5ED00CE2BA0 /* MockScreenshotProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockScreenshotProvider.swift; sourceTree = "<group>"; };
+		9B0F3D732E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotProviderTests.swift; sourceTree = "<group>"; };
+		9B0F3D782E74E44400CE2BA0 /* ImageStageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStageCoordinator.swift; sourceTree = "<group>"; };
+		9B0F3D7A2E74E47500CE2BA0 /* FocusablePanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusablePanel.swift; sourceTree = "<group>"; };
+		9B0F3D7D2E74E56400CE2BA0 /* ImageStager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStager.swift; sourceTree = "<group>"; };
+		9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStageViewModel.swift; sourceTree = "<group>"; };
+		9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStagerSide.swift; sourceTree = "<group>"; };
+		9B0F3D832E75E61400CE2BA0 /* ScreenshotBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotBehavior.swift; sourceTree = "<group>"; };
+		9B0F3D862E7645B200CE2BA0 /* DismissScreenshotOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DismissScreenshotOption.swift; sourceTree = "<group>"; };
 		9B48F8ED2E651F3700C470ED /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		9B48F8EE2E651F3700C470ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B48F8EF2E651F3700C470ED /* ComfyMarkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkApp.swift; sourceTree = "<group>"; };
@@ -110,7 +128,6 @@
 		9B48F8F62E651F3700C470ED /* SettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowCoordinator.swift; sourceTree = "<group>"; };
 		9B48F8F92E651F3700C470ED /* View+destroyViewWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+destroyViewWindow.swift"; sourceTree = "<group>"; };
-		9B48F8FB2E651F3700C470ED /* ScreenshotService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotService.swift; sourceTree = "<group>"; };
 		9B48F8FD2E651F3700C470ED /* ComfyMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkView.swift; sourceTree = "<group>"; };
 		9B48F8FE2E651F3700C470ED /* ComfyMarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkViewModel.swift; sourceTree = "<group>"; };
 		9B48F9002E651F3700C470ED /* ComfyMarkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfyMarkButton.swift; sourceTree = "<group>"; };
@@ -187,20 +204,13 @@
 		9BDA24C02E71EFFC00A28DBB /* CrosshairHostingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrosshairHostingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ComfyMarkTests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
 		9B9F5B8A2E64FFC100F3396D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				9BCF71892E6D2B7900B3921B /* KeyboardShortcuts in Frameworks */,
+				9B35D5462E86EAB600158FA1 /* SnapCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +224,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B0F3D742E74B5ED00CE2BA0 /* ComfyMarkTests */ = {
+			isa = PBXGroup;
+			children = (
+				9B0F3D772E74B5EF00CE2BA0 /* Screenshot */,
+			);
+			path = ComfyMarkTests;
+			sourceTree = "<group>";
+		};
+		9B0F3D772E74B5EF00CE2BA0 /* Screenshot */ = {
+			isa = PBXGroup;
+			children = (
+				9B0F3D722E74B5ED00CE2BA0 /* MockScreenshotProvider.swift */,
+				9B0F3D732E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift */,
+			);
+			path = Screenshot;
+			sourceTree = "<group>";
+		};
+		9B0F3D7C2E74E55E00CE2BA0 /* ImageStager */ = {
+			isa = PBXGroup;
+			children = (
+				9B0F3D7F2E74E58200CE2BA0 /* ImageStageViewModel.swift */,
+				9B0F3D7D2E74E56400CE2BA0 /* ImageStager.swift */,
+			);
+			path = ImageStager;
+			sourceTree = "<group>";
+		};
+		9B35D53E2E86E93800158FA1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9B48F8F02E651F3700C470ED /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +285,7 @@
 				9B48F8F72E651F3700C470ED /* WindowCoordinator.swift */,
 				9BCF718A2E6D2C1200B3921B /* HotKeyCoordinator.swift */,
 				9BDA249F2E71D06D00A28DBB /* SelectionOverlayCoordinator.swift */,
+				9B0F3D782E74E44400CE2BA0 /* ImageStageCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -249,6 +293,7 @@
 		9B48F8FA2E651F3700C470ED /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9B0F3D7A2E74E47500CE2BA0 /* FocusablePanel.swift */,
 				9B5C50302E6BEA3B008BD465 /* Bundle.swift */,
 				9B5C502C2E6BB8F6008BD465 /* NSColor+toSIMD.swift */,
 				9B5C502E2E6BE4FB008BD465 /* Divider+groupBoxStyle.swift */,
@@ -265,7 +310,6 @@
 			children = (
 				9B5C50322E6BEEA9008BD465 /* SavingService.swift */,
 				9B5C4CD92E671D67008BD465 /* ExportService.swift */,
-				9B48F8FB2E651F3700C470ED /* ScreenshotService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -297,6 +341,7 @@
 		9B48F9062E651F3700C470ED /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9B0F3D7C2E74E55E00CE2BA0 /* ImageStager */,
 				9BDA24AB2E71D1A700A28DBB /* SelectionOverlay */,
 				9B5C4CD32E662EE5008BD465 /* Settings */,
 				9B48F8FF2E651F3700C470ED /* ComfyMark */,
@@ -327,11 +372,13 @@
 			children = (
 				9B5C4FD82E6A886F008BD465 /* Metal */,
 				9B5C4D3F2E68A8EB008BD465 /* AppSettings.swift */,
-				9BCF71852E6D2B3C00B3921B /* MenuBarPowerButtonSide.swift */,
 				9B5C4D332E68A3DB008BD465 /* SettingsTab.swift */,
+				9BCF71852E6D2B3C00B3921B /* MenuBarPowerButtonSide.swift */,
 				9B5C4D222E678508008BD465 /* Export.swift */,
 				9B48F95A2E65FBEF00C470ED /* Stroke.swift */,
 				9B5C4D282E688527008BD465 /* EditorState.swift */,
+				9B0F3D862E7645B200CE2BA0 /* DismissScreenshotOption.swift */,
+				9B0F3D812E75BF4E00CE2BA0 /* ImageStagerSide.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -443,7 +490,8 @@
 				9B5C4CD72E663107008BD465 /* LICENSE */,
 				9B5C4CD82E663107008BD465 /* README.md */,
 				9B48F9082E651F3700C470ED /* ComfyMark */,
-				9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */,
+				9B0F3D742E74B5ED00CE2BA0 /* ComfyMarkTests */,
+				9B35D53E2E86E93800158FA1 /* Frameworks */,
 				9B9F5B8E2E64FFC100F3396D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -491,6 +539,7 @@
 		9BCF717E2E6D1DD000B3921B /* Behavior */ = {
 			isa = PBXGroup;
 			children = (
+				9B0F3D832E75E61400CE2BA0 /* ScreenshotBehavior.swift */,
 				9BCF71832E6D1F2000B3921B /* MenuBarBehavior.swift */,
 				9BCF71812E6D1E1F00B3921B /* BehaviorViewModel.swift */,
 				9BCF717F2E6D1DD500B3921B /* BehaviorSettings.swift */,
@@ -564,6 +613,7 @@
 			name = ComfyMark;
 			packageProductDependencies = (
 				9BCF71882E6D2B7900B3921B /* KeyboardShortcuts */,
+				9B35D5452E86EAB600158FA1 /* SnapCore */,
 			);
 			productName = ComfyMark;
 			productReference = 9B9F5B8D2E64FFC100F3396D /* ComfyMark.app */;
@@ -581,9 +631,6 @@
 			);
 			dependencies = (
 				9BCF722E2E6E86FF00B3921B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				9BCF722A2E6E86FF00B3921B /* ComfyMarkTests */,
 			);
 			name = ComfyMarkTests;
 			packageProductDependencies = (
@@ -622,6 +669,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				9BCF71872E6D2B7900B3921B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				9B35D5442E86EAB500158FA1 /* XCRemoteSwiftPackageReference "SnapCore" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9B9F5B8E2E64FFC100F3396D /* Products */;
@@ -660,6 +708,7 @@
 				9BDA24C12E71F00000A28DBB /* CrosshairHostingView.swift in Sources */,
 				9B5C4FDA2E6A8889008BD465 /* ComputeCache.swift in Sources */,
 				9B5C50312E6BEA3E008BD465 /* Bundle.swift in Sources */,
+				9B0F3D7E2E74E56600CE2BA0 /* ImageStager.swift in Sources */,
 				9B48F9092E651F3700C470ED /* AppCoordinator.swift in Sources */,
 				9BCF72242E6E545400B3921B /* HistoryMultipleDelete.swift in Sources */,
 				9B5C4D3E2E68A5EF008BD465 /* Image+iconWithRectangle.swift in Sources */,
@@ -675,6 +724,7 @@
 				9B5C4D482E68AE22008BD465 /* SettingsContainerView.swift in Sources */,
 				9BCF71942E6D47DB00B3921B /* HistoryButton.swift in Sources */,
 				9B5C4D212E6784AD008BD465 /* CGImage+placeholder.swift in Sources */,
+				9B0F3D792E74E44900CE2BA0 /* ImageStageCoordinator.swift in Sources */,
 				9BCF71762E6D07A700B3921B /* MenuBarMaterialButton.swift in Sources */,
 				9B5C4D382E68A434008BD465 /* GeneralSettings.swift in Sources */,
 				9B5C4D2A2E688527008BD465 /* EditorState.swift in Sources */,
@@ -692,6 +742,7 @@
 				9B48F90D2E651F3700C470ED /* MenuBarCoordinator.swift in Sources */,
 				9BCF71922E6D47BA00B3921B /* ScreenshotView.swift in Sources */,
 				9BCF72D72E70F81800B3921B /* HistoryManager.swift in Sources */,
+				9B0F3D822E75BF4F00CE2BA0 /* ImageStagerSide.swift in Sources */,
 				9BCF71822E6D1E2300B3921B /* BehaviorViewModel.swift in Sources */,
 				9B5C4CDC2E675390008BD465 /* Viewport.swift in Sources */,
 				9B48F90E2E651F3700C470ED /* SettingsCoordinator.swift in Sources */,
@@ -699,6 +750,7 @@
 				9B5C502B2E6BAA28008BD465 /* StrokeManager.swift in Sources */,
 				9B48F9102E651F3700C470ED /* View+destroyViewWindow.swift in Sources */,
 				9B5C4CCE2E662D23008BD465 /* CustomToolbarView.swift in Sources */,
+				9B0F3D872E7645B300CE2BA0 /* DismissScreenshotOption.swift in Sources */,
 				9B5C502D2E6BB8F7008BD465 /* NSColor+toSIMD.swift in Sources */,
 				9BCF72DC2E710F3C00B3921B /* ViewSidebar.swift in Sources */,
 				9B5C4FDC2E6A88BD008BD465 /* brush.metal in Sources */,
@@ -706,7 +758,6 @@
 				9B5C4D232E678509008BD465 /* Export.swift in Sources */,
 				9B5C4FDE2E6B38C1008BD465 /* SegmentUniform.swift in Sources */,
 				9B5C4D3C2E68A487008BD465 /* SettingsViewModel.swift in Sources */,
-				9B48F9112E651F3700C470ED /* ScreenshotService.swift in Sources */,
 				9B48F9122E651F3700C470ED /* ComfyMarkView.swift in Sources */,
 				9B5C4D342E68A3DD008BD465 /* SettingsTab.swift in Sources */,
 				9B48F9132E651F3700C470ED /* ComfyMarkViewModel.swift in Sources */,
@@ -715,6 +766,7 @@
 				9BDA24B02E71DC5A00A28DBB /* SelectionOverlayHotkeySettings.swift in Sources */,
 				9B5C503B2E6D018C008BD465 /* VisualEffectView.swift in Sources */,
 				9B5C4F942E6A87FC008BD465 /* image.metal in Sources */,
+				9B0F3D842E75E61500CE2BA0 /* ScreenshotBehavior.swift in Sources */,
 				9B5C502F2E6BE4FD008BD465 /* Divider+groupBoxStyle.swift in Sources */,
 				9BCF71962E6D4C9D00B3921B /* HistoryMoreOptions.swift in Sources */,
 				9B5C4F952E6A87FC008BD465 /* MetalImageView.swift in Sources */,
@@ -723,6 +775,7 @@
 				9BCF717D2E6D08A600B3921B /* MenuBarSettings.swift in Sources */,
 				9BDA24B22E71E92800A28DBB /* SelectionOverlayViewModel.swift in Sources */,
 				9B5C4D1D2E6779DE008BD465 /* MenuBarHistoryView.swift in Sources */,
+				9B0F3D7B2E74E47800CE2BA0 /* FocusablePanel.swift in Sources */,
 				9B48F9142E651F3700C470ED /* ComfyMarkButton.swift in Sources */,
 				9B48F9152E651F3700C470ED /* MenuBarView.swift in Sources */,
 				9BDA24A02E71D06F00A28DBB /* SelectionOverlayCoordinator.swift in Sources */,
@@ -733,6 +786,7 @@
 				9B5C4CDA2E671D6A008BD465 /* ExportService.swift in Sources */,
 				9B5C4CD02E662EB9008BD465 /* ComfyMarkToolbar.swift in Sources */,
 				9B48F95B2E65FBF000C470ED /* Stroke.swift in Sources */,
+				9B0F3D802E74E58200CE2BA0 /* ImageStageViewModel.swift in Sources */,
 				9BCF718D2E6D304C00B3921B /* ScreenshotHotkeySettings.swift in Sources */,
 				9B5C4CD42E662EE5008BD465 /* SettingsView.swift in Sources */,
 			);
@@ -742,6 +796,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B0F3D752E74B5ED00CE2BA0 /* MockScreenshotProvider.swift in Sources */,
+				9B0F3D762E74B5ED00CE2BA0 /* ScreenshotProviderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1001,6 +1057,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9B35D5442E86EAB500158FA1 /* XCRemoteSwiftPackageReference "SnapCore" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AryanRogye/SnapCore";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		9BCF71872E6D2B7900B3921B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
@@ -1012,6 +1076,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9B35D5452E86EAB600158FA1 /* SnapCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B35D5442E86EAB500158FA1 /* XCRemoteSwiftPackageReference "SnapCore" */;
+			productName = SnapCore;
+		};
 		9BCF71882E6D2B7900B3921B /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9BCF71872E6D2B7900B3921B /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
